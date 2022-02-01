@@ -10,8 +10,13 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "react": "17.0.2",
-    "react-native": "0.67.2"
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-navigation/material-bottom-tabs": "^6.1.0",
+    "react": "16.13.1",
+    "react-native": "0.63.4",
+    "react-native-file-viewer": "^2.1.5",
+    "react-native-paper": "^4.11.2",
+    "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
