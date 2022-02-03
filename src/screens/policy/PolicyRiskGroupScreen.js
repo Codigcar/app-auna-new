@@ -10,7 +10,9 @@ import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 
 
 export default function PolicyRiskGroupScreen({ navigation, route }) {
-  console.log('PolicyRiskGroupScreen:********** ', route);
+  console.log('[PolicyRiskGroupScreen]');
+  
+  // console.log('PolicyRiskGroupScreen:********** ', route);
   const [items, setItems] = useState([]);
   const [poliza, setPoliza] = useState('');
 
@@ -47,7 +49,7 @@ export default function PolicyRiskGroupScreen({ navigation, route }) {
       })
         .then((response) => response.json())
         .then((response) => {
-          console.log('PolizaPorGrupoRiesgoListar: ' + JSON.stringify(response));
+          // console.log('PolizaPorGrupoRiesgoListar: ' + JSON.stringify(response));
           if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
             Alert.alert('Error', response.mensaje);
           } else {
@@ -72,7 +74,7 @@ export default function PolicyRiskGroupScreen({ navigation, route }) {
       })
         .then((response) => response.json())
         .then((response) => {
-          console.log('GestorVisualPolizaObtener: ' + JSON.stringify(response.Result));
+          // console.log('GestorVisualPolizaObtener: ' + JSON.stringify(response.Result));
           
           if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
             Alert.alert('Error', response.mensaje);

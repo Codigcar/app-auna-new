@@ -140,7 +140,6 @@ const HomeScreen = React.memo(({navigation, route}) => {
     fetchDataCitasListar();
   }, [items]);
 
-
   const fetchDataCitasListar = async () => {
     const params = new URLSearchParams({
       I_Sistema_IdSistema: route.params.userRoot.idSistema,
@@ -160,16 +159,16 @@ const HomeScreen = React.memo(({navigation, route}) => {
     }
   };
 
-  const handleVisiblePopupCancel = (itemCita) => {
+  const handleVisiblePopupCancel = itemCita => {
     setCitaBody({
       patient_label: itemCita.nombrecompleto,
       specialty_label: itemCita.descripcion,
       fecha: itemCita.fechaCita,
-      horario: itemCita.horaInicio + " - " + itemCita.horaFin,
-      idCita: itemCita.idCita
+      horario: itemCita.horaInicio + ' - ' + itemCita.horaFin,
+      idCita: itemCita.idCita,
     });
     setIsVisiblePopupCancel(true);
-  }
+  };
 
   return (
     <SafeAreaView style={css.screen}>
@@ -310,7 +309,15 @@ const HomeScreen = React.memo(({navigation, route}) => {
                         },
                       }),
                     }}
-                    titleStyle={{color: '#FFF'}}
+                    titleStyle={{
+                      color: '#FFF',
+                      ...Platform.select({
+                        ios: {
+                          fontSize: 16,
+                          height: 24,
+                        },
+                      }),
+                    }}
                   />
                 </View>
               )}
@@ -320,7 +327,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
       )}
     </SafeAreaView>
   );
-})
+});
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();

@@ -87,13 +87,16 @@ const DefaultModalContent = ({setIsVisible}) => (
             paddingVertical: 15,
             marginLeft: 'auto',
             marginRight: 'auto',
-            //   marginBottom: 0,
+            // marginBottom: 0,
             // marginRight: 16,
             // marginBottom: 36,
             width: '90%',
             shadowOpacity: 0.39,
             shadowRadius: 13.97,
             ...Platform.select({
+              // ios:{
+              //   height:55
+              // },
               android: {
                 elevation: 16,
               },
@@ -105,7 +108,15 @@ const DefaultModalContent = ({setIsVisible}) => (
               },
             }),
           }}
-          titleStyle={{color: css.colors.primary}}
+          titleStyle={{
+            color: css.colors.primary_opaque,
+            ...Platform.select({
+              ios: {
+                fontSize: 16,
+                height:24
+              },
+            }),
+          }}
         />
       </View>
     </View>
@@ -158,5 +169,3 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
 });
-
-

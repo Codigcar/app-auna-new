@@ -6,7 +6,11 @@ import Constant from '../../utils/constants';
 import { css } from '../../utils/css';
 import FileViewer from 'react-native-file-viewer';
 
+
+
 export default function PolicyDocumentScreen({ navigation, route }) {
+  console.log('[PolicyDocumentScreen]');
+  
   const [items, setItems] = useState([]);
 
   useEffect(() => {

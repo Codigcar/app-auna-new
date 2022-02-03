@@ -6,13 +6,18 @@ export const fetchWithToken = async (
   params = {},
   token = '',
 ) => {
-  const resp =  await fetch(Constant.URI.PATH80 + endpoint + '?' + params, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token,
-    },
-  });
-  const data = await resp.json();
-  return data;
+  try {
+    const resp = await fetch(Constant.URI.PATH80 + endpoint + '?' + params, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
+    const data = await resp.json();
+    return data;
+  } catch (error) {
+    console.log('error');
+    throw error;
+  }
 };

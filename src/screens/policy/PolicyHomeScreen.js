@@ -24,10 +24,10 @@ import PolicyDetailScreen4 from './PolicyDetailScreen4';
 import PolicyRiskGroupScreen from './PolicyRiskGroupScreen';
 import PopupTicket from '../reward/PopupTicket';
 
-console.log('PolicyHomeScreen');
 
 export default function PolicyHomeScreen({navigation, route}) {
-  console.log('[PolicyHomeScreen]: ',route);
+  console.log('PolicyHomeScreen');
+  // console.log('[PolicyHomeScreen]: ',route);
   useEffect(
     () =>
       navigation.addListener('tabPress', e => {
@@ -138,7 +138,7 @@ function HomeScreen({navigation, route}) {
       })
         .then(response => response.json())
         .then(response => {
-          console.log('PolicyHomeScreen response: ' + JSON.stringify(response));
+          // console.log('PolicyHomeScreen response: ' + JSON.stringify(response));
 
           if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
             Alert.alert('Error', response.mensaje);

@@ -1,10 +1,21 @@
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Alert, Dimensions, FlatList, PermissionsAndroid, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Button, Divider, Image } from 'react-native-elements';
-import { ButtonInitial } from '../../components';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  PermissionsAndroid,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {Button, Divider, Image} from 'react-native-elements';
+import {ButtonInitial} from '../../components';
 import Constant from '../../utils/constants';
-import { css } from '../../utils/css';
+import {css} from '../../utils/css';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import PolicyDocumentScreen from './PolicyDocumentScreen';
 import PolicyClinicaScreen from './PolicyClinicaScreen';
@@ -12,13 +23,13 @@ import DependientesScreen from './DependientesScreen';
 import DataScreen from '../../screens/DataScreen';
 import SolicitudesScreen from './SolicitudesScreen';
 
-//SI "CLINICAS" 
+//SI "CLINICAS"
 //SI "DEPENDIENTES"
 
-console.log('LOG1   *********************** PolicyDetailScreen 1');
+export default function PolicyDetailScreen({navigation, route}) {
+  console.log('[PolicyDetailScreen 1]');
 
-export default function PolicyDetailScreen({ navigation, route }) {
-  console.log('[PolicyDetailScreen]::**************************** ', route.params);
+  // console.log('[PolicyDetailScreen]::**************************** ', route.params);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Pólizas',
@@ -31,138 +42,183 @@ export default function PolicyDetailScreen({ navigation, route }) {
           nombre={route.params.userRoot.nombre}
           apellido={route.params.userRoot.apellidoPaterno}
         />
-      )
+      ),
     });
   }, [navigation]);
 
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy, riskGroup: route.params.riskGroup }}
+      initialParams={{
+        userRoot: route.params.userRoot,
+        policy: route.params.policy,
+        riskGroup: route.params.riskGroup,
+      }}
       tabBarOptions={{
         showIcon: true,
         activeTintColor: css.colors.primary,
         inactiveTintColor: css.colors.opaque,
-        labelStyle: { fontSize: 12 },
-        indicatorStyle: { backgroundColor: '#FF0000' }
+        labelStyle: {fontSize: 12},
+        indicatorStyle: {backgroundColor: '#FF0000'},
       }}
       style={{
-        borderTopColor: "#FF0000",
-        borderTopWidth: 2
-      }}
-    >
+        borderTopColor: '#FF0000',
+        borderTopWidth: 2,
+      }}>
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy, riskGroup: route.params.riskGroup }}
+        initialParams={{
+          userRoot: route.params.userRoot,
+          policy: route.params.policy,
+          riskGroup: route.params.riskGroup,
+        }}
         options={{
-          tabBarLabel: ({ color }) => (
-            <Text 
-            numberOfLines={1}
-            adjustsFontSizeToFit 
-            style={{ color:css.colors.opaque, fontSize:9, maxWidth: 87, textAlignVertical:"center", textAlign:"center",}} >
-            DETALLE
-            </Text> 
+          tabBarLabel: ({color}) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={{
+                color: css.colors.opaque,
+                fontSize: 9,
+                maxWidth: 87,
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}>
+              DETALLE
+            </Text>
           ),
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({color}) => (
             <Image
-              style={{ width: 26, height: 26 }}
-              source={Constant.GLOBAL.IMAGES.POLICY_DETAIL}>
-            </Image>
+              style={{width: 26, height: 26}}
+              source={Constant.GLOBAL.IMAGES.POLICY_DETAIL}></Image>
           ),
         }}
-      /> 
+      />
       <Tab.Screen
         name="DependientesScreen"
         component={DependientesScreen}
-        initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy }}
+        initialParams={{
+          userRoot: route.params.userRoot,
+          policy: route.params.policy,
+        }}
         options={{
-          tabBarLabel: ({ color }) => (
-            <Text 
+          tabBarLabel: ({color}) => (
+            <Text
               numberOfLines={1}
-              adjustsFontSizeToFit 
-              style={{ color:css.colors.opaque, fontSize:10, maxWidth: 87, textAlignVertical:"center", textAlign:"center"}} >
+              adjustsFontSizeToFit
+              style={{
+                color: css.colors.opaque,
+                fontSize: 10,
+                maxWidth: 87,
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}>
               ASEGURADOS
             </Text>
           ),
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({color}) => (
             <Image
-              style={{ width: 26, height: 26, marginTop:-3 }}
-              source={Constant.GLOBAL.IMAGES.DEPENDIENTES_AVATAR}>
-            </Image>
+              style={{width: 26, height: 26, marginTop: -3}}
+              source={Constant.GLOBAL.IMAGES.DEPENDIENTES_AVATAR}></Image>
           ),
         }}
-      /> 
+      />
       <Tab.Screen
         name="PolicyDocumentScreen"
         component={PolicyDocumentScreen}
-        initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy }}
+        initialParams={{
+          userRoot: route.params.userRoot,
+          policy: route.params.policy,
+        }}
         options={{
-          tabBarLabel: ({ color }) => (
-            <Text 
-            numberOfLines={1}
-            adjustsFontSizeToFit 
-            style={{ color:css.colors.opaque, fontSize:10, maxWidth: 87, textAlignVertical:"center", textAlign:"center",}} >
-            DOCUMENTOS
-            </Text> 
+          tabBarLabel: ({color}) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={{
+                color: css.colors.opaque,
+                fontSize: 10,
+                maxWidth: 87,
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}>
+              DOCUMENTOS
+            </Text>
           ),
           //tabBarLabel: 'DOCUMENTOS',
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({color}) => (
             <Image
-              style={{ width: 26, height: 26 }}
-              source={Constant.GLOBAL.IMAGES.POLICY_DOCUMENTS}>
-            </Image>
+              style={{width: 26, height: 26}}
+              source={Constant.GLOBAL.IMAGES.POLICY_DOCUMENTS}></Image>
           ),
         }}
       />
       <Tab.Screen
         name="PolicyClinicaScreen"
         component={PolicyClinicaScreen}
-        initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy, riskGroup: route.params.riskGroup }}
+        initialParams={{
+          userRoot: route.params.userRoot,
+          policy: route.params.policy,
+          riskGroup: route.params.riskGroup,
+        }}
         options={{
-          tabBarLabel: ({ color }) => (
-            <Text 
-            numberOfLines={1}
-            adjustsFontSizeToFit 
-            style={{ color:css.colors.opaque, fontSize:9, maxWidth: 87, textAlignVertical:"center", textAlign:"center",}} >
-            CLÍNICAS
-            </Text> 
+          tabBarLabel: ({color}) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={{
+                color: css.colors.opaque,
+                fontSize: 9,
+                maxWidth: 87,
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}>
+              CLÍNICAS
+            </Text>
           ),
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({color}) => (
             <Image
-              style={{ width: 26, height: 26 }}
-              source={Constant.GLOBAL.IMAGES.POLICY_CLINICA}>
-            </Image>
+              style={{width: 26, height: 26}}
+              source={Constant.GLOBAL.IMAGES.POLICY_CLINICA}></Image>
           ),
         }}
       />
-  
-       <Tab.Screen
+
+      <Tab.Screen
         name="SolicitudesScreen"
         component={SolicitudesScreen}
-        initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy }}
+        initialParams={{
+          userRoot: route.params.userRoot,
+          policy: route.params.policy,
+        }}
         options={{
-          tabBarLabel: ({ color }) => (
-            <Text 
-            numberOfLines={1}
-            adjustsFontSizeToFit 
-            style={{ color:css.colors.opaque, fontSize:9, maxWidth: 87, textAlignVertical:"center", textAlign:"center"}} >
-            SOLICITUDES
+          tabBarLabel: ({color}) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={{
+                color: css.colors.opaque,
+                fontSize: 9,
+                maxWidth: 87,
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}>
+              SOLICITUDES
             </Text>
           ),
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({color}) => (
             <Image
-              style={{ width: 26, height: 26, marginTop:-3 }}
-              source={Constant.GLOBAL.IMAGES.CONTACT_CONTACT}>
-            </Image>
+              style={{width: 26, height: 26, marginTop: -3}}
+              source={Constant.GLOBAL.IMAGES.CONTACT_CONTACT}></Image>
           ),
         }}
-      /> 
+      />
     </Tab.Navigator>
   );
 }
- 
-function HomeScreen({ navigation, route }) {
+
+function HomeScreen({navigation, route}) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -171,18 +227,18 @@ function HomeScreen({ navigation, route }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': route.params.userRoot.Token
+          Authorization: route.params.userRoot.Token,
         },
         body: JSON.stringify({
-          "I_Sistema_IdSistema": route.params.userRoot.idSistema,
-          "I_Poliza_IdPoliza": route.params.policy.idPoliza,
-          "I_UsuarioExterno_IdUsuarioExterno": route.params.userRoot.idUsuarioExterno,
-        })
+          I_Sistema_IdSistema: route.params.userRoot.idSistema,
+          I_Poliza_IdPoliza: route.params.policy.idPoliza,
+          I_UsuarioExterno_IdUsuarioExterno:
+            route.params.userRoot.idUsuarioExterno,
+        }),
       })
-        .then((response) => response.json())
-        .then((response) => {
-
-          console.log(Constant.URI.POLIZA_DETALLE_OBTENER + ' - response: ' + JSON.stringify(response));
+        .then(response => response.json())
+        .then(response => {
+          // console.log(Constant.URI.POLIZA_DETALLE_OBTENER + ' - response: ' + JSON.stringify(response));
 
           if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
             Alert.alert('Error', response.mensaje);
@@ -190,48 +246,70 @@ function HomeScreen({ navigation, route }) {
             setItems(response);
           }
         })
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error));
     }
-  })
-
+  });
 
   if (items.length === 0) {
-    return (
-      <AuthLoadingScreen />
-    );
+    return <AuthLoadingScreen />;
   }
   return (
     <SafeAreaView style={css.screen}>
       <FlatList
         data={items}
-        keyExtractor={(item, index) => String.valueOf(item.idPoliza) + `${index}`}
-        renderItem={({ item }) =>
+        keyExtractor={(item, index) =>
+          String.valueOf(item.idPoliza) + `${index}`
+        }
+        renderItem={({item}) => (
           <ScrollView>
             <View style={styles.container}>
               <View>
-                <View style={StyleSheet.flatten([styles.viewSlot, { marginBottom: 2 }])}>
+                <View
+                  style={StyleSheet.flatten([
+                    styles.viewSlot,
+                    {marginBottom: 2},
+                  ])}>
                   <Text style={styles.labelHeaderText}>N° de Póliza</Text>
-                  <Text style={StyleSheet.flatten([styles.outputText, { fontWeight: "bold" }])}>{item.numeroPoliza}</Text>
+                  <Text
+                    style={StyleSheet.flatten([
+                      styles.outputText,
+                      {fontWeight: 'bold'},
+                    ])}>
+                    {item.numeroPoliza}
+                  </Text>
                 </View>
-                <View style={StyleSheet.flatten([styles.viewSlot, { marginTop: 2 }])}>
+                <View
+                  style={StyleSheet.flatten([styles.viewSlot, {marginTop: 2}])}>
                   <Text style={styles.labelText}>Aseguradora</Text>
-                  <Text style={StyleSheet.flatten([styles.labelHeaderText, { color: "#FF0000" }])}>{item.nombreCortoAseguradora}</Text>
+                  <Text
+                    style={StyleSheet.flatten([
+                      styles.labelHeaderText,
+                      {color: '#FF0000'},
+                    ])}>
+                    {item.nombreCortoAseguradora}
+                  </Text>
                 </View>
-              </View> 
+              </View>
               <Divider style={styles.divider} />
               <View style={styles.viewSlot}>
                 <Text style={styles.labelText}>Riesgo</Text>
                 <Text style={styles.outputText}>{item.nombreRiesgo}</Text>
               </View>
               <Divider style={styles.divider} />
-              <View style={styles.viewSlot} display= {(item.mostrarPlanAsegurado == 1) ? "flex" : "none"}>
-                  <Text style={styles.labelText}>Plan</Text>
-                  <Text style={styles.outputText}>{item.nombrePlanAsegurado}</Text>
+              <View
+                style={styles.viewSlot}
+                display={item.mostrarPlanAsegurado == 1 ? 'flex' : 'none'}>
+                <Text style={styles.labelText}>Plan</Text>
+                <Text style={styles.outputText}>
+                  {item.nombrePlanAsegurado}
+                </Text>
               </View>
               <Divider style={styles.divider} />
               <View style={styles.viewSlot}>
                 <Text style={styles.labelText}>Unidad de negocio</Text>
-                <Text style={styles.outputText}>{item.nombreUnidadNegocio}</Text>
+                <Text style={styles.outputText}>
+                  {item.nombreUnidadNegocio}
+                </Text>
               </View>
               <Divider style={styles.divider} />
               <View style={styles.viewSlot}>
@@ -241,23 +319,23 @@ function HomeScreen({ navigation, route }) {
               <Divider style={styles.divider} />
               <View style={styles.viewSlot}>
                 <Text style={styles.labelText}>Ejecutivo</Text>
-                <Text style={styles.outputText}>{item.nombresFuncionarioInterno}</Text>
+                <Text style={styles.outputText}>
+                  {item.nombresFuncionarioInterno}
+                </Text>
               </View>
             </View>
           </ScrollView>
-
-        }
+        )}
       />
     </SafeAreaView>
   );
-
 }
 
 const Tab = createMaterialTopTabNavigator();
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFF",
+    backgroundColor: '#FFF',
     paddingTop: 5,
     marginBottom: 0,
     borderColor: css.colors.opaque,
@@ -267,7 +345,7 @@ const styles = StyleSheet.create({
       },
       default: {
         shadowColor: 'rgba(0,0,0, .2)',
-        shadowOffset: { height: 0, width: 0 },
+        shadowOffset: {height: 0, width: 0},
         shadowOpacity: 1,
         shadowRadius: 1,
       },
@@ -275,7 +353,7 @@ const styles = StyleSheet.create({
   },
   labelHeaderText: {
     fontSize: 14,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   labelText: {
     fontSize: 14,
@@ -285,17 +363,15 @@ const styles = StyleSheet.create({
     color: css.colors.opaque,
   },
   viewSlot: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     margin: 5,
     marginBottom: 12,
     marginTop: 12,
-    padding: 5
+    padding: 5,
   },
   divider: {
     backgroundColor: css.colors.opaque,
-    padding: 0.3
+    padding: 0.3,
   },
-
-
 });

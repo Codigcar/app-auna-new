@@ -8,6 +8,7 @@ import {
   Text,
   View,
   Alert,
+  Platform,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 
@@ -18,9 +19,9 @@ import {css} from '../../utils/css';
 import {fetchWithToken} from '../../utils/fetchCustom';
 import SolicitudesPopupCancelScreen from './SolicitudesPopupCancelScreen';
 
-console.log('1 ConsoleLog - ASEGURADOS/DEPENDIENTES: ');
-
 export default function SolicitudesScreen({navigation, route}) {
+  console.log('[SolicitudesScreen]');
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Solicitudes',
@@ -65,10 +66,10 @@ const App = ({route}) => {
   const [solicitudBody, setSolicitudBody] = useState({});
 
   useEffect(() => {
-    console.log(
-      '2 ConsoleLog - IDPOLIZA: ' +
-        JSON.stringify(route.params.policy.idPoliza),
-    );
+    // console.log(
+    //   '2 ConsoleLog - IDPOLIZA: ' +
+    //     JSON.stringify(route.params.policy.idPoliza),
+    // );
     // fetch(Constant.URI.PATH80 + Constant.URI.GET_SOLICITADUS_INCLUSION, {
     //   method: 'POST',
     //   headers: {
@@ -96,32 +97,34 @@ const App = ({route}) => {
       I_Sistema_IdSistema: route.params.userRoot.idSistema,
       I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
     });
-    const response = await fetchWithToken(
-      Constant.URI.GET_LISTAR_SOLICITUDES_INCLUSION,
-      'POST',
-      params,
-      route.params.userRoot.Token,
-    );
-    console.log(
-      '3 ConsoleLog - SOLICITUD/DEPENDIENTES response: ' +
-        JSON.stringify(response),
-    );
-    if (response.CodigoMensaje == 100) {
-      console.log('CodigoMensaje ==== 10000000000000000');
-      setFilteredDataSource(response.Result);
-      setMasterDataSource(response.Result);
-    } else {
-      Alert.alert('Error', response.RespuestaMensaje);
+    try {
+      const response = await fetchWithToken(
+        Constant.URI.GET_LISTAR_SOLICITUDES_INCLUSION,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+
+      // console.log(
+      //   '3 ConsoleLog - SOLICITUD/DEPENDIENTES response: ' +
+      //     JSON.stringify(response),
+      // );
+      if (response.CodigoMensaje == 100) {
+        // console.log('CodigoMensaje ==== 10000000000000000');
+        setFilteredDataSource(response.Result);
+        setMasterDataSource(response.Result);
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+      }
+    } catch (error) {
+      console.log('[SolicitudesScreen] error*: ', error);
+      Alert.alert('Error', error.toString());
     }
   };
 
   const searchFilterFunction = text => {
-    // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
-      const newData = masterDataSource.filter(function(item) {
+      const newData = masterDataSource.filter(function (item) {
         //const itemData = item.nombreAsegurado ? item.nombreAsegurado.toUpperCase() : ''.toUpperCase();
         const itemData = (
           item.apellidoPaternoAsegurado +
@@ -143,16 +146,16 @@ const App = ({route}) => {
     }
   };
 
-  const handleVisiblePopupCancel = (itemCita) => {
+  const handleVisiblePopupCancel = itemCita => {
     setSolicitudBody({
       asegurado_label: itemCita.Asegurado,
       tipo_label: itemCita.tipo,
       fecha: itemCita.fechaRegistro,
       horario: itemCita.fechaRegistro,
-      idSolicitud: itemCita.idSolicitud
+      idSolicitud: itemCita.idSolicitud,
     });
     setIsVisiblePopupCancel(true);
-  }
+  };
 
   const ItemView = ({item}) => {
     // const fechaTemp = new Date();
@@ -217,7 +220,6 @@ const App = ({route}) => {
           buttonStyle={{
             backgroundColor: css.colors.primary_opaque,
             borderColor: 'rgba(0,0,0,0.5)',
-            // borderRadius: 10,
             borderBottomEndRadius: 10,
             borderBottomStartRadius: 10,
             height: 30,
@@ -237,7 +239,15 @@ const App = ({route}) => {
               },
             }),
           }}
-          titleStyle={{color: '#FFF'}}
+          titleStyle={{
+            color: '#FFF',
+            ...Platform.select({
+              ios: {
+                fontSize: 16,
+                height:24
+              },
+            }),
+          }}
         />
       </View>
     );
@@ -252,7 +262,7 @@ const App = ({route}) => {
         route={route}
         citaBody={solicitudBody}
       />
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: 'transparent'}}>
         <View style={styles.estiloBusquedaCobertor_iPhone}>
           <SearchBar
             containerStyle={{

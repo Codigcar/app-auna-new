@@ -8,6 +8,8 @@ import { css } from '../../utils/css';
 
 
 export default function PolicyClinicaScreen({ navigation, route }) {
+  console.log('[PolicyClinicaScreen]');
+
   const [categorias, setCategorias] = useState([]);
   const [categoria, setCategoria] = useState(0);
   
@@ -38,9 +40,9 @@ export default function PolicyClinicaScreen({ navigation, route }) {
         .then((response) => response.json())
         .then((response) =>
         {
-          console.log('CATEGORIAS: ' + JSON.stringify(response));
-          console.log('CATEGORIAS.Result: ' + response.Result);
-          console.log('CATEGORIAS.Result.L: ' + response.Result.length);
+          // console.log('CATEGORIAS: ' + JSON.stringify(response));
+          // console.log('CATEGORIAS.Result: ' + response.Result);
+          // console.log('CATEGORIAS.Result.L: ' + response.Result.length);
 
           if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199)
           {

@@ -11,9 +11,9 @@ import SolicitudesScreen from './SolicitudesScreen';
 //NO  "CLINICAS"
 //NO  "DEPENDIENTES ASEGURADOS"
 
-console.log('LOG3      *********************** PolicyDetailScreen 4');
 
 export default function PolicyDetailScreen({ navigation, route }) {
+  console.log('[PolicyDetailScreen 4]');
 
   useLayoutEffect(() => {
     navigation.setOptions({
