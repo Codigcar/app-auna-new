@@ -23,10 +23,11 @@
     "accordion-collapse-react-native": "^0.3.1",
     "date-and-time": "^0.14.2",
     "indicative": "^7.4.4",
+    "link": "^0.1.5",
     "native-base": "^2.15.2",
     "qs": "^6.10.3",
     "react": "16.13.1",
-    "react-native": "0.64.0",
+    "react-native": "^0.64.0",
     "react-native-device-info": "^5.6.2",
     "react-native-dimension": "^1.0.6",
     "react-native-elements": "^2.0.0",
@@ -42,7 +43,7 @@
     "react-native-screens": "^2.17.1",
     "react-native-svg": "^12.1.1",
     "react-native-tab-view": "^2.14.2",
-    "react-native-vector-icons": "^6.6.0",
+    "react-native-vector-icons": "^6.7.0",
     "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {

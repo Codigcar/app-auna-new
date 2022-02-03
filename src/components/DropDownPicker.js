@@ -622,7 +622,7 @@ const styles = StyleSheet.create({
     },
     placeholder: {
         color: Styles.colors.gris,
-        fontFamily: Styles.fontAldrichRegular,
+        // fontFamily: Styles.fontAldrichRegular,
         fontSize: 18
     },
     headlessAndroidPicker: {
