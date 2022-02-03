@@ -398,7 +398,7 @@ export default class DropDownPicker extends PureComponent {
                 <TextInput
                     testID="text_input"
                     style={[
-                        Platform.OS === 'ios' ? style.inputIOS : style.inputAndroid,
+                        Platform.OS === 'ios' ? {backgroundColor:'transparent', paddingBottom:10} : style.inputAndroid,
                         this.getPlaceholderStyle(),
                     ]}
                     value={selectedItem.inputLabel ? selectedItem.inputLabel : selectedItem.label}

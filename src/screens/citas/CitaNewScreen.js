@@ -15,6 +15,7 @@ import {
   KeyboardAvoidingView,
   Pressable,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {Button, Icon, Divider} from 'react-native-elements';
 import 'react-native-gesture-handler';
@@ -49,25 +50,21 @@ export default function CitaNewScreen({navigation, route}) {
 }
 
 function HomeScreen({navigation, route}) {
-  console.log('[CitaNewScreen]:**********:  ', route.params);
+  console.log('[CitaNewScreen]');
+
   const [SignUpErrors, setSignUpErrors] = useState({});
-  const [cellphone, setCellphone] = useState(
-    route.params.userRoot.telefonoMovil,
-  );
-  const [email, setEmail] = useState(route.params.userRoot.correoElectronico);
-  const [oldPassword, setOldPassword] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [userUpdated, setUserUpdate] = useState(true);
   const [passUpdated, setPassUpdate] = useState(true);
   console.log('[route]:: ', route.params);
 
   // data para DropDown Especialidad
-  const [specialties, setSpecialties] = useState([{label: 'cargando...'}]);
+  const [specialties, setSpecialties] = useState([
+    {label: 'cargando...', value: ''},
+  ]);
   const [specialty, setSpecialty] = useState(2);
 
   // data para DropDown Paciente
-  const [patients, setPatients] = useState([{label: 'cargando...'}]);
+  const [patients, setPatients] = useState([{label: 'cargando...', value: ''}]);
   const [patient, setPatient] = useState('');
 
   // datepicker
@@ -80,16 +77,14 @@ function HomeScreen({navigation, route}) {
   );
 
   //horario
-  const [horarios, setHorarios] = useState([{label: 'cargando...'}]);
+  const [horarios, setHorarios] = useState([{label: 'cargando...', value: ''}]);
   const [horario, setHorario] = useState('');
   const [saveListFechas, setSaveListFechas] = useState([]);
   const [isLoadingHora, setIsLoadingHora] = useState(false);
 
   //habilitar useEffect
-  const [
-    isUseEffectDataHorarioXFecha,
-    setIsUseEffectDataHorarioXFecha,
-  ] = useState(false);
+  const [isUseEffectDataHorarioXFecha, setIsUseEffectDataHorarioXFecha] =
+    useState(false);
 
   const [isVisiblePopupConfirm, setIsVisiblePopupConfirm] = useState(false);
 
@@ -113,8 +108,8 @@ function HomeScreen({navigation, route}) {
   };
 
   useEffect(() => {
-    fetchDataEspecialidadListar();
-    fetchDataPacientesListar();
+    // fetchDataEspecialidadListar();
+    // fetchDataPacientesListar();
   }, []);
 
   const fetchDataEspecialidadListar = async () => {
@@ -132,7 +127,7 @@ function HomeScreen({navigation, route}) {
     const list = response.Result.map(e => {
       return {
         label: e['nombreEspecialidad'],
-        value: e['idEspecialidad']
+        value: e['idEspecialidad'],
       };
     });
     setSpecialties(list);
@@ -152,14 +147,14 @@ function HomeScreen({navigation, route}) {
       route.params.userRoot.Token,
     );
 
-    console.log('[********response.CodigoMensaje]x:::, ',response);
+    console.log('[********response.CodigoMensaje]x:::, ', response);
     if (response.CodigoMensaje === 100) {
-      if(response.Result[0].CodigoMensaje){
-        if(response.Result[0].CodigoMensaje !== 100){
+      if (response.Result[0].CodigoMensaje) {
+        if (response.Result[0].CodigoMensaje !== 100) {
           setPatients([{label: 'No tiene dependientes'}]);
           setPatient('');
           Alert.alert('Error', response.Result[0].RespuestaMensaje);
-        }else {
+        } else {
           const list = response.Result.map(e => {
             return {
               label: e['nombrecompleto'],
@@ -169,20 +164,20 @@ function HomeScreen({navigation, route}) {
           setPatients(list);
           setPatient(list[0]['value']);
         }
+      } else {
+        const list = response.Result.map(e => {
+          return {
+            label: e['nombrecompleto'],
+            value: e['idPersonaAsegurada'],
+          };
+        });
+        setPatients(list);
+        setPatient(list[0]['value']);
+      }
     } else {
-      const list = response.Result.map(e => {
-        return {
-          label: e['nombrecompleto'],
-          value: e['idPersonaAsegurada'],
-        };
-      });
-      setPatients(list);
-      setPatient(list[0]['value']);
+      Alert.alert('Error', response.RespuestaMensaje);
     }
-  } else {
-    Alert.alert('Error', response.RespuestaMensaje);
-  }
-}
+  };
 
   useEffect(() => {
     if (setIsUseEffectDataHorarioXFecha) {
@@ -192,8 +187,8 @@ function HomeScreen({navigation, route}) {
   }, [birthdayFormatDDMMYYYY]);
 
   useEffect(() => {
-    dataHorarioListar(specialty);
-    setIsUseEffectDataHorarioXFecha(true);
+    // dataHorarioListar(specialty);
+    // setIsUseEffectDataHorarioXFecha(true);
   }, [specialty]);
 
   const dataHorarioListar = async idEspecialidad => {
@@ -272,7 +267,7 @@ function HomeScreen({navigation, route}) {
   };
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor:'#fff'}}>
+    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <CitaPopupConfirm
         isVisiblePopupConfirm={isVisiblePopupConfirm}
         setIsVisiblePopupConfirm={setIsVisiblePopupConfirm}
@@ -289,13 +284,20 @@ function HomeScreen({navigation, route}) {
           </View>
           <Divider style={css.dividerTitleLineRed} />
         </View>
-        <View style={[styles.container, {backgroundColor:'transparent'}]}>
+        <View style={[styles.container, {backgroundColor: 'transparent'}]}>
           <Collapse style={styles.collapse} isCollapsed={true}>
             <CollapseHeader />
             <CollapseBody style={{}}>
               <View>
                 <View style={{marginBottom: 12}}>
-                  <Text style={styles.labelDesign}>Especialidad</Text>
+                  <Text
+                    style={
+                      Platform.OS
+                        ? styles.labelDesigniOS
+                        : styles.labelDesignAndroid
+                    }>
+                    Especialidad
+                  </Text>
                   <DropDownPicker
                     placeholder={{}}
                     items={specialties}
@@ -304,13 +306,18 @@ function HomeScreen({navigation, route}) {
                     style={{
                       inputAndroid: {
                         backgroundColor: 'transparent',
-                        // width: Constant.DEVICE.WIDTH / 2 - 30,
-                        // margin: -1,
                       },
-                      // iconContainer: {top: 5, right: 30},
                     }}
                     useNativeAndroidPickerStyle={false}
-                    textInputProps={{underlineColorAndroid: Styles.colors.gris}}
+                    textInputProps={{
+                      underlineColorAndroid: Styles.colors.gris,
+                      ...Platform.select({
+                        ios: {
+                          borderBottomWidth: 1,
+                          borderBottomColor: css.colors.gray_opaque,
+                        },
+                      }),
+                    }}
                     Icon={() => {
                       return (
                         <Icon
@@ -324,7 +331,14 @@ function HomeScreen({navigation, route}) {
                   />
                 </View>
                 <View style={{marginBottom: 12}}>
-                  <Text style={styles.labelDesign}>Paciente</Text>
+                  <Text
+                    style={
+                      Platform.OS
+                        ? styles.labelDesigniOS
+                        : styles.labelDesignAndroid
+                    }>
+                    Paciente
+                  </Text>
                   <DropDownPicker
                     placeholder={{}}
                     items={patients}
@@ -339,7 +353,15 @@ function HomeScreen({navigation, route}) {
                       // iconContainer: {top: 5, right: 30},
                     }}
                     useNativeAndroidPickerStyle={false}
-                    textInputProps={{underlineColorAndroid: Styles.colors.gris}}
+                    textInputProps={{
+                      underlineColorAndroid: Styles.colors.gris,
+                      ...Platform.select({
+                        ios: {
+                          borderBottomWidth: 1,
+                          borderBottomColor: css.colors.gray_opaque,
+                        },
+                      }),
+                    }}
                     Icon={() => {
                       return (
                         <Icon
@@ -389,7 +411,14 @@ function HomeScreen({navigation, route}) {
                   />
                 </View>
                 <View style={{marginBottom: 12}}>
-                  <Text style={styles.labelDesign}>Hora</Text>
+                  <Text
+                    style={
+                      Platform.OS
+                        ? styles.labelDesigniOS
+                        : styles.labelDesignAndroid
+                    }>
+                    Hora
+                  </Text>
                   {isLoadingHora ? (
                     <ActivityIndicator
                       size="large"
@@ -412,6 +441,12 @@ function HomeScreen({navigation, route}) {
                       useNativeAndroidPickerStyle={false}
                       textInputProps={{
                         underlineColorAndroid: Styles.colors.gris,
+                        ...Platform.select({
+                          ios: {
+                            borderBottomWidth: 1,
+                            borderBottomColor: css.colors.gray_opaque,
+                          },
+                        }),
                       }}
                       Icon={() => {
                         return (
@@ -456,6 +491,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'transparent',
     borderTopWidth: 2,
     backgroundColor: '#FFF',
+    // paddingHorizontal:5
     // height: '100%'
     // height: Constant.DEVICE.HEIGHT,
   },
@@ -508,10 +544,16 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 26,
   },
-  labelDesign: {
+  labelDesignAndroid: {
     fontSize: 16,
     color: 'gray',
     fontWeight: 'bold',
     marginLeft: 4,
+  },
+  labelDesigniOS: {
+    fontSize: 16,
+    color: 'gray',
+    fontWeight: 'bold',
+    marginBottom: 7,
   },
 });

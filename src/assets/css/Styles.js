@@ -63,11 +63,11 @@ export const Styles = {
     //     marginTop: 5,
     //     marginBottom: 10
     // },
-    // textOpaque: {
-    //     fontFamily: font_aldrich_regular,
-    //     color: color_gris,
-    //     fontSize: 18
-    // },
+    textOpaque: {
+        // fontFamily: font_aldrich_regular,
+        color: color_gris,
+        fontSize: 18
+    },
     // textLightGrey: {
     //     fontFamily: font_blinker_regular,
     //     color: color_light_grey
