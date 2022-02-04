@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import {Divider, Image} from 'react-native-elements';
 import {ButtonInitial} from '../../components';
-import DataScreen from '../../screens/DataScreen';
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
@@ -47,7 +46,7 @@ export default function PolicyHomeScreen({navigation, route}) {
           riskGroup: route.params.riskGroup,
         }}
         options={{
-          // headerShown:false,
+          // headerShown:true,
           headerTintColor: 'royalblue',
           headerStyle: {
             // backgroundColor: 'rgba(0,0,0, .2)',
