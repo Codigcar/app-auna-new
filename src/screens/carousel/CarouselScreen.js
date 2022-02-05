@@ -52,7 +52,7 @@ const CarouselScreen = ({navigation, route}) => {
           // headerShown:true,
           headerTintColor: 'royalblue',
           headerStyle: {
-            // backgroundColor: 'rgba(0,0,0, .2)',
+            // backgroundColor:'red'
           },
           headerTitle: null,
           headerLeft: () => (
@@ -188,7 +188,7 @@ const CarouselHome = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, paddingTop: 50}}>
+    <SafeAreaView>
       <View style={styles.headerContainer}>
         <Carousel
           data={items}
