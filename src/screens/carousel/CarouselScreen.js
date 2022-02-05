@@ -6,11 +6,12 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
-  Button,
+  Dimensions,
 } from 'react-native';
-import {Dimensions} from 'react-native';
+import {Button, Icon, Divider} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+
 import Constant from '../../utils/constants';
 import {ButtonInitial} from '../../components';
 import {css} from '../../utils/css';
@@ -82,33 +83,105 @@ const CarouselHome = () => {
   const renderItem = item => {
     return (
       <View>
-        <Image source={item.img} style={{width: '100%', height: '100%'}} />
-        <View style={{position: 'absolute',top: 0, left: 0, right: 0, bottom: 0, backgroundColor:'red',      }} >
+        <Image source={item.img} style={{width: '100%', height: '100%', backgroundColor:'transparent'}} />
+        <View
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 80,
+            backgroundColor: 'transparent',
+          }}>
           <View
             style={{
-              
-            //   width: '80%',
-            backgroundColor: 'white',
-              borderTopEndRadius: 20,
-              borderBottomStartRadius: 20,
-              position:'relative',
-            //   justifyContent:'center',
-              alignItems:'center',
-            //   flex:1
-            //   bottom: 70,
-              // left:'50%',
-              // right:'50%',
+              backgroundColor: 'transparent',
+              alignItems: 'center',
             }}>
-            {/* <View style={{padding: 30,,}}> */}
-              <Text>{item.title}</Text>
+            <View
+              style={{
+                width: '80%',
+                backgroundColor: 'white',
+                borderTopEndRadius: 20,
+                borderBottomStartRadius: 20,
+              }}>
               <View
                 style={{
-                  borderBottomWidth: 1,
+                  marginBottom: 20,
+                  marginHorizontal: 40,
+                  marginTop: 30,
+                }}>
+                <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                  Tus Pólizas
+                </Text>
+                <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                  siempre contigo
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderBottomWidth: 0.3,
                   borderBottomColor: css.colors.gray_opaque,
+                  marginHorizontal: 10,
                 }}></View>
-              <Text>{item.desc}</Text>
+              <View>
+                {item.desc.length > 0 ? (
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      textAlign: 'center',
+                      color: css.colors.gray_opaque,
+                      marginTop: 20,
+                      marginHorizontal: 40,
+                      marginBottom:20
+                    }}>
+                    {item.desc}
+                  </Text>
+                ) : (
+                  <View
+                    style={{
+                      backgroundColor: 'transparent',
+                      flex: 1,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: 20,
+                    }}>
+                    <Button
+                      buttonStyle={{
+                        backgroundColor: css.colors.primary_opaque,
+                        paddingHorizontal: 20,
+                      }}
+                      // loading={!(userUpdated && passUpdated)}
+                      title="Iniciar orientación"
+                      titleStyle={{
+                        fontSize: 14,
+                        color: 'white',
+                        fontWeight: 'bold',
+                      }}
+                      onPress={() => {}}
+                      // disabled={
+                      //   typeof horario == 'string' ||
+                      //   typeof specialty == 'string' ||
+                      //   typeof patient == 'string'
+                      //     ? true
+                      //     : false
+                      // }
+                    />
+                  </View>
+                )}
+              </View>
+              <Pagination
+                dotsLength={items.length}
+                activeDotIndex={activeIndex}
+                dotStyle={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: 10,
+                }}
+                containerStyle={{paddingTop:25, paddingBottom:10}}
+              />
             </View>
-          {/* </View> */}
+          </View>
         </View>
       </View>
     );
@@ -128,15 +201,6 @@ const CarouselHome = () => {
           style={{}}
         />
       </View>
-      {/* <Pagination
-          dotsLength={items.length}
-          activeDotIndex={activeIndex}
-          dotStyle={{
-            width: 10,
-            height: 10,
-            borderRadius: 10,
-          }}
-        /> */}
     </SafeAreaView>
   );
 };
