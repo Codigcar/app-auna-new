@@ -1,4 +1,4 @@
-import {Picker as SelectPicker} from '@react-native-community/picker';
+import {Picker as SelectPicker} from '@react-native-picker/picker';
 import isEqual from 'lodash.isequal';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
