@@ -256,6 +256,7 @@ const styles = StyleSheet.create({
     padding: 7,
     borderWidth: 1,
     marginBottom: 0,
+    borderColor: '#C0C0C0',
     ...Platform.select({
       android: {
         elevation: 1,
