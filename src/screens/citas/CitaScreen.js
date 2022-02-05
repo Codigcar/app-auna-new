@@ -1,6 +1,6 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState, useRef} from 'react';
 import {
   Alert,
   Dimensions,
@@ -132,13 +132,23 @@ export default function CitaScreen({navigation, route}) {
 
 const HomeScreen = React.memo(({navigation, route}) => {
   // console.log('[HomeScreen CitaHome]');
+  const isMounted = useRef(true);
   const [items, setItems] = useState('');
   const [isVisiblePopupCancel, setIsVisiblePopupCancel] = useState(false);
   const [citaBody, setCitaBody] = useState({});
+  
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     fetchDataCitasListar();
   }, [items]);
+
+  
+  
 
   const fetchDataCitasListar = async () => {
     const params = new URLSearchParams({
@@ -151,12 +161,14 @@ const HomeScreen = React.memo(({navigation, route}) => {
       params,
       route.params.userRoot.Token,
     );
-
-    if (response.CodigoMensaje === 100) {
-      setItems(response.Result.reverse());
-    } else {
-      Alert.alert('Error', response.RespuestaMensaje);
+    if(isMounted.current){
+      if (response.CodigoMensaje === 100) {
+        setItems(response.Result.reverse());
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+      }
     }
+   
   };
 
   const handleVisiblePopupCancel = itemCita => {
