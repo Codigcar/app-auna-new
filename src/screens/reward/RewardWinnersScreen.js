@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
 } from 'react-native';
 import {SearchBar, Icon} from 'react-native-elements';
 import {ButtonInitial} from '../../components';
@@ -114,9 +115,7 @@ const App = ({route}) => {
     //     NombreSorteo: 'SORTEO1',
     //     ProximoSorteo: '31/01/2022',
     //   },
-      
     // ]);
-
     // setMasterDataSource([
     //   {
     //     CodigoTicket: '1',
@@ -216,7 +215,7 @@ const App = ({route}) => {
 
   const searchFilterFunction = text => {
     if (text) {
-      const newData = masterDataSource.filter(function(item) {
+      const newData = masterDataSource.filter(function (item) {
         const itemData = item.NombreCompleto.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -277,7 +276,7 @@ const App = ({route}) => {
                   }}>
                   TICKET N° {item.CodigoTicket}
                 </Text> */}
-               
+
                 <Text
                   style={{
                     color: css.colors.gray_opaque,
@@ -291,7 +290,7 @@ const App = ({route}) => {
                   type="fontisto"
                   size={20}
                   color={css.colors.opaque}
-                  style={{marginRight: 20, marginLeft:3}}
+                  style={{marginRight: 20, marginLeft: 3}}
                 />
               </View>
             </View>
@@ -338,15 +337,43 @@ const App = ({route}) => {
             Próximo sorteo: {dateNextSorteo}
           </Text>
         </View>
-        <View>
+        <View
+          style={{
+            ...Platform.select({
+              ios: {
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+                marginHorizontal: 15,
+              },
+            }),
+          }}>
           <SearchBar
             containerStyle={{
               backgroundColor: '#FFF',
               borderTopColor: '#FFF',
               borderBottomColor: '#FFF',
               paddingHorizontal: 0,
+              ...Platform.select({
+                ios: {
+                  paddingVertical: 0,
+                  borderRadius: 10,
+                },
+              }),
             }}
-            inputContainerStyle={styles.estiloBarraBusqueda}
+            inputContainerStyle={
+              Platform.OS === 'android'
+                ? [styles.estiloBarraBusqueda]
+                : {
+                    backgroundColor: 'white',
+                  }
+            }
+            // styles.estiloBarraBusqueda
             onChangeText={text => searchFilterFunction(text)}
             onClear={() => searchFilterFunction('')}
             placeholder="Buscar Ganador"
@@ -406,11 +433,19 @@ const styles = StyleSheet.create({
     padding: 1,
     borderWidth: 0,
     marginBottom: 5,
-
     ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
       android: {
         elevation: 11,
-        //display: 'none',
         borderColor: '#0FF',
         borderTopWidth: 0,
         margin: 0,
@@ -428,21 +463,31 @@ const styles = StyleSheet.create({
     }),
   },
   estiloBarraBusqueda: {
-    backgroundColor: '#FFF',
+    backgroundColor: 'white',
     borderRadius: 10,
     marginLeft: 15,
     marginRight: 15,
     borderColor: 'rgba(0,0,0,0.5)',
+    borderWidth: 1,
     shadowOpacity: 0.39,
     shadowRadius: 13.97,
-    elevation: 11,
     // ...Platform.select({
+    //   ios: {
+    //     shadowColor: '#000',
+    //     shadowOffset: {
+    //       width: 0,
+    //       height: 2,
+    //     },
+    //     shadowOpacity: 0.25,
+    //     shadowRadius: 3.84,
+    //     elevation: 5,
+    //   },
     //   android: {
     //     elevation: 11,
     //   },
     //   default: {
     //     shadowColor: 'rgba(0,0,0, .2)',
-    //     shadowOffset: { height: 0, width: 0 },
+    //     shadowOffset: {height: 0, width: 0},
     //     shadowOpacity: 1,
     //     shadowRadius: 1,
     //   },
@@ -458,7 +503,18 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.5)',
     shadowOpacity: 0.39,
     shadowRadius: 13.97,
+    borderColor: '#C0C0C0',
     ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
       android: {
         elevation: 11,
       },
