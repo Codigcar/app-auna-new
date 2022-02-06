@@ -17,6 +17,7 @@ import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 import {fetchWithToken} from '../../utils/fetchCustom';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
+import BottomSheetScreen from './BottomSheetScreen';
 import CitaNewScreen from './CitaNewScreen';
 import CitaNotFound from './CitaNotFound';
 import CitaPopupCancel from './CitaPopupCancel';
@@ -96,11 +97,11 @@ export default function CitaScreen({navigation, route}) {
       />
       <Tab.Screen
         name="CitaNewScreen"
-        component={CitaNewScreen}
-        initialParams={{
-          userRoot: route.params.userRoot,
-          policy: route.params.policy,
-        }}
+        component={BottomSheetScreen}
+        // initialParams={{
+        //   userRoot: route.params.userRoot,
+        //   policy: route.params.policy,
+        // }}
         options={{
           tabBarLabel: ({color}) => (
             <Text
