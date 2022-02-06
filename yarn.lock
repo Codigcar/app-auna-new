@@ -6463,7 +6463,7 @@
     "lodash" "^4.17.15"
     "prop-types" "^15.7.2"
 
-"react-native-reanimated@^2.3.1", "react-native-reanimated@>= 1.0.0", "react-native-reanimated@>=2.0.0", "react-native-reanimated@>=2.2.0":
+"react-native-reanimated@^2.3.0-beta.2", "react-native-reanimated@>= 1.0.0", "react-native-reanimated@>=2.0.0", "react-native-reanimated@>=2.2.0":
   "integrity" "sha512-KogpQaRxFu2jgIEWRwoHaTQ2TQbHva49rJFnXtEdMZ5LJefVMFITiEwRuyjlD4ZWpstFiaP0mWkR6uuS2APutA=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.4.0.tgz"
   "version" "2.4.0"

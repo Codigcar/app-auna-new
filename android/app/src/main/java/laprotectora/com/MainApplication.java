@@ -2,6 +2,10 @@ package laprotectorace.com;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.facebook.react.bridge.JSIModulePackage;
+import com.swmansion.reanimated.ReanimatedJSIModulePackage;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.vinzscam.reactnativefileviewer.RNFileViewerPackage;
@@ -13,6 +17,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -21,7 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
         public boolean getUseDeveloperSupport() {
           return BuildConfig.DEBUG;
         }
-
+       
         @Override
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
@@ -35,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+        @Override protected JSIModulePackage getJSIModulePackage() { return new ReanimatedJSIModulePackage(); }
       };
 
   @Override
