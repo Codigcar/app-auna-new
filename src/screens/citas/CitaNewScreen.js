@@ -336,6 +336,7 @@ function HomeScreen({navigation, route}) {
                     value={patient}
                     style={{
                       inputAndroid: {
+                      
                         backgroundColor: 'transparent',
                         // width: Constant.DEVICE.WIDTH / 2 - 30,
                         // margin: -1,
