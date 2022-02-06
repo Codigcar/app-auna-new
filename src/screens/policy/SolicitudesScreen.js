@@ -163,7 +163,7 @@ const App = ({route}) => {
 
     return (
       // Flat List Item
-      <View style={styles.card}>
+      <View style={[styles.card, css.designElevationCardiOS]}>
         <View
           style={{paddingLeft: 10, backgroundColor: 'transparent', flex: 1}}>
           <View style={{padding: 7}}>
@@ -222,7 +222,7 @@ const App = ({route}) => {
             borderColor: 'rgba(0,0,0,0.5)',
             borderBottomEndRadius: 10,
             borderBottomStartRadius: 10,
-            height: 30,
+            // height: 30,
             marginTop: 10,
             width: '100%',
             shadowOpacity: 0.39,
@@ -244,7 +244,8 @@ const App = ({route}) => {
             ...Platform.select({
               ios: {
                 fontSize: 16,
-                height:24
+                height: 24,
+                fontWeight: 'bold',
               },
             }),
           }}
@@ -263,12 +264,35 @@ const App = ({route}) => {
         citaBody={solicitudBody}
       />
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
-        <View style={styles.estiloBusquedaCobertor_iPhone}>
+        <View
+          style={{
+            ...Platform.select({
+              ios: {
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+                marginHorizontal: 15,
+                marginTop:15
+              },
+            }),
+          }}>
           <SearchBar
             containerStyle={{
               backgroundColor: '#FFF',
               borderTopColor: '#FFF',
               borderBottomColor: '#FFF',
+              paddingHorizontal: 0,
+              ...Platform.select({
+                ios: {
+                  paddingVertical: 0,
+                  borderRadius: 10,
+                },
+              }),
             }}
             inputContainerStyle={styles.estiloBarraBusqueda}
             onChangeText={text => searchFilterFunction(text)}
@@ -320,8 +344,17 @@ const styles = StyleSheet.create({
     padding: 1,
     borderWidth: 0,
     marginBottom: 5,
-
     ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
       android: {
         elevation: 11,
         //display: 'none',

@@ -86,13 +86,18 @@ export default {
         // PUT CANCELAR CITA
         PUT_CANCELAR_CITA:                       'Cita_Actualizar',
 
-        //Horario
+        // HORARIO
         GET_HORARIOS_LISTAR_X_ESPECIALIDAD:      'HorarioDisponibleCita_Listar',
 
-        //SOLICITUD DE INCLUSIÓN
+        // SOLICITUD DE INCLUSIÓN
         GET_LISTAR_SOLICITUDES_INCLUSION:         'Solicitud_Listar',
-        //CANCELAR SOLICITUD INCLUSION
-        PUT_CANCELAR_SOLICITUD_INCLUSION:        'Solicitud_Actualizar'
+        // CANCELAR SOLICITUD INCLUSION
+        PUT_CANCELAR_SOLICITUD_INCLUSION:        'Solicitud_Actualizar',
+
+        // LISTAR BANNERS CAROUSEL
+        GET_LISTAR_BANNERS:                      'Banner_Listar',
+        // PRONOSTIK ENCRIPTAR
+        POST_PRONOSTIK:                          'ServicioPronostikEncriptar'
         
     },
     CONTACTO_TIPO_COMUNICACION_ICONO: {

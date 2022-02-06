@@ -209,7 +209,7 @@ function HomeScreen({navigation, route}) {
           }
           renderItem={({item}) => (
             <TouchableOpacity
-              style={styles.card}
+              style={[styles.card, css.designElevationCardiOS]}
               onPress={() =>
                 navigation.navigate('PolicyRiskGroupScreen', {riskGroup: item})
               }>

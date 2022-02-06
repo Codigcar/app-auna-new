@@ -108,8 +108,8 @@ function HomeScreen({navigation, route}) {
   };
 
   useEffect(() => {
-    // fetchDataEspecialidadListar();
-    // fetchDataPacientesListar();
+    fetchDataEspecialidadListar();
+    fetchDataPacientesListar();
   }, []);
 
   const fetchDataEspecialidadListar = async () => {
@@ -187,8 +187,8 @@ function HomeScreen({navigation, route}) {
   }, [birthdayFormatDDMMYYYY]);
 
   useEffect(() => {
-    // dataHorarioListar(specialty);
-    // setIsUseEffectDataHorarioXFecha(true);
+    dataHorarioListar(specialty);
+    setIsUseEffectDataHorarioXFecha(true);
   }, [specialty]);
 
   const dataHorarioListar = async idEspecialidad => {
@@ -290,12 +290,7 @@ function HomeScreen({navigation, route}) {
             <CollapseBody style={{}}>
               <View>
                 <View style={{marginBottom: 12}}>
-                  <Text
-                    style={
-                      Platform.OS
-                        ? styles.labelDesigniOS
-                        : styles.labelDesignAndroid
-                    }>
+                  <Text style={styles.labelOfInputDropDownPicker}>
                     Especialidad
                   </Text>
                   <DropDownPicker
@@ -331,12 +326,7 @@ function HomeScreen({navigation, route}) {
                   />
                 </View>
                 <View style={{marginBottom: 12}}>
-                  <Text
-                    style={
-                      Platform.OS
-                        ? styles.labelDesigniOS
-                        : styles.labelDesignAndroid
-                    }>
+                  <Text style={styles.labelOfInputDropDownPicker}>
                     Paciente
                   </Text>
                   <DropDownPicker
@@ -411,14 +401,7 @@ function HomeScreen({navigation, route}) {
                   />
                 </View>
                 <View style={{marginBottom: 12}}>
-                  <Text
-                    style={
-                      Platform.OS
-                        ? styles.labelDesigniOS
-                        : styles.labelDesignAndroid
-                    }>
-                    Hora
-                  </Text>
+                  <Text style={styles.labelOfInputDropDownPicker}>Hora</Text>
                   {isLoadingHora ? (
                     <ActivityIndicator
                       size="large"
@@ -471,6 +454,7 @@ function HomeScreen({navigation, route}) {
             ]}
             loading={!(userUpdated && passUpdated)}
             title="Registrar Cita"
+            titleStyle={{ ...Platform.select({ios:{fontWeight:'bold'}}) }}
             onPress={() => handleRegisterCita()}
             disabled={
               typeof horario == 'string' ||
@@ -544,16 +528,20 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 26,
   },
-  labelDesignAndroid: {
-    fontSize: 16,
-    color: 'gray',
-    fontWeight: 'bold',
-    marginLeft: 4,
-  },
-  labelDesigniOS: {
-    fontSize: 16,
-    color: 'gray',
-    fontWeight: 'bold',
-    marginBottom: 7,
+  labelOfInputDropDownPicker: {
+    ...Platform.select({
+      ios: {
+        fontSize: 16,
+        color: 'gray',
+        fontWeight: 'bold',
+        marginBottom: 12,
+      },
+      android: {
+        fontSize: 16,
+        color: 'gray',
+        fontWeight: 'bold',
+        marginLeft: 4,
+      },
+    }),
   },
 });

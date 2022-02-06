@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: 'wrap',
     justifyContent: "space-between",
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderRadius: 10,
     marginBottom: 0,
     borderColor: '#C0C0C0',

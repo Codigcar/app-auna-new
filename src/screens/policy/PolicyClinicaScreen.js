@@ -341,7 +341,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
       ListHeaderComponent={renderHeader}
       ListEmptyComponent={renderEmpty}
       renderItem={({ item }) =>
-        <View style={styles.card_container}>
+        <View style={[styles.card_container, css.designElevationCardiOS]}>
           <View style={{ height: 80, width: '75%', backgroundColor: 'white', justifyContent: "space-between" }}>
             <Text style={[styles.card_text, { fontSize: 15, fontWeight: "bold" }]}> {item.nombreCortoClinicaDetalle}</Text>
             <View style={{ flexDirection: "row" }}>

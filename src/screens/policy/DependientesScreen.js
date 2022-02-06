@@ -124,7 +124,7 @@ const App = ({route}) => {
   const ItemView = ({item}) => {
     return (
       // Flat List Item
-      <View style={styles.card}>
+      <View style={[styles.card, css.designElevationCardiOS]}>
         <View style={{flexDirection: 'row'}}>
           <View style={{paddingLeft: 10}}>
             <View style={styles.cardSection}>

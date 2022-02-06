@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useMemo, useState} from 'react';
+import React, {useCallback, useRef, useMemo, useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {Button, Icon, Divider} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -15,6 +16,7 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Constant from '../../utils/constants';
 import {ButtonInitial} from '../../components';
 import {css} from '../../utils/css';
+import {fetchWithToken} from '../../utils/fetchCustom';
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
@@ -77,13 +79,87 @@ const CarouselScreen = ({navigation, route}) => {
 
 const Stack = createStackNavigator();
 
-const CarouselHome = () => {
+const CarouselHome = ({navigation, route}) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const isMounted = useRef(true);
+  const [banners, setBanners] = useState([]);
+  console.log('[CarouselHome]: ', route);
 
-  const renderItem = item => {
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    fetchBannerListar();
+  }, []);
+
+  const fetchBannerListar = async () => {
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.GET_LISTAR_BANNERS,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      if (isMounted.current) {
+        if (response.CodigoMensaje === 100) {
+          setBanners(response.Result);
+        } else {
+          Alert.alert('Error', 'Error de servidor');
+        }
+      }
+    } catch (error) {
+      console.log('[CarouselScreen error]: ', error);
+      Alert.alert('Error', error);
+    }
+  };
+
+  const fetchPronostikEncriptar = async() => {
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        TipoDocumento: route.params.userRoot.idSistema,
+        Documento: route.params.userRoot.idSistema,
+        Nombres: route.params.userRoot.idSistema,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.POST_PRONOSTIK,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      console.log('[Result Pronostik]: ', response.Result);
+      if (isMounted.current) {
+        // if (response.CodigoMensaje === 100) {
+        //   setBanners(response.Result);
+        // } else {
+        //   Alert.alert('Error', 'Error de servidor');
+        // }
+      }
+    } catch (error) {
+      console.log('[CarouselScreen error]: ', error);
+      Alert.alert('Error', error);
+    }
+  }
+
+  const handleOrientacion = () => {};
+
+  const renderItem = banner => {
     return (
       <View>
-        <Image source={item.img} style={{width: '100%', height: '100%', backgroundColor:'transparent'}} />
+        <Image
+          source={{uri: banner.imagen}}
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'transparent',
+          }}
+        />
         <View
           style={{
             position: 'absolute',
@@ -111,11 +187,9 @@ const CarouselHome = () => {
                   marginTop: 30,
                 }}>
                 <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                  Tus Pólizas
+                  {banner.texto}
                 </Text>
-                <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                  siempre contigo
-                </Text>
+                <Text style={{fontWeight: 'bold', fontSize: 16}}></Text>
               </View>
               <View
                 style={{
@@ -124,7 +198,7 @@ const CarouselHome = () => {
                   marginHorizontal: 10,
                 }}></View>
               <View>
-                {item.desc.length > 0 ? (
+                {/* {item.desc.length > 0 ? (
                   <Text
                     style={{
                       fontSize: 12,
@@ -134,51 +208,43 @@ const CarouselHome = () => {
                       marginHorizontal: 40,
                       marginBottom:20
                     }}>
-                    {item.desc}
+                    {banner.desc}
                   </Text>
-                ) : (
-                  <View
-                    style={{
-                      backgroundColor: 'transparent',
-                      flex: 1,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginTop: 20,
-                    }}>
-                    <Button
-                      buttonStyle={{
-                        backgroundColor: css.colors.primary_opaque,
-                        paddingHorizontal: 20,
-                      }}
-                      // loading={!(userUpdated && passUpdated)}
-                      title="Iniciar orientación"
-                      titleStyle={{
-                        fontSize: 14,
-                        color: 'white',
-                        fontWeight: 'bold',
-                      }}
-                      onPress={() => {}}
-                      // disabled={
-                      //   typeof horario == 'string' ||
-                      //   typeof specialty == 'string' ||
-                      //   typeof patient == 'string'
-                      //     ? true
-                      //     : false
-                      // }
-                    />
-                  </View>
-                )}
+                ) : ( */}
+                <View
+                  style={{
+                    backgroundColor: 'transparent',
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 20,
+                  }}>
+                  <Button
+                    buttonStyle={{
+                      backgroundColor: css.colors.primary_opaque,
+                      paddingHorizontal: 20,
+                    }}
+                    title="Iniciar orientación"
+                    titleStyle={{
+                      fontSize: 14,
+                      color: 'white',
+                      fontWeight: 'bold',
+                    }}
+                    onPress={handleOrientacion}
+                  />
+                </View>
+                {/* )} */}
               </View>
               <Pagination
-                dotsLength={items.length}
+                dotsLength={banners.length}
                 activeDotIndex={activeIndex}
                 dotStyle={{
                   width: 5,
                   height: 5,
                   borderRadius: 10,
                 }}
-                containerStyle={{paddingTop:25, paddingBottom:10}}
+                containerStyle={{paddingTop: 25, paddingBottom: 10}}
               />
             </View>
           </View>
@@ -191,7 +257,7 @@ const CarouselHome = () => {
     <SafeAreaView>
       <View style={styles.headerContainer}>
         <Carousel
-          data={items}
+          data={banners}
           renderItem={({item}) => renderItem(item)}
           sliderWidth={screenWidth}
           itemWidth={screenWidth}
@@ -209,28 +275,8 @@ export default CarouselScreen;
 
 const styles = StyleSheet.create({
   headerContainer: {
-    // backgroundColor: '#FFF',
     borderTopColor: '#d41c1c',
     borderTopWidth: 2,
-    // height: 70,
-    // paddingLeft: 20,
-    // paddingRight: 20,
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // justifyContent: 'space-between',
-    // marginBottom: 0,
-    // borderColor: css.colors.opaque,
-    // ...Platform.select({
-    //   android: {
-    //     elevation: 2,
-    //   },
-    //   default: {
-    //     shadowColor: 'rgba(0,0,0, .2)',
-    //     shadowOffset: {height: 0, width: 0},
-    //     shadowOpacity: 1,
-    //     shadowRadius: 1,
-    //   },
-    // }),
   },
   headerTitle: {
     fontSize: 22,

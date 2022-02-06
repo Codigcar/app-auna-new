@@ -136,7 +136,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
   const [items, setItems] = useState('');
   const [isVisiblePopupCancel, setIsVisiblePopupCancel] = useState(false);
   const [citaBody, setCitaBody] = useState({});
-  
+
   useEffect(() => {
     return () => {
       isMounted.current = false;
@@ -146,9 +146,6 @@ const HomeScreen = React.memo(({navigation, route}) => {
   useEffect(() => {
     fetchDataCitasListar();
   }, [items]);
-
-  
-  
 
   const fetchDataCitasListar = async () => {
     const params = new URLSearchParams({
@@ -161,14 +158,13 @@ const HomeScreen = React.memo(({navigation, route}) => {
       params,
       route.params.userRoot.Token,
     );
-    if(isMounted.current){
+    if (isMounted.current) {
       if (response.CodigoMensaje === 100) {
         setItems(response.Result.reverse());
       } else {
         Alert.alert('Error', response.RespuestaMensaje);
       }
     }
-   
   };
 
   const handleVisiblePopupCancel = itemCita => {
@@ -304,14 +300,14 @@ const HomeScreen = React.memo(({navigation, route}) => {
                       // borderRadius: 10,
                       borderBottomEndRadius: 10,
                       borderBottomStartRadius: 10,
-                      height: 30,
-                      marginTop: 10,
+                      // height: 35,
+                      marginTop: 15,
                       width: '100%',
-                      shadowOpacity: 0.39,
-                      shadowRadius: 13.97,
                       ...Platform.select({
                         android: {
                           elevation: 16,
+                          shadowOpacity: 0.39,
+                          shadowRadius: 13.97,
                         },
                         default: {
                           shadowColor: 'rgba(0,0,0, .2)',
@@ -327,6 +323,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
                         ios: {
                           fontSize: 16,
                           height: 24,
+                          fontWeight: 'bold',
                         },
                       }),
                     }}
@@ -376,14 +373,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     margin: 15,
-    // padding: 7,
-    borderWidth: 0,
     marginBottom: 14,
-    borderColor: 'rgba(0, 0, 0, 0.14)',
-    shadowOpacity: 0.39,
-    shadowRadius: 13.97,
+    // borderColor: 'red',
     ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
       android: {
+        shadowOpacity: 0.39,
+        shadowRadius: 13.97,
         elevation: 11,
       },
       default: {

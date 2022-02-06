@@ -339,39 +339,34 @@ const App = ({route}) => {
         </View>
         <View
           style={{
-            // ...Platform.select({
-            //   ios: {
-            //     shadowColor: '#000',
-            //     shadowOffset: {
-            //       width: 0,
-            //       height: 2,
-            //     },
-            //     shadowOpacity: 0.25,
-            //     shadowRadius: 3.84,
-            //     elevation: 5,
-            //     marginHorizontal: 15,
-            //   },
-            // }),
+            ...Platform.select({
+              ios: {
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+                marginHorizontal: 15,
+              },
+            }),
           }}>
           <SearchBar
             containerStyle={{
-              backgroundColor: '#FFF',
+              backgroundColor: '#fff',
               borderTopColor: '#FFF',
               borderBottomColor: '#FFF',
               paddingHorizontal: 0,
-              // ...Platform.select({
-              //   ios: {
-              //     paddingVertical: 0,
-              //     borderRadius: 10,
-              //   },
-              // }),
+              ...Platform.select({
+                ios: {
+                  paddingVertical: 0,
+                  borderRadius: 10,
+                },
+              }),
             }}
             inputContainerStyle={
-              // Platform.OS === 'android'
-              //   ? [styles.estiloBarraBusqueda]
-              //   : {
-              //       backgroundColor: 'white',
-              //     }
               styles.estiloBarraBusqueda
             }
             // styles.estiloBarraBusqueda
@@ -466,33 +461,24 @@ const styles = StyleSheet.create({
   estiloBarraBusqueda: {
     backgroundColor: 'white',
     borderRadius: 10,
-    marginLeft: 15,
-    marginRight: 15,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.5)',
-    shadowOpacity: 0.39,
-    shadowRadius: 13.97,
+    marginVertical:0,
+    // borderColor: 'rgba(0,0,0,0.5)',
     ...Platform.select({
       ios: {
-        borderColor: '#C0C0C0',
-    //     shadowColor: '#000',
-    //     shadowOffset: {
-    //       width: 0,
-    //       height: 2,
-    //     },
-    //     shadowOpacity: 0.25,
-    //     shadowRadius: 3.84,
-    //     elevation: 5,
       },
-    //   android: {
-    //     elevation: 11,
-    //   },
-    //   default: {
-    //     shadowColor: 'rgba(0,0,0, .2)',
-    //     shadowOffset: {height: 0, width: 0},
-    //     shadowOpacity: 1,
-    //     shadowRadius: 1,
-    //   },
+      android: {
+        marginLeft: 15,
+        marginRight: 15,
+        shadowOpacity: 0.39,
+        shadowRadius: 13.97,
+        elevation: 11,
+      },
+      default: {
+        shadowColor: 'rgba(0,0,0, .2)',
+        shadowOffset: {height: 0, width: 0},
+        shadowOpacity: 1,
+        shadowRadius: 1,
+      },
     }),
   },
   card: {
@@ -500,27 +486,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 15,
     padding: 7,
-    borderWidth: 0,
     marginBottom: 14,
-    borderColor: 'rgba(0,0,0,0.5)',
-    shadowOpacity: 0.39,
-    shadowRadius: 13.97,
     ...Platform.select({
       ios: {
-        shadowOpacity: 0,
-        shadowRadius: 0,
-        borderWidth: 1,
-        borderColor: '#C0C0C0',
-        // shadowColor: '#000',
-        // shadowOffset: {
-        //   width: 0,
-        //   height: 2,
-        // },
-        // shadowOpacity: 0.25,
-        // shadowRadius: 3.84,
-        // elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
       },
       android: {
+        shadowOpacity: 0.39,
+        shadowRadius: 13.97,
         elevation: 11,
       },
       default: {
