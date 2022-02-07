@@ -45,7 +45,7 @@ const DATA = [
     icon_type: 'material-community',
   },
   {
-    title: 'Citas',
+    title: 'Mis Citas',
     name: 'CitaScreen',
     screen: CitaScreen,
     icon: 'medical-bag',

@@ -1,6 +1,12 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useEffect, useLayoutEffect, useState, useRef, useCallback} from 'react';
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useRef,
+  useCallback,
+} from 'react';
 import {
   Alert,
   Dimensions,
@@ -135,7 +141,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
   // console.log('[HomeScreen CitaHome]');
   const isMounted = useRef(true);
   const [items, setItems] = useState('');
-  const [isVisiblePopupCancel, setIsVisiblePopupCancel] = useState(false);
+  const [isVisiblePopup, setIsVisiblePopup] = useState(false);
   const [citaBody, setCitaBody] = useState({});
   const bottomSheetModalRef = React.useRef(null);
 
@@ -169,8 +175,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
     }
   };
 
-  const handleVisiblePopupCancel = (itemCita) => {
-    console.log('[antes]: ', isVisiblePopupCancel);
+  const handleVisiblePopupCancel = itemCita => {
     setCitaBody({
       patient_label: itemCita.nombrecompleto,
       specialty_label: itemCita.descripcion,
@@ -178,28 +183,20 @@ const HomeScreen = React.memo(({navigation, route}) => {
       horario: itemCita.horaInicio + ' - ' + itemCita.horaFin,
       idCita: itemCita.idCita,
     });
-    // handlePresentModalPress();
-    // setIsVisiblePopupCancel(true);
-    console.log('[despues]: ', isVisiblePopupCancel);
+    setIsVisiblePopup(true);
   };
-  
+
   return (
     <SafeAreaView style={css.screen}>
-      {/* <CitaPopupCancel
-        isVisiblePopupCancel={isVisiblePopupCancel}
-        setIsVisiblePopupCancel={setIsVisiblePopupCancel}
-        navigation={navigation}
-        route={route}
-        citaBody={citaBody}
-      /> */}
-      <BottomSheetScreen
-        isVisiblePopupCancel={isVisiblePopupCancel}
-        setIsVisiblePopupCancel={setIsVisiblePopupCancel}
-        navigation={navigation}
-        route={route}
-        citaBody={citaBody}
-        // bottomSheetModalRef={bottomSheetModalRef}
-      />
+      {isVisiblePopup && (
+        <BottomSheetScreen
+          isVisiblePopup={isVisiblePopup}
+          setIsVisiblePopup={setIsVisiblePopup}
+          navigation={navigation}
+          route={route}
+          citaBody={citaBody}
+        />
+      )}
       <View>
         <View style={styles.headerContainer}>
           <Text style={styles.headerTitle}>Mis citas médicas</Text>
@@ -305,7 +302,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
                   </View>
 
                   <Button
-                    onPress={ () => handleVisiblePopupCancel(item)}
+                    onPress={() => handleVisiblePopupCancel(item)}
                     title="Cancelar"
                     buttonStyle={{
                       backgroundColor: css.colors.primary_opaque,
@@ -390,7 +387,7 @@ const styles = StyleSheet.create({
     // borderColor: 'red',
     ...Platform.select({
       ios: {
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
           width: 0,
           height: 2,

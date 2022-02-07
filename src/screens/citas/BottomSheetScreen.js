@@ -1,4 +1,11 @@
-import React, {useCallback, useRef, useMemo, useState,useEffect} from 'react';
+import React, {
+  useCallback,
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
+  memo,
+} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,10 +13,10 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
-  Button,
   Modal,
   Animated,
 } from 'react-native';
+import {Avatar, Divider, Icon, Button} from 'react-native-elements';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import {
@@ -21,60 +28,140 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import {css} from '../../utils/css';
 
-const BottomSheetScreen = (
+const BottomSheetScreen = ({
+  isVisiblePopup,
+  setIsVisiblePopup,
   navigation,
   route,
-  isVisiblePopupCancel,
-  setIsVisiblePopupCancel,
   citaBody,
   // bottomSheetModalRef
-) => {
-
-  useEffect(() => {
-    console.log('useEffect: ', isVisiblePopupCancel);
-    handlePresentModalPress()
-  }, [isVisiblePopupCancel]);
-  
-  
-
+}) => {
   const bottomSheetModalRef = React.useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
-  const [isVisible, setIsVisible] = useState(false);
+  const snapPoints = useMemo(() => ['1%', '40%'], []);
+  // const snapPoints = ['50%'];
 
   // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    console.log('useCallback: ', isVisiblePopupCancel);
-    if(isVisiblePopupCancel){
-      bottomSheetModalRef.current?.present();
-    }
+  const handlePresentModalPress = useCallback(index => {
+    // if(isVisiblePopupCancel){
+    // bottomSheetModalRef.current?.present();
+    bottomSheetModalRef.current?.snapToIndex(1);
+    // }
   }, []);
+
+  const handleModalClose = () => {
+    console.log('Cerrado');
+    bottomSheetModalRef.current?.snapToIndex(-1);
+    setIsVisiblePopup(false);
+  };
 
   const handleSheetChanges = useCallback(index => {
     console.log('handleSheetChanges', index);
+    if (index == -1) {
+      console.log('Cerradov2');
+      setIsVisiblePopup(false);
+      bottomSheetModalRef.current?.snapToIndex(-1);
+      console.log('isVisiblePopup: ', isVisiblePopup);
+    }
   }, []);
 
+  const cancelCita = () => {
+    return (
+      <>
+        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
+          ¿Deseas cancelar la solicitud?
+        </Text>
+        <Button
+          buttonStyle={css.buttonContainerOutline}
+          title="Si, cancelar"
+          titleStyle={{
+            color: css.colors.primary_opaque,
+            ...Platform.select({ios: {fontWeight: 'bold'}}),
+          }}
+          onPress={() => handleRegisterCita()}
+        />
+        <Button
+          buttonStyle={css.buttonContainerOutline}
+          title="No"
+          titleStyle={{
+            color: css.colors.primary_opaque,
+            ...Platform.select({ios: {fontWeight: 'bold'}}),
+          }}
+          onPress={() => handleRegisterCita()}
+        />
+      </>
+    );
+  };
+
+  const solicitudRegistrarCita = () => {
+    return (
+      <View style={{ backgroundColor:'transparent'}} >
+          <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
+            Resumen
+          </Text>
+        <View style={{marginLeft:30,marginTop:20}} >
+          <View style={{display:'flex', flexDirection:'row', alignItems:'center' }} >
+            <Icon name="event-available" type="material-icon" size={20} color={'black'} style={{marginRight:10}} />
+            <Text>{ citaBody.fecha }</Text>
+          </View>
+          <View style={{display:'flex', flexDirection:'row', marginTop:10, alignItems:'center'}} >
+            <Icon name="schedule" type="material-icon" size={20} color={'black'} style={{marginRight:10}} />
+            <Text>{ citaBody.horario[0] } - {citaBody.horario[1]}</Text>
+          </View>
+          <View style={{display:'flex', flexDirection:'row', marginTop:10, alignItems:'center'}} >
+            <Icon name="medical-bag" type="material-community" size={20} color={'black'} style={{marginRight:10}} />
+            <Text>{ citaBody.specialty_label }</Text>
+          </View>
+          <View style={{display:'flex', flexDirection:'row', marginTop:10, alignItems:'center'}} >
+            <Icon name="account-circle" type="material-community" size={20} color={'black'} style={{marginRight:10}} />
+            <Text>{ citaBody.patient_label }</Text>
+          </View>
+        </View>
+            {/* <Text>{ JSON.stringify(citaBody) } </Text> */}
+        <Button
+          buttonStyle={css.buttonContainerOutline}
+          title="Aceptar"
+          titleStyle={{
+            color: css.colors.primary_opaque,
+            ...Platform.select({ios: {fontWeight: 'bold'}}),
+          }}
+          onPress={() => handleRegisterCita()}
+        />
+      </View>
+    );
+  };
+
   return (
-    <View style={{flex: 1, position:'absolute', top:0, left:0, right:0, bottom:0, zIndex:9}}>
+    <View
+      style={{
+        flex: 1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 9,
+      }}>
       {/* <Button onPress={abiert} title="Present Modal" color="black" /> */}
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-          enablePanDownToClose={true}
-          backdropComponent={backdropProps => (
-            <BottomSheetBackdrop
-              {...backdropProps}
-              enableTouchThrough={true}
-              opacity={0.2}
-            />
-          )}>
-          <Text>¿Quieres Cancelar la Solicitud?</Text>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+      {/* <BottomSheetModalProvider> */}
+      <BottomSheet
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        enablePanDownToClose={true}
+        onClose={handleModalClose}
+        backdropComponent={backdropProps => (
+          <BottomSheetBackdrop
+            {...backdropProps}
+            enableTouchThrough={true}
+            opacity={0.2}
+          />
+        )}>
+        <BottomSheetView>{solicitudRegistrarCita()}</BottomSheetView>
+      </BottomSheet>
+      {/* </BottomSheetModalProvider> */}
     </View>
   );
 };
@@ -96,4 +183,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomSheetScreen;
+export default memo(BottomSheetScreen);

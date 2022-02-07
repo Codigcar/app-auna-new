@@ -19,16 +19,17 @@ import {
 } from 'react-native';
 import {Button, Icon, Divider} from 'react-native-elements';
 import 'react-native-gesture-handler';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 import {useEffect} from 'react';
 import {fetchWithToken} from '../../utils/fetchCustom';
-
 import {Styles} from '../../assets/css/Styles';
 import {DropDownPicker, InputMask} from '../../components';
 import {convertDateDDMMYYYY} from '../../utils/util';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import CitaPopupConfirm from './CitaPopupConfirm';
+import BottomSheetScreen from './BottomSheetScreen';
 
 const Stack = createStackNavigator();
 
@@ -86,7 +87,7 @@ function HomeScreen({navigation, route}) {
   const [isUseEffectDataHorarioXFecha, setIsUseEffectDataHorarioXFecha] =
     useState(false);
 
-  const [isVisiblePopupConfirm, setIsVisiblePopupConfirm] = useState(false);
+  const [isVisiblePopup, setIsVisiblePopup] = useState(false);
 
   const [citaBody, setCitaBody] = useState({});
 
@@ -263,157 +264,88 @@ function HomeScreen({navigation, route}) {
       fecha: birthdayFormatDDMMYYYY,
       horario: horario,
     });
-    setIsVisiblePopupConfirm(true);
+    setIsVisiblePopup(true);
   };
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
-      <CitaPopupConfirm
+    <View style={{flex: 1, backgroundColor: 'white'}}>
+      {/* <ScrollView style={{flex: 1, backgroundColor: 'green'}}> */}
+        {/* <CitaPopupConfirm
         isVisiblePopupConfirm={isVisiblePopupConfirm}
         setIsVisiblePopupConfirm={setIsVisiblePopupConfirm}
         citaBody={citaBody}
         navigation={navigation}
         route={route}
-      />
-      <KeyboardAvoidingView
-        behavior={Constant.GLOBAL.KEYBOARD_BEHAVIOR}
-        style={{flex: 1}}>
-        <View>
-          <View style={styles.headerContainer}>
-            <Text style={styles.headerTitle}>Solicita tu cita médica</Text>
+      /> */}
+        {isVisiblePopup && (
+          <BottomSheetScreen
+            isVisiblePopup={isVisiblePopup}
+            setIsVisiblePopup={setIsVisiblePopup}
+            navigation={navigation}
+            route={route}
+            citaBody={citaBody}
+          />
+        )}
+
+        <KeyboardAvoidingView
+          behavior={Constant.GLOBAL.KEYBOARD_BEHAVIOR}
+          style={{flex: 1, backgroundColor:'transparent' }}>
+          <View>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerTitle}>Solicita tu cita médica</Text>
+            </View>
+            <Divider style={css.dividerTitleLineRed} />
           </View>
-          <Divider style={css.dividerTitleLineRed} />
-        </View>
-        <View style={[styles.container, {backgroundColor: 'transparent'}]}>
-          <Collapse style={styles.collapse} isCollapsed={true}>
-            <CollapseHeader />
-            <CollapseBody style={{}}>
-              <View>
-                <View style={{marginBottom: 12}}>
-                  <Text style={styles.labelOfInputDropDownPicker}>
-                    Especialidad
-                  </Text>
-                  <DropDownPicker
-                    placeholder={{}}
-                    items={specialties}
-                    onValueChange={setSpecialty}
-                    value={specialty}
-                    style={{
-                      inputAndroid: {
-                        backgroundColor: 'transparent',
-                      },
-                    }}
-                    useNativeAndroidPickerStyle={false}
-                    textInputProps={{
-                      underlineColorAndroid: Styles.colors.gris,
-                      ...Platform.select({
-                        ios: {
-                          borderBottomWidth: 1,
-                          borderBottomColor: css.colors.gray_opaque,
-                        },
-                      }),
-                    }}
-                    Icon={() => {
-                      return (
-                        <Icon
-                          name="keyboard-arrow-down"
-                          type="material"
-                          size={30}
-                          color={Styles.colors.gris}
-                        />
-                      );
-                    }}
-                  />
-                </View>
-                <View style={{marginBottom: 12}}>
-                  <Text style={styles.labelOfInputDropDownPicker}>
-                    Paciente
-                  </Text>
-                  <DropDownPicker
-                    placeholder={{}}
-                    items={patients}
-                    onValueChange={setPatient}
-                    value={patient}
-                    style={{
-                      inputAndroid: {
-                      
-                        backgroundColor: 'transparent',
-                        // width: Constant.DEVICE.WIDTH / 2 - 30,
-                        // margin: -1,
-                      },
-                      // iconContainer: {top: 5, right: 30},
-                    }}
-                    useNativeAndroidPickerStyle={false}
-                    textInputProps={{
-                      underlineColorAndroid: Styles.colors.gris,
-                      ...Platform.select({
-                        ios: {
-                          borderBottomWidth: 1,
-                          borderBottomColor: css.colors.gray_opaque,
-                        },
-                      }),
-                    }}
-                    Icon={() => {
-                      return (
-                        <Icon
-                          name="keyboard-arrow-down"
-                          type="material"
-                          size={30}
-                          color={Styles.colors.gris}
-                        />
-                      );
-                    }}
-                  />
-                </View>
-                <View style={{width: '100%'}}>
-                  <Pressable
-                    activeOpacity={0.8}
-                    onPress={showDatePicker}
-                    style={{marginHorizontal: -5}}>
-                    <InputMask
-                      label="Fecha"
-                      value={birthdayFormatDDMMYYYY}
-                      onChangeText={setBirthday}
-                      placeholder="--/--/----/"
-                      rightIcon={
-                        <Icon
-                          name="calendar"
-                          type="font-awesome"
-                          size={20}
-                          color={Styles.colors.gris}
-                        />
-                      }
-                      errorMessage={SignUpErrors ? SignUpErrors.birthday : null}
-                      type={'datetime'}
-                      options={{
-                        format: 'DD/MM/YYYY',
-                      }}
-                      disabled={true}
-                    />
-                  </Pressable>
-                  <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    textColor="red"
-                    date={birthday}
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                    minimumDate={new Date('2022-01-17')}
-                  />
-                </View>
-                <View style={{marginBottom: 12}}>
-                  <Text style={styles.labelOfInputDropDownPicker}>Hora</Text>
-                  {isLoadingHora ? (
-                    <ActivityIndicator
-                      size="large"
-                      color={css.colors.primary}
-                    />
-                  ) : (
+          <View style={[styles.container, {backgroundColor: 'transparent', flex:1}]}>
+            <Collapse style={styles.collapse} isCollapsed={true}>
+              <CollapseHeader />
+              <CollapseBody style={{}}>
+                <View>
+                  <View style={{marginBottom: 12}}>
+                    <Text style={styles.labelOfInputDropDownPicker}>
+                      Especialidad
+                    </Text>
                     <DropDownPicker
                       placeholder={{}}
-                      items={horarios}
-                      onValueChange={setHorario}
-                      value={horario}
+                      items={specialties}
+                      onValueChange={setSpecialty}
+                      value={specialty}
+                      style={{
+                        inputAndroid: {
+                          backgroundColor: 'transparent',
+                        },
+                      }}
+                      useNativeAndroidPickerStyle={false}
+                      textInputProps={{
+                        underlineColorAndroid: Styles.colors.gris,
+                        ...Platform.select({
+                          ios: {
+                            borderBottomWidth: 1,
+                            borderBottomColor: css.colors.gray_opaque,
+                          },
+                        }),
+                      }}
+                      Icon={() => {
+                        return (
+                          <Icon
+                            name="keyboard-arrow-down"
+                            type="material"
+                            size={30}
+                            color={Styles.colors.gris}
+                          />
+                        );
+                      }}
+                    />
+                  </View>
+                  <View style={{marginBottom: 12}}>
+                    <Text style={styles.labelOfInputDropDownPicker}>
+                      Paciente
+                    </Text>
+                    <DropDownPicker
+                      placeholder={{}}
+                      items={patients}
+                      onValueChange={setPatient}
+                      value={patient}
                       style={{
                         inputAndroid: {
                           backgroundColor: 'transparent',
@@ -443,31 +375,113 @@ function HomeScreen({navigation, route}) {
                         );
                       }}
                     />
-                  )}
+                  </View>
+                  <View style={{width: '100%'}}>
+                    <Pressable
+                      activeOpacity={0.8}
+                      onPress={showDatePicker}
+                      style={{marginHorizontal: -5}}>
+                      <InputMask
+                        label="Fecha"
+                        value={birthdayFormatDDMMYYYY}
+                        onChangeText={setBirthday}
+                        placeholder="--/--/----/"
+                        rightIcon={
+                          <Icon
+                            name="calendar"
+                            type="font-awesome"
+                            size={20}
+                            color={Styles.colors.gris}
+                          />
+                        }
+                        errorMessage={
+                          SignUpErrors ? SignUpErrors.birthday : null
+                        }
+                        type={'datetime'}
+                        options={{
+                          format: 'DD/MM/YYYY',
+                        }}
+                        disabled={true}
+                      />
+                    </Pressable>
+                    <DateTimePickerModal
+                      isVisible={isDatePickerVisible}
+                      mode="date"
+                      textColor="red"
+                      date={birthday}
+                      onConfirm={handleConfirm}
+                      onCancel={hideDatePicker}
+                      minimumDate={new Date('2022-01-17')}
+                    />
+                  </View>
+                  <View style={{marginBottom: 12}}>
+                    <Text style={styles.labelOfInputDropDownPicker}>Hora</Text>
+                    {isLoadingHora ? (
+                      <ActivityIndicator
+                        size="large"
+                        color={css.colors.primary}
+                      />
+                    ) : (
+                      <DropDownPicker
+                        placeholder={{}}
+                        items={horarios}
+                        onValueChange={setHorario}
+                        value={horario}
+                        style={{
+                          inputAndroid: {
+                            backgroundColor: 'transparent',
+                            // width: Constant.DEVICE.WIDTH / 2 - 30,
+                            // margin: -1,
+                          },
+                          // iconContainer: {top: 5, right: 30},
+                        }}
+                        useNativeAndroidPickerStyle={false}
+                        textInputProps={{
+                          underlineColorAndroid: Styles.colors.gris,
+                          ...Platform.select({
+                            ios: {
+                              borderBottomWidth: 1,
+                              borderBottomColor: css.colors.gray_opaque,
+                            },
+                          }),
+                        }}
+                        Icon={() => {
+                          return (
+                            <Icon
+                              name="keyboard-arrow-down"
+                              type="material"
+                              size={30}
+                              color={Styles.colors.gris}
+                            />
+                          );
+                        }}
+                      />
+                    )}
+                  </View>
                 </View>
-              </View>
-            </CollapseBody>
-          </Collapse>
-          <Button
-            buttonStyle={[
-              css.buttonContainer,
-              {backgroundColor: css.colors.primary_opaque},
-            ]}
-            loading={!(userUpdated && passUpdated)}
-            title="Registrar Cita"
-            titleStyle={{ ...Platform.select({ios:{fontWeight:'bold'}}) }}
-            onPress={() => handleRegisterCita()}
-            disabled={
-              typeof horario == 'string' ||
-              typeof specialty == 'string' ||
-              typeof patient == 'string'
-                ? true
-                : false
-            }
-          />
-        </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+              </CollapseBody>
+            </Collapse>
+            <Button
+              buttonStyle={[
+                css.buttonContainer,
+                {backgroundColor: css.colors.primary_opaque},
+              ]}
+              loading={!(userUpdated && passUpdated)}
+              title="Registrar Cita"
+              titleStyle={{...Platform.select({ios: {fontWeight: 'bold'}})}}
+              onPress={() => handleRegisterCita()}
+              disabled={
+                typeof horario == 'string' ||
+                typeof specialty == 'string' ||
+                typeof patient == 'string'
+                  ? true
+                  : false
+              }
+            />
+          </View>
+        </KeyboardAvoidingView>
+      {/* </ScrollView> */}
+    </View>
   );
 }
 

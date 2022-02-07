@@ -34,6 +34,14 @@ export const css = {
     backgroundColor: '#ff0000',
     borderRadius: 10,
   },
+  buttonContainerOutline: {
+    backgroundColor: 'white',
+    borderWidth:1,
+    borderColor: '#d41c1c',
+    borderRadius: 10,
+    marginHorizontal:30,
+    marginTop:20
+  },
   inputContainer: {
     borderRadius: 5,
     marginBottom: -20,
