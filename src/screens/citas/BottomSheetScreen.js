@@ -96,29 +96,78 @@ const BottomSheetScreen = ({
 
   const solicitudRegistrarCita = () => {
     return (
-      <View style={{ backgroundColor:'transparent'}} >
-          <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
-            Resumen
-          </Text>
-        <View style={{marginLeft:30,marginTop:20}} >
-          <View style={{display:'flex', flexDirection:'row', alignItems:'center' }} >
-            <Icon name="event-available" type="material-icon" size={20} color={'black'} style={{marginRight:10}} />
-            <Text>{ citaBody.fecha }</Text>
+      <View style={{backgroundColor: 'transparent'}}>
+        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
+          Resumen
+        </Text>
+        <View style={{marginLeft: 30, marginTop: 20}}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Icon
+              name="event-available"
+              type="material-icon"
+              size={20}
+              color={'black'}
+              style={{marginRight: 10}}
+            />
+            <Text>{citaBody.fecha}</Text>
           </View>
-          <View style={{display:'flex', flexDirection:'row', marginTop:10, alignItems:'center'}} >
-            <Icon name="schedule" type="material-icon" size={20} color={'black'} style={{marginRight:10}} />
-            <Text>{ citaBody.horario[0] } - {citaBody.horario[1]}</Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              marginTop: 10,
+              alignItems: 'center',
+            }}>
+            <Icon
+              name="schedule"
+              type="material-icon"
+              size={20}
+              color={'black'}
+              style={{marginRight: 10}}
+            />
+            <Text>
+              {citaBody.horario[0]} - {citaBody.horario[1]}
+            </Text>
           </View>
-          <View style={{display:'flex', flexDirection:'row', marginTop:10, alignItems:'center'}} >
-            <Icon name="medical-bag" type="material-community" size={20} color={'black'} style={{marginRight:10}} />
-            <Text>{ citaBody.specialty_label }</Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              marginTop: 10,
+              alignItems: 'center',
+            }}>
+            <Icon
+              name="medical-bag"
+              type="material-community"
+              size={20}
+              color={'black'}
+              style={{marginRight: 10}}
+            />
+            <Text>{citaBody.specialty_label}</Text>
           </View>
-          <View style={{display:'flex', flexDirection:'row', marginTop:10, alignItems:'center'}} >
-            <Icon name="account-circle" type="material-community" size={20} color={'black'} style={{marginRight:10}} />
-            <Text>{ citaBody.patient_label }</Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              marginTop: 10,
+              alignItems: 'center',
+            }}>
+            <Icon
+              name="account-circle"
+              type="material-community"
+              size={20}
+              color={'black'}
+              style={{marginRight: 10}}
+            />
+            <Text>{citaBody.patient_label}</Text>
           </View>
         </View>
-            {/* <Text>{ JSON.stringify(citaBody) } </Text> */}
+        {/* <Text>{ JSON.stringify(citaBody) } </Text> */}
         <Button
           buttonStyle={css.buttonContainerOutline}
           title="Aceptar"
@@ -158,7 +207,8 @@ const BottomSheetScreen = ({
             enableTouchThrough={true}
             opacity={0.2}
           />
-        )}>
+        )}
+      >
         <BottomSheetView>{solicitudRegistrarCita()}</BottomSheetView>
       </BottomSheet>
       {/* </BottomSheetModalProvider> */}
