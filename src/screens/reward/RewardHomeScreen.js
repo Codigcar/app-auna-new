@@ -22,6 +22,7 @@ import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import RewardWinnersScreen from './RewardWinnersScreen';
 
 import {height, width} from 'react-native-dimension';
+import SorteoHomeScreen from './SorteoHomeScreen';
 // import moment from 'moment';
 //SI "CLINICAS"
 //SI "DEPENDIENTES"
@@ -66,12 +67,12 @@ export default function RewardHomeScreen({navigation, route}) {
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
-        initialParams={{
-          userRoot: route.params.userRoot,
-          policy: route.params.policy,
-          riskGroup: route.params.riskGroup,
-        }}
+        component={SorteoHomeScreen}
+        // initialParams={{
+        //   userRoot: route.params.userRoot,
+        //   policy: route.params.policy,
+        //   riskGroup: route.params.riskGroup,
+        // }}
         options={{
           tabBarLabel: ({color}) => (
             <Text

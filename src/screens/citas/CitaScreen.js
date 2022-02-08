@@ -27,6 +27,8 @@ import BottomSheetScreen from './BottomSheetScreen';
 import CitaNewScreen from './CitaNewScreen';
 import CitaNotFound from './CitaNotFound';
 import CitaPopupCancel from './CitaPopupCancel';
+import ElementDropDown from './ElementDropDown';
+import SelectorDropDown from './SelectorDropDown';
 
 console.log('EJECUTIVOS-HOME: ');
 
@@ -70,12 +72,12 @@ export default function CitaScreen({navigation, route}) {
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
-        initialParams={{
-          userRoot: route.params.userRoot,
-          policy: route.params.policy,
-          riskGroup: route.params.riskGroup,
-        }}
+        component={SelectorDropDown}
+        // initialParams={{
+        //   userRoot: route.params.userRoot,
+        //   policy: route.params.policy,
+        //   riskGroup: route.params.riskGroup,
+        // }}
         options={{
           tabBarLabel: ({color}) => (
             <Text
@@ -103,11 +105,11 @@ export default function CitaScreen({navigation, route}) {
       />
       <Tab.Screen
         name="CitaNewScreen"
-        component={CitaNewScreen}
-        initialParams={{
-          userRoot: route.params.userRoot,
-          policy: route.params.policy,
-        }}
+        component={ElementDropDown}
+        // initialParams={{
+        //   userRoot: route.params.userRoot,
+        //   policy: route.params.policy,
+        // }}
         options={{
           tabBarLabel: ({color}) => (
             <Text

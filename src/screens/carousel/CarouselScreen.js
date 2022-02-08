@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Alert,
+  Linking,
 } from 'react-native';
 import {Button, Icon, Divider} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -123,9 +124,9 @@ const CarouselHome = ({navigation, route}) => {
     try {
       const params = new URLSearchParams({
         I_Sistema_IdSistema: route.params.userRoot.idSistema,
-        TipoDocumento: route.params.userRoot.idSistema,
-        Documento: route.params.userRoot.idSistema,
-        Nombres: route.params.userRoot.idSistema,
+        TipoDocumento: "1",
+        Documento: route.params.userRoot.numeroDocumento,
+        Nombres: route.params.userRoot.nombre + route.params.userRoot.apellidoPaterno + route.params.userRoot.apellidoMaterno,
       });
       const response = await fetchWithToken(
         Constant.URI.POST_PRONOSTIK,
@@ -133,21 +134,29 @@ const CarouselHome = ({navigation, route}) => {
         params,
         route.params.userRoot.Token,
       );
-      console.log('[Result Pronostik]: ', response.Result);
       if (isMounted.current) {
-        // if (response.CodigoMensaje === 100) {
-        //   setBanners(response.Result);
-        // } else {
-        //   Alert.alert('Error', 'Error de servidor');
-        // }
+        if(response.CodigoMensaje === "100"){
+          openURL(response.Url)
+        }
       }
     } catch (error) {
       console.log('[CarouselScreen error]: ', error);
-      Alert.alert('Error', error);
+      Alert.alert('Error', 'Ha ocurrido un error.');
     }
   }
 
-  const handleOrientacion = () => {};
+  const openURL = (url, appname) => {
+    if (url) {
+      Linking.openURL(url)
+        .then()
+        .catch(() => {
+          Alert.alert(
+            'Error',
+            'No tiene la aplicación ' + appname + ' instalada.',
+          );
+        });
+    }
+  };
 
   const renderItem = banner => {
     return (
@@ -221,6 +230,7 @@ const CarouselHome = ({navigation, route}) => {
                     marginTop: 20,
                   }}>
                   <Button
+                  
                     buttonStyle={{
                       backgroundColor: css.colors.primary_opaque,
                       paddingHorizontal: 20,
@@ -231,7 +241,7 @@ const CarouselHome = ({navigation, route}) => {
                       color: 'white',
                       fontWeight: 'bold',
                     }}
-                    onPress={handleOrientacion}
+                    onPress={fetchPronostikEncriptar}
                   />
                 </View>
                 {/* )} */}
