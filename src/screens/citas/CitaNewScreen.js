@@ -30,6 +30,7 @@ import {DropDownPicker, InputMask} from '../../components';
 import {convertDateDDMMYYYY} from '../../utils/util';
 import CitaPopupConfirm from './CitaPopupConfirm';
 import BottomSheetScreen from './BottomSheetScreen';
+import ElementDropDown from '../../components/ElementDropDown';
 
 const Stack = createStackNavigator();
 
@@ -56,17 +57,15 @@ function HomeScreen({navigation, route}) {
   const [SignUpErrors, setSignUpErrors] = useState({});
   const [userUpdated, setUserUpdate] = useState(true);
   const [passUpdated, setPassUpdate] = useState(true);
-  console.log('[route]:: ', route.params);
+  // console.log('[route]:: ', route.params);
 
   // data para DropDown Especialidad
-  const [specialties, setSpecialties] = useState([
-    {label: 'cargando...', value: ''},
-  ]);
-  const [specialty, setSpecialty] = useState(2);
+  const [specialties, setSpecialties] = useState([]);
+  const [specialty, setSpecialty] = useState(null);
 
   // data para DropDown Paciente
-  const [patients, setPatients] = useState([{label: 'cargando...', value: ''}]);
-  const [patient, setPatient] = useState('');
+  const [patients, setPatients] = useState([]);
+  const [patient, setPatient] = useState(null);
 
   // datepicker
 
@@ -91,6 +90,13 @@ function HomeScreen({navigation, route}) {
 
   const [citaBody, setCitaBody] = useState({});
 
+  const [isVisibleEspecialidad, setIsVisibleEspecialidad] = useState(false);
+  // fechas disponibles
+  const [listFechasDisponibles, setListFechasDisponibles] = useState([]);
+  const [fechaDisponible, setFechaDisponible] = useState(null);
+
+  /* Functions */
+
   const handleConfirm = value => {
     console.log('A date has been picked: ', value);
     console.log('A date has been picked: ', convertDateDDMMYYYY(value));
@@ -109,52 +115,69 @@ function HomeScreen({navigation, route}) {
   };
 
   useEffect(() => {
+    console.log('useEffect');
     fetchDataEspecialidadListar();
     fetchDataPacientesListar();
   }, []);
 
   const fetchDataEspecialidadListar = async () => {
-    const params = new URLSearchParams({
-      I_Sistema_IdSistema: route.params.userRoot.idSistema,
-      I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-    });
-    const response = await fetchWithToken(
-      Constant.URI.GET_ESPECIALIDADES_LISTAR_CITA,
-      'POST',
-      params,
-      route.params.userRoot.Token,
-    );
-
-    const list = response.Result.map(e => {
-      return {
-        label: e['nombreEspecialidad'],
-        value: e['idEspecialidad'],
-      };
-    });
-    setSpecialties(list);
-    setSpecialty(list[0]['value']);
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.GET_ESPECIALIDADES_LISTAR_CITA,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      
+      const list = response.Result.map(e => {
+        return {
+          label: e['nombreEspecialidad'],
+          value: e['idEspecialidad'],
+        };
+      });
+      setSpecialties(list);
+      // setSpecialty(list[0]['value']);
+      setIsVisibleEspecialidad(true);
+      console.log('isVisibleEspecialidad: ', isVisibleEspecialidad);
+    } catch (error) {
+      console.error('[CitaNewScreen - fetchDataEspecialidadListar]: ', error)
+    }
   };
 
   const fetchDataPacientesListar = async () => {
-    const params = new URLSearchParams({
-      I_Sistema_IdSistema: route.params.userRoot.idSistema,
-      I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-      I_idClientePotencial: route.params.userRoot.idClientePotencial,
-    });
-    const response = await fetchWithToken(
-      Constant.URI.GET_PACIENTES_CITA,
-      'POST',
-      params,
-      route.params.userRoot.Token,
-    );
-
-    console.log('[********response.CodigoMensaje]x:::, ', response);
-    if (response.CodigoMensaje === 100) {
-      if (response.Result[0].CodigoMensaje) {
-        if (response.Result[0].CodigoMensaje !== 100) {
-          setPatients([{label: 'No tiene dependientes'}]);
-          setPatient('');
-          Alert.alert('Error', response.Result[0].RespuestaMensaje);
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
+        I_idClientePotencial: route.params.userRoot.idClientePotencial,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.GET_PACIENTES_CITA,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+  
+      if (response.CodigoMensaje === 100) {
+        if (response.Result[0].CodigoMensaje) {
+          if (response.Result[0].CodigoMensaje !== 100) {
+            setPatients([{label: 'No tiene dependientes'}]);
+            setPatient('');
+            Alert.alert('Error', response.Result[0].RespuestaMensaje);
+          } else {
+            const list = response.Result.map(e => {
+              return {
+                label: e['nombrecompleto'],
+                value: e['idPersonaAsegurada'],
+              };
+            });
+            setPatients(list);
+            // setPatient(list[0]['value']);
+          }
         } else {
           const list = response.Result.map(e => {
             return {
@@ -163,20 +186,13 @@ function HomeScreen({navigation, route}) {
             };
           });
           setPatients(list);
-          setPatient(list[0]['value']);
+          // setPatient(list[0]['value']);
         }
       } else {
-        const list = response.Result.map(e => {
-          return {
-            label: e['nombrecompleto'],
-            value: e['idPersonaAsegurada'],
-          };
-        });
-        setPatients(list);
-        setPatient(list[0]['value']);
+        Alert.alert('Error', response.RespuestaMensaje);
       }
-    } else {
-      Alert.alert('Error', response.RespuestaMensaje);
+    } catch (error) {
+      console.error('[CitaNewScreen - fetchDataPacientesListar]: ',error)
     }
   };
 
@@ -193,10 +209,10 @@ function HomeScreen({navigation, route}) {
   }, [specialty]);
 
   const dataHorarioListar = async idEspecialidad => {
-    const params = new URLSearchParams({
+    try{const params = new URLSearchParams({
       I_Sistema_IdSistema: route.params.userRoot.idSistema,
       I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-      IdEspecialidad: idEspecialidad,
+      IdEspecialidad: 1,
     });
     const response = await fetchWithToken(
       Constant.URI.GET_HORARIOS_LISTAR_X_ESPECIALIDAD,
@@ -207,6 +223,16 @@ function HomeScreen({navigation, route}) {
     if (response.CodigoMensaje === 100) {
       setSaveListFechas(response);
       dataHorario_x_Fecha(response);
+
+      const listFechas = response.Result.map(e => {
+        return {
+          label: e['Fecha'],
+          value: e['fechaDisponible2'],
+        };
+      });
+      setListFechasDisponibles(listFechas);
+    }}catch(error){
+      console.error('[CitaNewScreen - dataHorarioListar]: ',error)
     }
   };
 
@@ -237,8 +263,6 @@ function HomeScreen({navigation, route}) {
           setIsLoadingHora(false);
         }, 1000);
       }
-      // console.log('[dataHorario_x_Fecha-listHorarioXFechaFiltrada***********]:****** ', listHorarioXFechaFiltrada);
-      // console.log('[dataHorario_x_Fecha-listHorarios***********]:****** ', listHorarios);
     } else {
       setHorarios([
         {color: '#838383', label: 'No Disponible', value: 'No Disponible'},
@@ -268,7 +292,7 @@ function HomeScreen({navigation, route}) {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
       {/* <ScrollView style={{flex: 1, backgroundColor: 'green'}}> */}
         {/* <CitaPopupConfirm
         isVisiblePopupConfirm={isVisiblePopupConfirm}
@@ -302,161 +326,28 @@ function HomeScreen({navigation, route}) {
               <CollapseBody style={{}}>
                 <View>
                   <View style={{marginBottom: 12}}>
-                    <Text style={styles.labelOfInputDropDownPicker}>
-                      Especialidad
-                    </Text>
-                    <DropDownPicker
-                      placeholder={{}}
-                      items={specialties}
-                      onValueChange={setSpecialty}
-                      value={specialty}
-                      style={{
-                        inputAndroid: {
-                          backgroundColor: 'transparent',
-                        },
-                      }}
-                      useNativeAndroidPickerStyle={false}
-                      textInputProps={{
-                        underlineColorAndroid: Styles.colors.gris,
-                        ...Platform.select({
-                          ios: {
-                            borderBottomWidth: 1,
-                            borderBottomColor: css.colors.gray_opaque,
-                          },
-                        }),
-                      }}
-                      Icon={() => {
-                        return (
-                          <Icon
-                            name="keyboard-arrow-down"
-                            type="material"
-                            size={30}
-                            color={Styles.colors.gris}
-                          />
-                        );
-                      }}
-                    />
+                    {
+                      specialties.length > 0 && <ElementDropDown data={specialties} value={specialty} setValue={setSpecialty}
+                         placeholder={'Seleccione la especialidad'} label={'Especialidad'} iconName={'shield-checkmark-outline'} />
+                    }
                   </View>
                   <View style={{marginBottom: 12}}>
-                    <Text style={styles.labelOfInputDropDownPicker}>
-                      Paciente
-                    </Text>
-                    <DropDownPicker
-                      placeholder={{}}
-                      items={patients}
-                      onValueChange={setPatient}
-                      value={patient}
-                      style={{
-                        inputAndroid: {
-                          backgroundColor: 'transparent',
-                          // width: Constant.DEVICE.WIDTH / 2 - 30,
-                          // margin: -1,
-                        },
-                        // iconContainer: {top: 5, right: 30},
-                      }}
-                      useNativeAndroidPickerStyle={false}
-                      textInputProps={{
-                        underlineColorAndroid: Styles.colors.gris,
-                        ...Platform.select({
-                          ios: {
-                            borderBottomWidth: 1,
-                            borderBottomColor: css.colors.gray_opaque,
-                          },
-                        }),
-                      }}
-                      Icon={() => {
-                        return (
-                          <Icon
-                            name="keyboard-arrow-down"
-                            type="material"
-                            size={30}
-                            color={Styles.colors.gris}
-                          />
-                        );
-                      }}
-                    />
-                  </View>
-                  <View style={{width: '100%'}}>
-                    <Pressable
-                      activeOpacity={0.8}
-                      onPress={showDatePicker}
-                      style={{marginHorizontal: -5}}>
-                      <InputMask
-                        label="Fecha"
-                        value={birthdayFormatDDMMYYYY}
-                        onChangeText={setBirthday}
-                        placeholder="--/--/----/"
-                        rightIcon={
-                          <Icon
-                            name="calendar"
-                            type="font-awesome"
-                            size={20}
-                            color={Styles.colors.gris}
-                          />
-                        }
-                        errorMessage={
-                          SignUpErrors ? SignUpErrors.birthday : null
-                        }
-                        type={'datetime'}
-                        options={{
-                          format: 'DD/MM/YYYY',
-                        }}
-                        disabled={true}
-                      />
-                    </Pressable>
-                    <DateTimePickerModal
-                      isVisible={isDatePickerVisible}
-                      mode="date"
-                      textColor="red"
-                      date={birthday}
-                      onConfirm={handleConfirm}
-                      onCancel={hideDatePicker}
-                      minimumDate={new Date('2022-01-17')}
-                    />
+                    {
+                      patients.length > 0 && <ElementDropDown data={patients} value={patient} setValue={setPatient}
+                         placeholder={'Seleccione al paciente'} label={'Paciente'} iconName={'person-outline'}/>
+                    }
                   </View>
                   <View style={{marginBottom: 12}}>
-                    <Text style={styles.labelOfInputDropDownPicker}>Hora</Text>
-                    {isLoadingHora ? (
-                      <ActivityIndicator
-                        size="large"
-                        color={css.colors.primary}
-                      />
-                    ) : (
-                      <DropDownPicker
-                        placeholder={{}}
-                        items={horarios}
-                        onValueChange={setHorario}
-                        value={horario}
-                        style={{
-                          inputAndroid: {
-                            backgroundColor: 'transparent',
-                            // width: Constant.DEVICE.WIDTH / 2 - 30,
-                            // margin: -1,
-                          },
-                          // iconContainer: {top: 5, right: 30},
-                        }}
-                        useNativeAndroidPickerStyle={false}
-                        textInputProps={{
-                          underlineColorAndroid: Styles.colors.gris,
-                          ...Platform.select({
-                            ios: {
-                              borderBottomWidth: 1,
-                              borderBottomColor: css.colors.gray_opaque,
-                            },
-                          }),
-                        }}
-                        Icon={() => {
-                          return (
-                            <Icon
-                              name="keyboard-arrow-down"
-                              type="material"
-                              size={30}
-                              color={Styles.colors.gris}
-                            />
-                          );
-                        }}
-                      />
-                    )}
+                  {
+                    listFechasDisponibles.length > 0 && <ElementDropDown data={listFechasDisponibles} value={fechaDisponible} setValue={setFechaDisponible}
+                         placeholder={'Seleccione la fecha'} label={'Fecha'} iconName={'calendar-outline'}/>
+                    }
+                  </View>
+                  <View style={{marginBottom: 12}}>
+                    {
+                      horarios.length > 0 && <ElementDropDown data={horarios} value={horario} setValue={setHorario}
+                         placeholder={'Seleccione la hora'} label={'Hora'} iconName={'alarm-outline'} />
+                    }
                   </View>
                 </View>
               </CollapseBody>
@@ -481,7 +372,7 @@ function HomeScreen({navigation, route}) {
           </View>
         </KeyboardAvoidingView>
       {/* </ScrollView> */}
-    </View>
+    </ScrollView>
   );
 }
 

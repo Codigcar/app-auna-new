@@ -115,8 +115,7 @@ const CarouselHome = ({navigation, route}) => {
         }
       }
     } catch (error) {
-      console.log('[CarouselScreen error]: ', error);
-      Alert.alert('Error', error);
+      console.error('[CarouselScreen - fetchBannerListar error]: ', error);
     }
   };
 
@@ -140,7 +139,7 @@ const CarouselHome = ({navigation, route}) => {
         }
       }
     } catch (error) {
-      console.log('[CarouselScreen error]: ', error);
+      console.log('[CarouselScreen - fetchPronostikEncriptar error]: ', error);
       Alert.alert('Error', 'Ha ocurrido un error.');
     }
   }
