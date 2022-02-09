@@ -5,7 +5,7 @@ import {
   CollapseHeader,
 } from 'accordion-collapse-react-native';
 import {validateAll} from 'indicative/validator';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useState, useRef} from 'react';
 import {
   Alert,
   ScrollView,
@@ -60,11 +60,11 @@ function HomeScreen({navigation, route}) {
   // console.log('[route]:: ', route.params);
 
   // data para DropDown Especialidad
-  const [specialties, setSpecialties] = useState([]);
+  const [specialties, setSpecialties] = useState([{label: 'cargando...', value: ''}]);
   const [specialty, setSpecialty] = useState(null);
 
   // data para DropDown Paciente
-  const [patients, setPatients] = useState([]);
+  const [patients, setPatients] = useState([{label: 'cargando...', value: ''}]);
   const [patient, setPatient] = useState(null);
 
   // datepicker
@@ -78,7 +78,7 @@ function HomeScreen({navigation, route}) {
 
   //horario
   const [horarios, setHorarios] = useState([{label: 'cargando...', value: ''}]);
-  const [horario, setHorario] = useState('');
+  const [horario, setHorario] = useState(null);
   const [saveListFechas, setSaveListFechas] = useState([]);
   const [isLoadingHora, setIsLoadingHora] = useState(false);
 
@@ -92,33 +92,48 @@ function HomeScreen({navigation, route}) {
 
   const [isVisibleEspecialidad, setIsVisibleEspecialidad] = useState(false);
   // fechas disponibles
-  const [listFechasDisponibles, setListFechasDisponibles] = useState([]);
-  const [fechaDisponible, setFechaDisponible] = useState(null);
+  const [listFechasDisponibles, setListFechasDisponibles] = useState([{label: 'cargando...', value: ''}]);
+  const [fechaDisponibleElegida, setFechaDisponibleElegida] = useState(null);
+  const [saveAllFechasDisponibles, setSaveAllFechasDisponibles] = useState([]);
+
+  const runUseEffects = useRef(false);
 
   /* Functions */
 
-  const handleConfirm = value => {
-    console.log('A date has been picked: ', value);
-    console.log('A date has been picked: ', convertDateDDMMYYYY(value));
-    setBirthday(value);
-    console.log('[birthday]:: ', convertDateDDMMYYYY(value));
-    setBirthdayFormatDDMMYYYY(convertDateDDMMYYYY(value));
-    hideDatePicker();
-  };
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
+  // const handleConfirm = value => {
+  //   console.log('A date has been picked: ', value);
+  //   console.log('A date has been picked: ', convertDateDDMMYYYY(value));
+  //   setBirthday(value);
+  //   console.log('[birthday]:: ', convertDateDDMMYYYY(value));
+  //   setBirthdayFormatDDMMYYYY(convertDateDDMMYYYY(value));
+  //   hideDatePicker();
+  // };
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-    console.log('[showDatePicker]:: ', isDatePickerVisible);
-  };
+  // const hideDatePicker = () => {
+  //   setDatePickerVisibility(false);
+  // };
+
+  // const showDatePicker = () => {
+  //   setDatePickerVisibility(true);
+  // };
 
   useEffect(() => {
-    console.log('useEffect');
+    runUseEffects.current && fetchListarFechasDisponibles();
+  }, [specialty]);
+
+  useEffect(() => {
+    runUseEffects.current && showHorariosDisponibles(fechaDisponibleElegida);
+  }, [fechaDisponibleElegida]); 
+
+  useEffect(() => {
     fetchDataEspecialidadListar();
     fetchDataPacientesListar();
+    runUseEffects.current = true;
+    return () => {
+      runUseEffects.current = false;
+    };
   }, []);
+  
 
   const fetchDataEspecialidadListar = async () => {
     try {
@@ -196,23 +211,26 @@ function HomeScreen({navigation, route}) {
     }
   };
 
-  useEffect(() => {
-    if (setIsUseEffectDataHorarioXFecha) {
-      setIsLoadingHora(true);
-      dataHorario_x_Fecha(saveListFechas);
-    }
-  }, [birthdayFormatDDMMYYYY]);
+  // useEffect(() => {
+  //   if (setIsUseEffectDataHorarioXFecha) {
+  //     setIsLoadingHora(true);
+  //     dataHorario_x_Fecha(saveListFechas);
+  //   }
+  // }, [birthdayFormatDDMMYYYY]);
 
-  useEffect(() => {
-    dataHorarioListar(specialty);
-    setIsUseEffectDataHorarioXFecha(true);
-  }, [specialty]);
+  const filtrarFechasUnicas = (listFechas) => {
+    const tabla = {};
+    const listFechasUnicas = listFechas.filter((indice) => {
+      return tabla.hasOwnProperty(indice.label) ? false : (tabla[indice.label] = true);
+    });
+    return listFechasUnicas;
+  }
 
-  const dataHorarioListar = async idEspecialidad => {
+  const fetchListarFechasDisponibles = async() => {
     try{const params = new URLSearchParams({
       I_Sistema_IdSistema: route.params.userRoot.idSistema,
       I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-      IdEspecialidad: 1,
+      IdEspecialidad: specialty,
     });
     const response = await fetchWithToken(
       Constant.URI.GET_HORARIOS_LISTAR_X_ESPECIALIDAD,
@@ -221,64 +239,67 @@ function HomeScreen({navigation, route}) {
       route.params.userRoot.Token,
     );
     if (response.CodigoMensaje === 100) {
-      setSaveListFechas(response);
-      dataHorario_x_Fecha(response);
-
+      // setSaveListFechas(response);
+      // dataHorario_x_Fecha(response);
+      
+      setSaveAllFechasDisponibles(response.Result);
       const listFechas = response.Result.map(e => {
         return {
           label: e['Fecha'],
           value: e['fechaDisponible2'],
         };
       });
-      setListFechasDisponibles(listFechas);
+
+      const listFechasUnicas = filtrarFechasUnicas(listFechas);
+      setListFechasDisponibles(listFechasUnicas);
     }}catch(error){
       console.error('[CitaNewScreen - dataHorarioListar]: ',error)
     }
   };
 
-  const dataHorario_x_Fecha = async response => {
-    if (response.Result && response.Result.length > 0) {
-      const listHorarioXFechaFiltrada = response.Result.filter(
-        e => e['fechaDisponible'] === birthdayFormatDDMMYYYY,
-      );
-      if (listHorarioXFechaFiltrada.length > 0 && listHorarioXFechaFiltrada) {
-        const listHorarios = listHorarioXFechaFiltrada.map(e => {
-          return {
-            label: e['horaInicio'] + ' - ' + e['horaFin'],
-            value: [e['horaInicio'], e['horaFin'], e['fechaDisponible2']],
-            value2: e['horaFin'],
-          };
-        });
-        setHorarios(listHorarios);
-        setHorario(listHorarios[0]['value']);
-        setTimeout(() => {
-          setIsLoadingHora(false);
-        }, 1000);
-      } else {
-        setHorarios([
-          {color: '#838383', label: 'No Disponible', value: 'No Disponible'},
-        ]);
-        setHorario('No Disponible');
-        setTimeout(() => {
-          setIsLoadingHora(false);
-        }, 1000);
-      }
-    } else {
-      setHorarios([
-        {color: '#838383', label: 'No Disponible', value: 'No Disponible'},
-      ]);
-      setHorario('No Disponible');
-      setTimeout(() => {
-        setIsLoadingHora(false);
-      }, 1000);
-    }
-  };
+ 
+
+  // const dataHorario_x_Fecha = async response => {
+  //   if (response.Result && response.Result.length > 0) {
+  //     const listHorarioXFechaFiltrada = response.Result.filter(
+  //       e => e['fechaDisponible'] === birthdayFormatDDMMYYYY,
+  //     );
+  //     if (listHorarioXFechaFiltrada.length > 0 && listHorarioXFechaFiltrada) {
+  //       const listHorarios = listHorarioXFechaFiltrada.map(e => {
+  //         return {
+  //           label: e['horaInicio'] + ' - ' + e['horaFin'],
+  //           value: [e['horaInicio'], e['horaFin'], e['fechaDisponible2']],
+  //           value2: e['horaFin'],
+  //         };
+  //       });
+  //       setHorarios(listHorarios);
+  //       // setHorario(listHorarios[0]['value']);
+  //       setTimeout(() => {
+  //         setIsLoadingHora(false);
+  //       }, 1000);
+  //     } else {
+  //       setHorarios([
+  //         {color: '#838383', label: 'No Disponible', value: 'No Disponible'},
+  //       ]);
+  //       setHorario('No Disponible');
+  //       setTimeout(() => {
+  //         setIsLoadingHora(false);
+  //       }, 1000);
+  //     }
+  //   } else {
+  //     setHorarios([
+  //       {color: '#838383', label: 'No Disponible', value: 'No Disponible'},
+  //     ]);
+  //     setHorario('No Disponible');
+  //     setTimeout(() => {
+  //       setIsLoadingHora(false);
+  //     }, 1000);
+  //   }
+  // };
 
   const handleRegisterCita = () => {
     const patientFiltrado = patients.filter(e => e.value === patient);
     const specialtyFiltrado = specialties.filter(e => e.value === specialty);
-    // console.log('[LIST]::::::, ','especialidad: ',specialty,', paciente:',patient,',patientes: ', patients,',horario:', horario,'typeOf Horario: ',typeof horario,', birthday',birthdayFormatDDMMYYYY,',filtrado: ', patientFiltrado[0].label);
-    // console.log('[LIST2]::::: ', specialties);
 
     setCitaBody({
       patient_label: patientFiltrado[0].label,
@@ -290,6 +311,30 @@ function HomeScreen({navigation, route}) {
     });
     setIsVisiblePopup(true);
   };
+
+  const showHorariosDisponibles = (fechaElegida) => {
+    // const listHorariosDisponibles = saveAllFechasDisponibles.filter(item => item === fechaElegida )
+    // console.log('[saveAllFechasDisponibles]: ',saveAllFechasDisponibles);
+    saveAllFechasDisponibles.filter(
+      e => {
+        e['fechaDisponible2'] == fechaElegida;
+        console.log('e:fechaDisponible2', e['fechaDisponible2']);
+        console.log('fechaElegida: ', fechaElegida);
+      }
+    );
+    const listHorarioXFechaFiltrada = saveAllFechasDisponibles.filter(
+      e => e['fechaDisponible2'] == fechaElegida,
+    );
+    console.log('[listHorarioXFechaFiltrada]: ',listHorarioXFechaFiltrada);
+    const listHorarios = listHorarioXFechaFiltrada.map(e => {
+      return {
+        label: e['horaInicio'] + ' - ' + e['horaFin'],
+        value: [e['horaInicio'], e['horaFin'], e['fechaDisponible2']],
+        value2: e['horaFin'],
+      };
+    });
+    setHorarios(listHorarios);
+  }
 
   return (
     <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
@@ -328,25 +373,25 @@ function HomeScreen({navigation, route}) {
                   <View style={{marginBottom: 12}}>
                     {
                       specialties.length > 0 && <ElementDropDown data={specialties} value={specialty} setValue={setSpecialty}
-                         placeholder={'Seleccione la especialidad'} label={'Especialidad'} iconName={'shield-checkmark-outline'} />
+                         placeholder={'Selecciona la especialidad'} label={'Especialidad'} iconName={'shield-checkmark-outline'} />
                     }
                   </View>
                   <View style={{marginBottom: 12}}>
                     {
                       patients.length > 0 && <ElementDropDown data={patients} value={patient} setValue={setPatient}
-                         placeholder={'Seleccione al paciente'} label={'Paciente'} iconName={'person-outline'}/>
+                         placeholder={'Selecciona el paciente'} label={'Paciente'} iconName={'person-outline'}/>
                     }
                   </View>
                   <View style={{marginBottom: 12}}>
                   {
-                    listFechasDisponibles.length > 0 && <ElementDropDown data={listFechasDisponibles} value={fechaDisponible} setValue={setFechaDisponible}
-                         placeholder={'Seleccione la fecha'} label={'Fecha'} iconName={'calendar-outline'}/>
+                    listFechasDisponibles.length > 0 && <ElementDropDown data={listFechasDisponibles} value={fechaDisponibleElegida} setValue={setFechaDisponibleElegida}
+                         placeholder={'Selecciona la fecha'} label={'Fecha'} iconName={'calendar-outline'}/>
                     }
                   </View>
                   <View style={{marginBottom: 12}}>
                     {
                       horarios.length > 0 && <ElementDropDown data={horarios} value={horario} setValue={setHorario}
-                         placeholder={'Seleccione la hora'} label={'Hora'} iconName={'alarm-outline'} />
+                         placeholder={'Selecciona la hora'} label={'Hora'} iconName={'alarm-outline'} />
                     }
                   </View>
                 </View>

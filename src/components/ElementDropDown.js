@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import { Icon } from 'react-native-elements';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,6 +18,7 @@ import { css } from '../utils/css';
 
 const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) => {
   // console.log('[data]: ',data);
+  // console.log('[datav2]: ',data[0].label);
   // const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -42,6 +43,7 @@ const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) 
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={data}
+        // disable={data[0].label === "cargando..." ? true: false}
         // search
         // searchPlaceholder="Search..."
         dropdownPosition={'bottom'}
@@ -79,15 +81,25 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     // padding: 16,
-    paddingVertical:16
+    paddingVertical:6
   },
   dropdown: {
     backgroundColor: 'transparent',
-    height: 65,
     borderColor: 'gray',
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
+    paddingLeft:20,
+    height: 70,
+
+    // ...Platform.select({
+    //   ios:{
+    //     height: 65,
+    //   },
+    //   android:{
+    //     height: 75,
+    //   }
+    // })
   },
   icon: {
     marginRight: 5,
@@ -96,7 +108,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'white',
     left: 6,
-    top: 4,
+    top: 2,
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
@@ -122,6 +134,9 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     fontSize: 16,
+    // height:'100%',
+    // backgroundColor:'red',
+    // paddingVertical:30,
   },
   iconStyle: {
     width: 20,

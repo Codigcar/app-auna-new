@@ -84,7 +84,7 @@ const CarouselHome = ({navigation, route}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const isMounted = useRef(true);
   const [banners, setBanners] = useState([]);
-  console.log('[CarouselHome]: ', route);
+  console.log('[CarouselHome]');
 
   useEffect(() => {
     return () => {
