@@ -6,6 +6,7 @@ import {
   View,
   // Button
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import {Button, colors, Icon} from 'react-native-elements';
 
@@ -21,9 +22,10 @@ export default function CitaPopupConfirm({
   isVisiblePopupConfirm,
   setIsVisiblePopupConfirm,
   citaBody,
+  setIsVisiblePopup,
 }) {
   //
-  console.log('[citaBody]*************, ', citaBody);
+  // console.log('[citaBody], ', citaBody);
   const [isVisible, setisVisible] = useState(false);
   useEffect(() => {
     setisVisible(isVisiblePopupConfirm);
@@ -46,6 +48,7 @@ export default function CitaPopupConfirm({
         citaBody={citaBody}
         navigation={navigation}
         route={route}
+        setIsVisiblePopup={setIsVisiblePopup}
       />
     </Modal>
   );
@@ -55,14 +58,18 @@ const DefaultModalContent = ({
   citaBody,
   navigation,
   route,
+  setIsVisiblePopup,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [citaAccepted, setCitaAccepted] = useState(false);
   const [citaRegisterSuccess, setCitaRegisterSuccess] = useState(false);
 
+  useEffect(() => {
+    citaAcceptedAction();
+  }, []);
+
   const citaAcceptedAction = async () => {
     setIsLoading(true);
-
     const params = new URLSearchParams({
       I_Sistema_IdSistema: route.params.userRoot.idSistema,
       I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
@@ -86,6 +93,11 @@ const DefaultModalContent = ({
       Alert.alert('Error', response.RespuestaMensaje);
     }
   };
+
+  const handleMsgAccepted = () => {
+    setIsVisiblePopupConfirm(false);
+    setIsVisiblePopup(false);
+  };
   return (
     <>
       {isLoading ? (
@@ -97,173 +109,73 @@ const DefaultModalContent = ({
             zIndex: 9999,
             justifyContent: 'center',
             alignItems: 'center',
+            // position:'relative'
           }}>
           <View style={styles.card}>
-            {citaAccepted ? (
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'transparent',
+              }}>
               <View
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  position: 'absolute',
+                  top: 10,
+                  right: 3,
                 }}>
-                <Text style={{fontSize: 17, color:'black', fontWeight:'bold', marginTop:20}}>¡Registro Exitoso!</Text>
-                <Icon
-                  name="checkmark-circle"
-                  type="ionicon"
-                  size={80}
-                  color={'green'}
-                  style={{marginVertical: 20}}
-                />
-                <Text
-                  style={{
-                    marginHorizontal: 20,
-                    fontSize: 13,
-                    textAlign: 'center',
-                    color: css.colors.gray_opaque,
-                  }}>
-                  Minutos antes de tu fecha y hora elegida te llegará el link
-                  del meet por correo electrónico. Puedes visualizar tu nueva
-                  cita registrada en la sección 'Mis Citas Médicas'.
-                </Text>
-                <View style={{width: '100%'}}>
-                  <Button
-                      onPress={() => setIsVisiblePopupConfirm(false)}
-                      title="Aceptar"
-                      buttonStyle={{
-                        backgroundColor: css.colors.primary_opaque,
-                        borderRadius: -1,
-                        borderBottomStartRadius: 18,
-                        borderBottomEndRadius: 18,
-                        shadowOpacity: 0.39,
-                        shadowRadius: 13.97,
-                        borderWidth: 1,
-                        borderColor: css.colors.primary_opaque,
-                        marginTop:20,
-                        ...Platform.select({
-                          android: {
-                            // elevation: 16,
-                          },
-                          default: {
-                            shadowColor: 'rgba(0,0,0, .2)',
-                            shadowOffset: {height: 0, width: 0},
-                            shadowOpacity: 1,
-                            shadowRadius: 1,
-                          },
-                        }),
-                      }}
-                      titleStyle={{color: css.colors.white}}
-                    />
-                </View>
+                <TouchableOpacity
+                  onPress={handleMsgAccepted}
+                >
+                  <Icon
+                    name="close-outline"
+                    type="ionicon"
+                    size={35}
+                    color={'gray'}
+                    style={{marginRight: 10}}
+                  />
+                </TouchableOpacity>
               </View>
-            ) : (
-              <View style={{backgroundColor: 'transparent'}}>
-                <View>
-                  <Text
-                    style={[
-                      styles.textCenter,
-                      {
-                        color: css.colors.primary_opaque,
-                        marginVertical: 10,
-                        fontWeight: 'bold',
-                        marginTop: 20,
-                        fontSize:16
-                      },
-                    ]}>
-                    RESUMEN
-                  </Text>
-                </View>
-                <Divider
-                  style={{
-                    borderColor: css.colors.primary_opaque,
-                    backgroundColor: css.colors.primary_opaque,
-                    borderWidth: 1,
-                    width: '100%',
-                  }}
-                />
-                <Text
-                  style={[styles.textCenter, {color: 'black', marginTop: 15}]}>
-                  Especialidad: <Text style={{color:css.colors.gray_opaque}} >{citaBody.specialty_label}</Text>
-                </Text>
-                <Text
-                  style={[styles.textCenter, {color: 'black', marginTop: 15}]}>
-                  Paciente: <Text style={{color:css.colors.gray_opaque}} >{citaBody.patient_label}</Text>
-                </Text>
-                <Text
-                  style={[styles.textCenter, {color: 'black', marginTop: 15}]}>
-                  Fecha: <Text style={{color:css.colors.gray_opaque}} >{citaBody.fecha}</Text>
-                </Text>
-                <Text
-                  style={[styles.textCenter, {color: 'black', marginTop: 15}]}>
-                  Hora:<Text style={{color:css.colors.gray_opaque}} >{citaBody.horario[0]} - {citaBody.horario[1]}</Text>
-                </Text>
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    backgroundColor: 'transparent',
-                    justifyContent: 'center',
-                    marginTop: 30,
-                  }}>
-                  <View style={{width: '50%'}}>
-                    <Button
-                      onPress={() => setIsVisiblePopupConfirm(false)}
-                      title="Cancelar"
-                      buttonStyle={{
-                        backgroundColor: 'white',
-                        borderRadius: -1,
-                        borderBottomStartRadius: 18,
-                        shadowOpacity: 0.39,
-                        shadowRadius: 13.97,
-                        borderTopWidth:1,
-                        borderColor: css.colors.primary_opaque,
-                        // margin: 10,
-                        ...Platform.select({
-                          android: {
-                            // elevation: 16,
-                          },
-                          default: {
-                            shadowColor: 'rgba(0,0,0, .2)',
-                            shadowOffset: {height: 0, width: 0},
-                            shadowOpacity: 1,
-                            shadowRadius: 1,
-                          },
-                        }),
-                      }}
-                      titleStyle={{color: css.colors.primary_opaque}}
-                    />
-                  </View>
-                  <View style={{width: '50%'}}>
-                    <Button
-                      onPress={() => citaAcceptedAction()}
-                      title="Aceptar"
-                      buttonStyle={{
-                        backgroundColor: css.colors.primary_opaque,
-                        borderRadius: -1,
-                        borderBottomEndRadius: 18,
-                        shadowOpacity: 0.39,
-                        shadowRadius: 13.97,
-                        borderTopWidth:1,
-                        borderColor: css.colors.primary_opaque,
-                        // margin: 10,
-                        ...Platform.select({
-                          android: {
-                            // elevation: 16,
-                          },
-                          default: {
-                            shadowColor: 'rgba(0,0,0, .2)',
-                            shadowOffset: {height: 0, width: 0},
-                            shadowOpacity: 1,
-                            shadowRadius: 1,
-                          },
-                        }),
-                      }}
-                      titleStyle={{color: 'white'}}
-                    />
-                  </View>
-                </View>
-              </View>
-            )}
+              <Icon
+                name="checkmark-circle"
+                type="ionicon"
+                size={85}
+                color={'#11EE91'}
+                style={{marginTop: 35}}
+              />
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: '#4CBDA1',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  ...Platform.select({
+                    ios: {
+                      marginHorizontal: 10,
+                    },
+                    android: {
+                      marginHorizontal: 20,
+                    },
+                  }),
+                }}>
+                ¡Tu cita médica se registró con éxito!
+              </Text>
+              <Text
+                style={{
+                  marginHorizontal: 20,
+                  fontSize: 13,
+                  textAlign: 'center',
+                  marginBottom: 40,
+                  marginTop: 20,
+                  color: css.colors.gray_opaque,
+                }}>
+                Minutos antes de tu fecha y hora elegida te llegará el link del
+                meet por correo electrónico. Puedes visualizar tu nueva cita
+                registrada en la sección 'Mis Citas Médicas'.
+              </Text>
+            </View>
           </View>
         </View>
       )}
@@ -277,7 +189,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   card: {
-    width: '85%',
+    width: '90%',
     position: 'relative',
     backgroundColor: '#FFF',
     borderRadius: 20,

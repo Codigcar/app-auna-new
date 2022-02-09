@@ -8,7 +8,6 @@ import {validateAll} from 'indicative/validator';
 import React, {useLayoutEffect, useState, useRef} from 'react';
 import {
   Alert,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -97,25 +96,6 @@ function HomeScreen({navigation, route}) {
   const [saveAllFechasDisponibles, setSaveAllFechasDisponibles] = useState([]);
 
   const runUseEffects = useRef(false);
-
-  /* Functions */
-
-  // const handleConfirm = value => {
-  //   console.log('A date has been picked: ', value);
-  //   console.log('A date has been picked: ', convertDateDDMMYYYY(value));
-  //   setBirthday(value);
-  //   console.log('[birthday]:: ', convertDateDDMMYYYY(value));
-  //   setBirthdayFormatDDMMYYYY(convertDateDDMMYYYY(value));
-  //   hideDatePicker();
-  // };
-
-  // const hideDatePicker = () => {
-  //   setDatePickerVisibility(false);
-  // };
-
-  // const showDatePicker = () => {
-  //   setDatePickerVisibility(true);
-  // };
 
   useEffect(() => {
     runUseEffects.current && fetchListarFechasDisponibles();
@@ -211,13 +191,6 @@ function HomeScreen({navigation, route}) {
     }
   };
 
-  // useEffect(() => {
-  //   if (setIsUseEffectDataHorarioXFecha) {
-  //     setIsLoadingHora(true);
-  //     dataHorario_x_Fecha(saveListFechas);
-  //   }
-  // }, [birthdayFormatDDMMYYYY]);
-
   const filtrarFechasUnicas = (listFechas) => {
     const tabla = {};
     const listFechasUnicas = listFechas.filter((indice) => {
@@ -239,8 +212,6 @@ function HomeScreen({navigation, route}) {
       route.params.userRoot.Token,
     );
     if (response.CodigoMensaje === 100) {
-      // setSaveListFechas(response);
-      // dataHorario_x_Fecha(response);
       
       setSaveAllFechasDisponibles(response.Result);
       const listFechas = response.Result.map(e => {
@@ -256,46 +227,6 @@ function HomeScreen({navigation, route}) {
       console.error('[CitaNewScreen - dataHorarioListar]: ',error)
     }
   };
-
- 
-
-  // const dataHorario_x_Fecha = async response => {
-  //   if (response.Result && response.Result.length > 0) {
-  //     const listHorarioXFechaFiltrada = response.Result.filter(
-  //       e => e['fechaDisponible'] === birthdayFormatDDMMYYYY,
-  //     );
-  //     if (listHorarioXFechaFiltrada.length > 0 && listHorarioXFechaFiltrada) {
-  //       const listHorarios = listHorarioXFechaFiltrada.map(e => {
-  //         return {
-  //           label: e['horaInicio'] + ' - ' + e['horaFin'],
-  //           value: [e['horaInicio'], e['horaFin'], e['fechaDisponible2']],
-  //           value2: e['horaFin'],
-  //         };
-  //       });
-  //       setHorarios(listHorarios);
-  //       // setHorario(listHorarios[0]['value']);
-  //       setTimeout(() => {
-  //         setIsLoadingHora(false);
-  //       }, 1000);
-  //     } else {
-  //       setHorarios([
-  //         {color: '#838383', label: 'No Disponible', value: 'No Disponible'},
-  //       ]);
-  //       setHorario('No Disponible');
-  //       setTimeout(() => {
-  //         setIsLoadingHora(false);
-  //       }, 1000);
-  //     }
-  //   } else {
-  //     setHorarios([
-  //       {color: '#838383', label: 'No Disponible', value: 'No Disponible'},
-  //     ]);
-  //     setHorario('No Disponible');
-  //     setTimeout(() => {
-  //       setIsLoadingHora(false);
-  //     }, 1000);
-  //   }
-  // };
 
   const handleRegisterCita = () => {
     const patientFiltrado = patients.filter(e => e.value === patient);
@@ -313,8 +244,6 @@ function HomeScreen({navigation, route}) {
   };
 
   const showHorariosDisponibles = (fechaElegida) => {
-    // const listHorariosDisponibles = saveAllFechasDisponibles.filter(item => item === fechaElegida )
-    // console.log('[saveAllFechasDisponibles]: ',saveAllFechasDisponibles);
     saveAllFechasDisponibles.filter(
       e => {
         e['fechaDisponible2'] == fechaElegida;
@@ -337,7 +266,7 @@ function HomeScreen({navigation, route}) {
   }
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       {/* <ScrollView style={{flex: 1, backgroundColor: 'green'}}> */}
         {/* <CitaPopupConfirm
         isVisiblePopupConfirm={isVisiblePopupConfirm}
@@ -414,10 +343,11 @@ function HomeScreen({navigation, route}) {
                   : false
               }
             />
+           
           </View>
         </KeyboardAvoidingView>
       {/* </ScrollView> */}
-    </ScrollView>
+    </View>
   );
 }
 

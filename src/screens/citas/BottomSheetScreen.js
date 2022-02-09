@@ -27,6 +27,7 @@ import {
 } from '@gorhom/bottom-sheet';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {css} from '../../utils/css';
+import CitaPopupConfirm from './CitaPopupConfirm';
 
 const BottomSheetScreen = ({
   isVisiblePopup,
@@ -34,7 +35,6 @@ const BottomSheetScreen = ({
   navigation,
   route,
   citaBody,
-  // bottomSheetModalRef
 }) => {
   const bottomSheetModalRef = React.useRef(null);
 
@@ -49,6 +49,8 @@ const BottomSheetScreen = ({
     bottomSheetModalRef.current?.snapToIndex(1);
     // }
   }, []);
+
+  const [isVisiblePopupConfirm, setIsVisiblePopupConfirm] = useState(false);
 
   const handleModalClose = () => {
     console.log('Cerrado');
@@ -181,8 +183,28 @@ const BottomSheetScreen = ({
     );
   };
 
+  const handleRegisterCita = () => {
+    // setIsVisiblePopup(false);
+    bottomSheetModalRef.current?.snapToIndex(-1);
+
+    setIsVisiblePopupConfirm(true);
+  }
+
   return (
-    <View
+    <>
+ {
+   isVisiblePopupConfirm ? (
+    <CitaPopupConfirm
+        isVisiblePopupConfirm={isVisiblePopupConfirm}
+        setIsVisiblePopupConfirm={setIsVisiblePopupConfirm}
+        citaBody={citaBody}
+        navigation={navigation}
+        route={route}
+        setIsVisiblePopup={setIsVisiblePopup}
+      /> 
+   ) 
+   :
+   (<View
       style={{
         flex: 1,
         position: 'absolute',
@@ -212,7 +234,9 @@ const BottomSheetScreen = ({
         <BottomSheetView>{solicitudRegistrarCita()}</BottomSheetView>
       </BottomSheet>
       {/* </BottomSheetModalProvider> */}
-    </View>
+    </View>)
+  }
+  </>
   );
 };
 
