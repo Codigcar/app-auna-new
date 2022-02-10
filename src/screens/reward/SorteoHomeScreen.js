@@ -104,6 +104,8 @@ export const SorteoHomeScreen = () => {
                     containerStyle={{
                       backgroundColor: 'white',
                       shadowColor: css.colors.primary_opaque,
+                      elevation: 24,
+                      // shadowColor: 'gray',
                       shadowOffset: {
                         width: 0,
                         height: 12,
@@ -111,7 +113,6 @@ export const SorteoHomeScreen = () => {
                       shadowOpacity: 0.58,
                       shadowRadius: 16.0,
 
-                      elevation: 24,
                     }}
                   />
                   <Text style={{paddingTop: 10, textAlign:'center', fontSize:12}}>{item.nombreRiesgo}</Text>
@@ -156,8 +157,8 @@ export const SorteoHomeScreen = () => {
         <View style={{ display:'flex', flexDirection:'row', justifyContent:'center'}} >
             <View style={{ borderWidth:.8, borderColor:'#DCDDE0', width:200,borderRadius:10, padding:10, display:'flex', flexDirection:'row', justifyContent:'space-around', alignItems:'center' }} >
                 <View style={{textAlign:'center', backgroundColor:'transparent'}} >
-                    <Text style={{textAlign:'center', fontSize:13}} >Tu ticket</Text>
-                    <Text style={{textAlign:'center', fontSize:35, fontWeight:'bold'}} >N° 321</Text>
+                    <Text style={{textAlign:'center', fontSize:13, color:css.colors.gray_opaque}} >Tu ticket</Text>
+                    <Text style={{textAlign:'center', fontSize:35, fontWeight:'bold'}} > N°321</Text>
                 </View>
                <View style={{textAlign:'center', backgroundColor:'transparent', display:'flex', flexDirection:'row', justifyContent:'center'}}>
                 <Icon

@@ -301,7 +301,7 @@ const App = ({route}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1}}>
-        <View style={{backgroundColor: 'fff'}}>
+        <View style={{backgroundColor: 'fff', marginTop:13}}>
           <Text
             style={[
               styles.textColorGray,
