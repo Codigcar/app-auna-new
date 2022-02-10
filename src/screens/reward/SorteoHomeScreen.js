@@ -5,6 +5,7 @@ import {Avatar, Icon, Text} from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import {SvgXml} from 'react-native-svg';
 import giftbox from '../../assets/svg/giftbox';
+import constants from '../../utils/constants';
 import {css} from '../../utils/css';
 
 export const SorteoHomeScreen = () => {
@@ -28,7 +29,7 @@ export const SorteoHomeScreen = () => {
           CodigoMensaje: 100,
           RespuestaMensaje: 'RIESGO ENCONTRADO',
           idRiesgo: 5,
-          nombreRiesgo: 'Premio1',
+          nombreRiesgo: 'Ejemplo premio número 1',
           rutaRiesgo:
             'https://app.laprotectora.com.pe/app_web_assets/app_laprotectora_movil/AppCE/sctrsalud.png',
         },
@@ -36,7 +37,7 @@ export const SorteoHomeScreen = () => {
           CodigoMensaje: 100,
           RespuestaMensaje: 'RIESGO ENCONTRADO',
           idRiesgo: 6,
-          nombreRiesgo: 'Premio2',
+          nombreRiesgo: 'Ejemplo premio número 2',
           rutaRiesgo:
             'https://app.laprotectora.com.pe/app_web_assets/app_laprotectora_movil/AppCE/sctrpension.png',
         },
@@ -44,7 +45,7 @@ export const SorteoHomeScreen = () => {
           CodigoMensaje: 100,
           RespuestaMensaje: 'RIESGO ENCONTRADO',
           idRiesgo: 13,
-          nombreRiesgo: 'Premio3',
+          nombreRiesgo: 'Ejemplo premio número 3',
           rutaRiesgo:
             'https://app.laprotectora.com.pe/app_web_assets/app_laprotectora_movil/AppCE/asistenciamedica.png',
         },
@@ -72,6 +73,7 @@ export const SorteoHomeScreen = () => {
             ) : (
               <View
                 style={{
+                  backgroundColor:'transparent',
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -86,6 +88,7 @@ export const SorteoHomeScreen = () => {
                   shadowOpacity: 0.39,
                   shadowRadius: 13.97,
                   paddingVertical: 20,
+                  maxWidth: constants.DEVICE.WIDTH*0.3
                 }}>
                 <View
                   style={{
@@ -111,7 +114,7 @@ export const SorteoHomeScreen = () => {
                       elevation: 24,
                     }}
                   />
-                  <Text style={{paddingTop: 20}}>{item.nombreRiesgo}</Text>
+                  <Text style={{paddingTop: 10, textAlign:'center', fontSize:12}}>{item.nombreRiesgo}</Text>
                 </View>
               </View>
             )}
@@ -154,7 +157,7 @@ export const SorteoHomeScreen = () => {
             <View style={{ borderWidth:.8, borderColor:'#DCDDE0', width:200,borderRadius:10, padding:10, display:'flex', flexDirection:'row', justifyContent:'space-around', alignItems:'center' }} >
                 <View style={{textAlign:'center', backgroundColor:'transparent'}} >
                     <Text style={{textAlign:'center', fontSize:13}} >Tu ticket</Text>
-                    <Text style={{textAlign:'center', fontSize:25, fontWeight:'bold'}} >N° 321</Text>
+                    <Text style={{textAlign:'center', fontSize:35, fontWeight:'bold'}} >N° 321</Text>
                 </View>
                <View style={{textAlign:'center', backgroundColor:'transparent', display:'flex', flexDirection:'row', justifyContent:'center'}}>
                 <Icon

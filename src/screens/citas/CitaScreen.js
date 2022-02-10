@@ -28,9 +28,7 @@ import BottomSheetScreen from './BottomSheetScreen';
 import CitaNewScreen from './CitaNewScreen';
 import DataNotFound from '../../components/CitaNotFound';
 import CitaPopupCancel from './CitaPopupCancel';
-import { Constants } from '../../utils/util';
-
-console.log('EJECUTIVOS-HOME: ');
+import {Constants} from '../../utils/util';
 
 export default function CitaScreen({navigation, route}) {
   console.log('[Stack-CitaScreen]');
@@ -102,8 +100,14 @@ export default function CitaScreen({navigation, route}) {
             //   color={css.colors.opaque}
             // />
             <Image
-              style={{width: 30, height: 30, resizeMode:'contain', marginTop:-4}}
-              source={Constant.GLOBAL.IMAGES.MIS_CITAS} />
+              style={{
+                width: 30,
+                height: 30,
+                resizeMode: 'contain',
+                marginTop: -4,
+              }}
+              source={Constant.GLOBAL.IMAGES.MIS_CITAS}
+            />
           ),
         }}
       />
@@ -131,8 +135,14 @@ export default function CitaScreen({navigation, route}) {
           ),
           tabBarIcon: ({color}) => (
             <Image
-              style={{width: 30, height: 30, resizeMode:'contain', marginTop:-4}}
-              source={Constant.GLOBAL.IMAGES.NUEVA_CITA} />
+              style={{
+                width: 30,
+                height: 30,
+                resizeMode: 'contain',
+                marginTop: -4,
+              }}
+              source={Constant.GLOBAL.IMAGES.NUEVA_CITA}
+            />
           ),
         }}
       />
@@ -141,7 +151,7 @@ export default function CitaScreen({navigation, route}) {
 }
 
 const HomeScreen = React.memo(({navigation, route}) => {
-  console.log('[CitaScreen]');
+  // console.log('[CitaScreen]');
   const isMounted = useRef(true);
   const [items, setItems] = useState('');
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);

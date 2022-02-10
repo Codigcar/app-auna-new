@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
-import { Icon } from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { css } from '../utils/css';
+import {css} from '../utils/css';
 
 // const data = [
 //   {label: 'Item 1', value: '1'},
@@ -16,24 +16,35 @@ import { css } from '../utils/css';
 //   {label: 'Item 8', value: '8'},
 // ];
 
-const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) => {
-  
+const ElementDropDown = ({
+  data,
+  placeholder,
+  label,
+  value,
+  setValue,
+  iconName,
+}) => {
   const [isFocus, setIsFocus] = useState(false);
   const [disableField, setDisableField] = useState(false);
-
+  console.log('longitud: ', data);
+  console.log('longitudv2: ', data.length);
+  console.log('longitudv3: ', data.size);
   useEffect(() => {
-    if(data[0].label ==="cargando..."  && (label ==="Fecha" || label ==="Hora")){
+    if (
+      data[0].label === 'cargando...' &&
+      (label === 'Fecha' || label === 'Hora')
+    ) {
       setDisableField(true);
     } else {
       setDisableField(false);
     }
-  }, [data])
-  
+  }, [data]);
 
   const renderLabel = () => {
     if (value || isFocus) {
       return (
-        <Text style={[styles.label, isFocus && {color: css.colors.primary_opaque}]}>
+        <Text
+          style={[styles.label, isFocus && {color: css.colors.primary_opaque}]}>
           {label}
         </Text>
       );
@@ -42,10 +53,14 @@ const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) 
   };
 
   return (
-    <View style={[styles.container,   disableField && { opacity:0.5} ]}>
+    <View style={[styles.container, disableField && {opacity: 0.5}]}>
       {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor:css.colors.primary_opaque}, {}]}
+        style={[
+          styles.dropdown,
+          isFocus && {borderColor: css.colors.primary_opaque},
+          {},
+        ]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -56,9 +71,32 @@ const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) 
         // searchPlaceholder="Search..."
         disable={disableField}
         dropdownPosition={'bottom'}
-        autoScroll={false}
-        maxHeight={label === "Fecha" ? 300 : 120}
+        autoScroll={true}
+        activeColor={'#F2F2F2'}
+        // selectedTextStyle={{color:'white'}}
+
+        // maxHeight={label === "Fecha" ? 200 : 150}
+
+        maxHeight={data.length>3 ? 173 : (56 * data.length) }
+        // maxHeight={171}
+
+        // maxHeight=''
         // height={50}
+        // style={{backgroundColor:'red'}}
+        containerStyle={{
+          sshadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 9,
+          },
+          shadowOpacity: 0.5,
+          shadowRadius: 12.35,
+
+          elevation: 19,
+          borderBottomEndRadius:10,
+          borderBottomStartRadius:10
+          // borderColor:'red'
+        }}
         labelField="label"
         valueField="value"
         placeholder={!isFocus ? placeholder : '...'}
@@ -68,21 +106,20 @@ const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) 
         onChange={item => {
           setValue(item.value);
           setIsFocus(false);
-          console.log('SetValue: ', item.value)
         }}
         renderLeftIcon={() => (
-           <Icon
+          <Icon
             name={iconName}
             type="ionicon"
             size={20}
             color={isFocus ? css.colors.primary_opaque : 'black'}
-            style={{marginRight:8}}
+            style={{marginRight: 8}}
           />
         )}
       />
     </View>
   );
-}; 
+};
 
 export default ElementDropDown;
 
@@ -90,7 +127,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     // padding: 16,
-    paddingVertical:6,
+    paddingVertical: 6,
   },
   dropdown: {
     backgroundColor: 'transparent',
@@ -98,7 +135,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
-    paddingLeft:20,
+    paddingLeft: 20,
     height: 70,
 
     // ...Platform.select({
@@ -117,11 +154,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'white',
     left: 6,
-    top: 2,
+    top: -4,
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
-    color:'black',
+    color: 'black',
 
     ...Platform.select({
       ios: {

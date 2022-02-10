@@ -135,10 +135,10 @@ const BottomSheetScreen = ({
   const solicitudRegistrarCitaScreen = () => {
     return (
       <View style={{backgroundColor: 'transparent'}}>
-        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center', color:css.colors.primary_opaque}}>
+        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center', color:'black'}}>
           Resumen
         </Text>
-        <View style={{marginLeft: 35, marginTop: 20}}>
+        <View style={{marginHorizontal: 35, marginTop: 20}}>
           <View
             style={{
               display: 'flex',
@@ -149,10 +149,13 @@ const BottomSheetScreen = ({
               name="event-available"
               type="material-icon"
               size={20}
-              color={'black'}
+              color={css.colors.primary_opaque}
               style={{marginRight: 10}}
             />
-            <Text style={styles.labeText}>Fecha: {citaBody.fecha}</Text>
+            <View style={styles.flexSpaceBetween} >
+              <Text style={styles.labeText}>Fecha:</Text>
+              <Text style={styles.textBody}>{citaBody.fecha}</Text> 
+            </View>
           </View>
           <View
             style={{
@@ -165,12 +168,15 @@ const BottomSheetScreen = ({
               name="schedule"
               type="material-icon"
               size={20}
-              color={'black'}
+              color={css.colors.primary_opaque}
               style={{marginRight: 10}}
             />
+            <View style={styles.flexSpaceBetween} >
             <Text style={styles.labeText}>
-              Horario: {citaBody.horario[0]} - {citaBody.horario[1]}
+              Horario: 
             </Text>
+            <Text style={styles.textBody}>{citaBody.horario[0]} - {citaBody.horario[1]}</Text>
+            </View>
           </View>
           <View
             style={{
@@ -183,10 +189,13 @@ const BottomSheetScreen = ({
               name="medical-bag"
               type="material-community"
               size={20}
-              color={'black'}
+              color={css.colors.primary_opaque}
               style={{marginRight: 10}}
             />
-            <Text style={styles.labeText}>Especialidad: {citaBody.specialty_label}</Text>
+            <View style={styles.flexSpaceBetween} >
+              <Text style={styles.labeText}>Especialidad:</Text>
+              <Text style={styles.textBody}>{citaBody.specialty_label}</Text>
+            </View>
           </View>
           <View
             style={{
@@ -199,10 +208,13 @@ const BottomSheetScreen = ({
               name="account-circle"
               type="material-community"
               size={20}
-              color={'black'}
+              color={css.colors.primary_opaque}
               style={{marginRight: 10}}
             />
-            <Text style={styles.labeText}>Paciente: {citaBody.patient_label}</Text>
+            <View style={styles.flexSpaceBetween} >
+            <Text style={styles.labeText}>Paciente:</Text>
+            <Text style={styles.textBody}>{citaBody.patient_label}</Text>
+            </View>
           </View>
         </View>
         {/* <Text>{ JSON.stringify(citaBody) } </Text> */}
@@ -227,7 +239,7 @@ const BottomSheetScreen = ({
         </Text>
         <Button
           buttonStyle={css.buttonContainerOutline}
-          title="Si, cancelar"
+          title="Sí, cancelar"
           titleStyle={{
             color: css.colors.primary_opaque,
             ...Platform.select({ios: {fontWeight: 'bold'}}),
@@ -319,8 +331,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   labeText:{
-    fontSize:15
-  }
+    fontSize:15,
+    color: 'black'
+  },
+  flexSpaceBetween:{
+    display:'flex', flexDirection:'row', justifyContent:'space-between', backgroundColor:'transparent', flex:1
+  },
+  textBody:{
+     color:css.colors.gray_opaque, fontSize:15
+  },
+ 
 });
 
 export default memo(BottomSheetScreen);

@@ -19,6 +19,9 @@ import {ButtonInitial} from '../../components';
 import {css} from '../../utils/css';
 import {fetchWithToken} from '../../utils/fetchCustom';
 import PopupTicket from '../reward/PopupTicket';
+import AuthLoadingScreen from '../auth/AuthLoadingScreen';
+import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
+
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
@@ -88,7 +91,7 @@ const CarouselHome = ({navigation, route}) => {
   const isMounted = useRef(true);
   const [banners, setBanners] = useState([]);
   const [isViewPopupTicket, setIsViewPopupTicket] = useState(true);
-
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -101,6 +104,7 @@ const CarouselHome = ({navigation, route}) => {
   }, []);
 
   const fetchBannerListar = async () => {
+    setIsLoading(true);
     try {
       const params = new URLSearchParams({
         I_Sistema_IdSistema: route.params.userRoot.idSistema,
@@ -111,6 +115,7 @@ const CarouselHome = ({navigation, route}) => {
         params,
         route.params.userRoot.Token,
       );
+      setIsLoading(false);
       if (isMounted.current) {
         if (response.CodigoMensaje === 100) {
           setBanners(response.Result);
@@ -252,7 +257,12 @@ const CarouselHome = ({navigation, route}) => {
   };
 
   return (
-     <Fragment>
+    <Fragment>
+    {
+      isLoading ? (<LoadingActivityIndicator />)
+      :
+      (
+        <>
     {isViewPopupTicket && <PopupTicket />}
       <SafeAreaView>
         <View style={styles.headerContainer}>
@@ -271,6 +281,9 @@ const CarouselHome = ({navigation, route}) => {
           />
         </View>
       </SafeAreaView>
+        </>
+      )
+    }
     </Fragment>
   );
 };

@@ -102,6 +102,7 @@ function HomeScreen({navigation, route}) {
   useEffect(() => {
     runUseEffects.current && fetchListarFechasDisponibles();
     setHorarios([{label: 'cargando...', value: ''}])
+    setHorario(null);
   }, [specialty]);
 
   useEffect(() => {
@@ -205,7 +206,9 @@ function HomeScreen({navigation, route}) {
   }
 
   const fetchListarFechasDisponibles = async() => {
-    try{const params = new URLSearchParams({
+    try{
+      setIsLoadingHora(true);
+      const params = new URLSearchParams({
       I_Sistema_IdSistema: route.params.userRoot.idSistema,
       I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
       IdEspecialidad: specialty,
@@ -217,7 +220,6 @@ function HomeScreen({navigation, route}) {
       route.params.userRoot.Token,
     );
     if (response.CodigoMensaje === 100) {
-      
       setSaveAllFechasDisponibles(response.Result);
       const listFechas = response.Result.map(e => {
         return {
@@ -225,9 +227,9 @@ function HomeScreen({navigation, route}) {
           value: e['fechaDisponible2'],
         };
       });
-
       const listFechasUnicas = filtrarFechasUnicas(listFechas);
       setListFechasDisponibles(listFechasUnicas);
+      setIsLoadingHora(false);
     }}catch(error){
       console.error('[CitaNewScreen - dataHorarioListar]: ',error)
     }
@@ -317,34 +319,44 @@ function HomeScreen({navigation, route}) {
                          placeholder={'Selecciona el paciente'} label={'Paciente'} iconName={'person-outline'} disable={false}/>
                     }
                   </View>
-                  <View style={{marginBottom: 12}}>
-                  {
-                    listFechasDisponibles.length > 0 && <ElementDropDown data={listFechasDisponibles} value={fechaDisponibleElegida} setValue={setFechaDisponibleElegida}
-                         placeholder={'Selecciona la fecha'} label={'Fecha'} iconName={'calendar-outline'} disable={true}/>
-                    }
-                  </View>
-                  <View style={{marginBottom: 12}}>
-                    {
-                      horarios.length > 0 && <ElementDropDown data={horarios} value={horario} setValue={setHorario}
-                         placeholder={'Selecciona la hora'} label={'Hora'} iconName={'alarm-outline'} disable={true} />
-                    }
-                  </View>
+                  { isLoadingHora ? <ActivityIndicator color={'red'} size="large" /> 
+                    :
+                    <View>
+                      <View style={{marginBottom: 12}}>
+                      {
+                        listFechasDisponibles.length > 0 && <ElementDropDown data={listFechasDisponibles} value={fechaDisponibleElegida} setValue={setFechaDisponibleElegida}
+                            placeholder={'Selecciona la fecha'} label={'Fecha'} iconName={'calendar-outline'} disable={true}/>
+                        }
+                      </View>
+                      <View style={{marginBottom: 12}}>
+                        {
+                          horarios.length > 0 && <ElementDropDown data={horarios} value={horario} setValue={setHorario}
+                            placeholder={'Selecciona la hora'} label={'Hora'} iconName={'alarm-outline'} disable={true} />
+                        }
+                      </View>
+                    </View>
+                  }
                 </View>
               </CollapseBody>
             </Collapse>
             <Button
               buttonStyle={[
-                css.buttonContainer,
-                {backgroundColor: css.colors.primary_opaque},
+                // css.buttonContainer,
+                {backgroundColor: css.colors.primary_opaque, marginHorizontal:20, borderRadius:10, paddingVertical:16, marginTop:30},
               ]}
               loading={!(userUpdated && passUpdated)}
-              title="Registrar Cita"
-              titleStyle={{...Platform.select({ios: {fontWeight: 'bold'}})}}
+              title="REGISTRAR CITA"
+              titleStyle={{
+                ...Platform.select({
+                  ios: {
+                    fontWeight: 'bold'
+                  }}
+              )}}
               onPress={() => handleRegisterCita()}
               disabled={
-                typeof horario == 'string' ||
-                typeof specialty == 'string' ||
-                typeof patient == 'string'
+                 horario == null ||
+                 specialty == 'string' ||
+                 patient == 'string'
                   ? true
                   : false
               }

@@ -17,7 +17,7 @@ import {Divider} from 'react-native-paper';
 import Constant from '../../utils/constants';
 import {fetchWithToken} from '../../utils/fetchCustom';
 
-export default function CitaPopupConfirm({
+const CitaPopupConfirm = ({
   navigation,
   route,
   isVisiblePopupConfirm,
@@ -25,7 +25,7 @@ export default function CitaPopupConfirm({
   citaBody,
   setIsVisiblePopup,
   type,
-}) {
+})  => {
   //
   // console.log('[citaBody], ', citaBody);
   const [isVisible, setisVisible] = useState(false);
@@ -414,7 +414,7 @@ const DefaultModalContent = ({
     </>
   );
 };
-
+export default React.memo(CitaPopupConfirm); 
 const styles = StyleSheet.create({
   contentTitle: {
     fontSize: 20,
