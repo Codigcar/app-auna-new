@@ -262,21 +262,6 @@ const App = ({route}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                {/*  <Icon
-                  name="ticket-alt"
-                  type="fontisto"
-                  size={20}
-                  color={css.colors.opaque}
-                />
-                <Text
-                  style={{
-                    color: css.colors.gray_opaque,
-                    marginRight: 20,
-                    marginLeft: 5,
-                  }}>
-                  TICKET N° {item.CodigoTicket}
-                </Text> */}
-
                 <Text
                   style={{
                     color: css.colors.gray_opaque,

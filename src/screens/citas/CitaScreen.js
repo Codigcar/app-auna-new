@@ -11,6 +11,7 @@ import {
   Alert,
   Dimensions,
   FlatList,
+  Image,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -27,6 +28,7 @@ import BottomSheetScreen from './BottomSheetScreen';
 import CitaNewScreen from './CitaNewScreen';
 import DataNotFound from '../../components/CitaNotFound';
 import CitaPopupCancel from './CitaPopupCancel';
+import { Constants } from '../../utils/util';
 
 console.log('EJECUTIVOS-HOME: ');
 
@@ -88,16 +90,19 @@ export default function CitaScreen({navigation, route}) {
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>
-              Mis Citas Médicas
+              MIS CITAS
             </Text>
           ),
           tabBarIcon: ({color}) => (
-            <Icon
-              name="today"
-              type="material-icon"
-              size={24}
-              color={css.colors.opaque}
-            />
+            // <Icon
+            //   name="today"
+            //   type="material-icon"
+            //   size={24}
+            //   color={css.colors.opaque}
+            // />
+            <Image
+              style={{width: 30, height: 30, resizeMode:'contain', marginTop:-4}}
+              source={Constant.GLOBAL.IMAGES.MIS_CITAS} />
           ),
         }}
       />
@@ -120,16 +125,13 @@ export default function CitaScreen({navigation, route}) {
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>
-              Registrar Nueva Cita
+              NUEVA CITA
             </Text>
           ),
           tabBarIcon: ({color}) => (
-            <Icon
-              name="local-hospital"
-              type="material-icon"
-              size={24}
-              color={css.colors.opaque}
-            />
+            <Image
+              style={{width: 30, height: 30, resizeMode:'contain', marginTop:-4}}
+              source={Constant.GLOBAL.IMAGES.NUEVA_CITA} />
           ),
         }}
       />

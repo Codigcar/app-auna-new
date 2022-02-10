@@ -61,7 +61,7 @@ export default function SolicitudesScreen({navigation, route}) {
 
 const App = ({route}) => {
   const [search, setSearch] = useState('');
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [filteredDataSource, setFilteredDataSource] = useState('');
   const [masterDataSource, setMasterDataSource] = useState('');
   const [solicitudBody, setSolicitudBody] = useState({});
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
@@ -98,13 +98,12 @@ const App = ({route}) => {
   const searchFilterFunction = text => {
     if (text) {
       const newData = masterDataSource.filter(function (item) {
-        //const itemData = item.nombreAsegurado ? item.nombreAsegurado.toUpperCase() : ''.toUpperCase();
         const itemData = (
-          item.apellidoPaternoAsegurado +
+          item.nombres +
           ' ' +
-          item.apellidoMaternoAsegurado +
+          item.apellido_paterno +
           ' ' +
-          item.nombreAsegurado
+          item.apellido_materno
         ).toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -142,25 +141,15 @@ const App = ({route}) => {
           <View style={{padding: 7}}>
             <View style={styles.cardSection}>
               {item.tipo === '0' ? (
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    marginLeft: 0,
-                    color: css.colors.primary_opaque,
-                    textTransform: 'uppercase',
-                  }}>
-                  Solicitud Inclusión
-                </Text>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <Text>Tipo:</Text>
+                  <Text style={styles.labelTipoInclusion}> Inclusión</Text>
+                </View>
               ) : (
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    marginLeft: 0,
-                    color: css.colors.primary_opaque,
-                    textTransform: 'uppercase',
-                  }}>
-                  Solicitud Exclusión
-                </Text>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <Text>Tipo:</Text>
+                  <Text style={styles.labelTipoExclusion}> Exclusión</Text>
+                </View>
               )}
             </View>
             <View style={styles.cardSection}>
@@ -246,58 +235,68 @@ const App = ({route}) => {
         />
       )}
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
-        {typeof masterDataSource ==='string' ? (
+        {typeof masterDataSource === 'string' ? (
           <AuthLoadingScreen />
         ) : (
           <>
-          { masterDataSource.length === 0 ? (
-            <DataNotFound message='No se encontraron solicitudes' />
-          ):
-          (<>
-            <View
-              style={{
-                ...Platform.select({
-                  ios: {
-                    shadowColor: '#000',
-                    shadowOffset: {
-                      width: 0,
-                      height: 2,
-                    },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 3.84,
-                    elevation: 5,
-                    marginHorizontal: 15,
-                    marginTop: 15,
-                  },
-                }),
-              }}>
-              <SearchBar
-                containerStyle={{
-                  backgroundColor: '#FFF',
-                  borderTopColor: '#FFF',
-                  borderBottomColor: '#FFF',
-                  paddingHorizontal: 0,
-                  ...Platform.select({
-                    ios: {
-                      paddingVertical: 0,
-                      borderRadius: 10,
-                    },
-                  }),
-                }}
-                inputContainerStyle={styles.estiloBarraBusqueda}
-                onChangeText={text => searchFilterFunction(text)}
-                onClear={() => searchFilterFunction('')}
-                placeholder="Asegurado"
-                value={search}
-              />
-            </View>
-            <FlatList
-              data={filteredDataSource}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={ItemView}
-            />
-          </>)
-}
+            {masterDataSource.length === 0 ? (
+              <DataNotFound message="No se encontraron solicitudes" />
+            ) : (
+              <>
+                <View
+                  style={{
+                    ...Platform.select({
+                      ios: {
+                        shadowColor: '#000',
+                        shadowOffset: {
+                          width: 0,
+                          height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+                        elevation: 5,
+                        marginHorizontal: 15,
+                        marginTop: 15,
+                      },
+                    }),
+                  }}>
+                  <SearchBar
+                    containerStyle={{
+                      backgroundColor: '#FFF',
+                      borderTopColor: '#FFF',
+                      borderBottomColor: '#FFF',
+                      paddingHorizontal: 0,
+                      ...Platform.select({
+                        ios: {
+                          paddingVertical: 0,
+                          borderRadius: 10,
+                        },
+                      }),
+                    }}
+                    inputContainerStyle={styles.estiloBarraBusqueda}
+                    onChangeText={text => searchFilterFunction(text)}
+                    onClear={() => searchFilterFunction('')}
+                    placeholder="Asegurado"
+                    value={search}
+                  />
+                </View>
+                {typeof filteredDataSource === 'string' ? (
+                  <AuthLoadingScreen />
+                ) : (
+                  <>
+                    {filteredDataSource.length === 0 ? (
+                      <DataNotFound message={'No se encontraron registros'} />
+                    ) : (
+                      <FlatList
+                        data={filteredDataSource}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={ItemView}
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            )}
           </>
         )}
       </View>
@@ -447,5 +446,17 @@ const styles = StyleSheet.create({
   searchBarArea: {
     flex: 1,
     backgroundColor: '#FFF',
+  },
+  labelTipoExclusion: {
+    fontWeight: 'bold',
+    marginLeft: 0,
+    color: css.colors.primary_opaque,
+    // textTransform: 'uppercase',
+  },
+  labelTipoInclusion: {
+    fontWeight: 'bold',
+    marginLeft: 0,
+    color: 'green',
+    // textTransform: 'uppercase',
   },
 });

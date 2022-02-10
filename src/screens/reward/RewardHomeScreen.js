@@ -4,6 +4,7 @@ import {
   Alert,
   Dimensions,
   FlatList,
+  Image,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -85,16 +86,13 @@ export default function RewardHomeScreen({navigation, route}) {
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>
-              Premios
+              PREMIOS
             </Text>
           ),
           tabBarIcon: ({color}) => (
-            <Icon
-              name="local-activity"
-              type="material-icon"
-              size={24}
-              color={css.colors.opaque}
-            />
+            <Image
+              style={{width: 30, height: 30, resizeMode:'contain', marginTop:-4}}
+              source={Constant.GLOBAL.IMAGES.PREMIOS} />
           ),
         }}
       />
@@ -117,16 +115,13 @@ export default function RewardHomeScreen({navigation, route}) {
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>
-              Ganadores
+              GANADORES
             </Text>
           ),
           tabBarIcon: ({color}) => (
-            <Icon
-              name="party-popper"
-              type="material-community"
-              size={24}
-              color={css.colors.opaque}
-            />
+            <Image
+              style={{width: 30, height: 30, resizeMode:'contain', marginTop:-4}}
+              source={Constant.GLOBAL.IMAGES.GANADORES} />
           ),
         }}
       />

@@ -316,15 +316,14 @@ const DefaultModalContent = ({
               marginTop: 20,
               color: css.colors.gray_opaque,
             }}>
-            La cita médica ha sido cancelada correctamente sin opción a retorno,
-            ya no podrás visualizarlo en tu lista de tus citas médicas.
+            La cita cancelada no podrá ser visualizada en la lista de tus Citas Médicas.
           </Text>
         </View>
       </View>
     );
   };
 
-  const msgPopupTypeCancelSolicitudInclusion = () => {
+  const msgPopupTypeCancelSolicitudInclusionShow = () => {
     return (
       <View style={styles.card}>
         <View
@@ -408,7 +407,7 @@ const DefaultModalContent = ({
             {(type === 'registerCita' && msgPopupTypeRegisterCitaShow()) ||
               (type === 'cancelCita' && msgPopupTypeCancelCitaShow()) ||
               (type === 'cancelSolicitudInclusion' &&
-                msgPopupTypeCancelSolicitudInclusion())}
+                msgPopupTypeCancelSolicitudInclusionShow())}
           </View>
         )
       )}

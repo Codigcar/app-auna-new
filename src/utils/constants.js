@@ -13,7 +13,12 @@ export default {
                 POLICY_DOCUMENTS: require('../assets/polizas/documentos.webp'),
                 POLICY_CLINICA: require('../assets/polizas/clinica.webp'),
                 POLICY_CLINICA_MAPS: require('../assets/GoogleMaps/googlemaps512.webp'),
-                DEPENDIENTES_AVATAR: require('../assets/polizas/dependientesAvatar.webp')
+                DEPENDIENTES_AVATAR: require('../assets/polizas/dependientesAvatar.webp'),
+                SOLICITUDES: require('../assets/iconos/Solicitudes.webp'),
+                MIS_CITAS: require('../assets/iconos/Citas_Medicas.webp'),
+                NUEVA_CITA: require('../assets/iconos/Nueva_cita.webp'),
+                PREMIOS: require('../assets/iconos/Premios.webp'),
+                GANADORES: require('../assets/iconos/Ganadores.webp'),
             }
             : {
                 BACKGROUND: require('../assets/background.psd'),
@@ -23,7 +28,12 @@ export default {
                 POLICY_DOCUMENTS: require('../assets/polizas/documentos.psd'),
                 POLICY_CLINICA: require('../assets/polizas/clinica.psd'),
                 POLICY_CLINICA_MAPS: require('../assets/GoogleMaps/googlemaps512.psd'),
-                DEPENDIENTES_AVATAR: require('../assets/polizas/dependientesAvatar.psd')
+                DEPENDIENTES_AVATAR: require('../assets/polizas/dependientesAvatar.psd'),
+                SOLICITUDES: require('../assets/iconos/Solicitudes.psd'),
+                MIS_CITAS: require('../assets/iconos/Citas_Medicas.psd'),
+                NUEVA_CITA: require('../assets/iconos/Nueva_cita.psd'),
+                PREMIOS: require('../assets/iconos/Premios.psd'),
+                GANADORES: require('../assets/iconos/Ganadores.psd'),
             },
         KEYBOARD_BEHAVIOR: Platform.OS == 'ios' ? "padding" : null,
         KEYBOARD_TYPE_NUMERIC: "numeric",

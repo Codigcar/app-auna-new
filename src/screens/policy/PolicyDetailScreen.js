@@ -149,7 +149,7 @@ export default function PolicyDetailScreen({navigation, route}) {
           //tabBarLabel: 'DOCUMENTOS',
           tabBarIcon: ({color}) => (
             <Image
-              style={{width: 26, height: 26}}
+              style={{width: 26, height: 30, resizeMode:'contain', marginTop:-2}}
               source={Constant.GLOBAL.IMAGES.POLICY_DOCUMENTS}></Image>
           ),
         }}
@@ -209,8 +209,8 @@ export default function PolicyDetailScreen({navigation, route}) {
           ),
           tabBarIcon: ({color}) => (
             <Image
-              style={{width: 26, height: 26, marginTop: -3}}
-              source={Constant.GLOBAL.IMAGES.CONTACT_CONTACT}></Image>
+              style={{width: 26, height: 26, marginTop: 0}}
+              source={Constant.GLOBAL.IMAGES.SOLICITUDES}></Image>
           ),
         }}
       />
