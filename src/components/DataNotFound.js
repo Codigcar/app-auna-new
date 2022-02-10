@@ -6,7 +6,7 @@ const DataNotFound = ({message}) => {
     return (
         <View style={styles.container}>
             <Text style={styles.colorGrayOpaque} >{message}</Text>
-            <ActivityIndicator size="large" />
+            {/* <ActivityIndicator size="large" /> */}
             <StatusBar barStyle="default" />
         </View>
     )
@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     colorGrayOpaque:{
-        color:css.colors.gray_opaque
+        color:css.colors.gray_opaque,
+        marginBottom:35
     }
 });
 

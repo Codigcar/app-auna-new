@@ -7,6 +7,7 @@ import {
   // Button
   ActivityIndicator,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Button, colors, Icon} from 'react-native-elements';
 
@@ -64,7 +65,7 @@ const DefaultModalContent = ({
   type,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [citaAccepted, setCitaAccepted] = useState(false);
+  const [fetchSuccessful, setFetchSuccessful] = useState(false);
 
   useEffect(() => {
     if (type === 'cancelCita') {
@@ -72,6 +73,9 @@ const DefaultModalContent = ({
     }
     if (type === 'registerCita') {
       acceptedRegisterCitaAction();
+    }
+    if (type === 'cancelSolicitudInclusion') {
+      acceptedRemoveSolicitudInclusion();
     }
   }, []);
 
@@ -96,13 +100,17 @@ const DefaultModalContent = ({
       );
       if (response.CodigoMensaje === 100) {
         setIsLoading(false);
-        setCitaAccepted(true);
-        console.log('[Response]*********: ', response);
+        setFetchSuccessful(true);
       } else {
-        Alert.alert('Error', response.RespuestaMensaje);
+        setIsLoading(false);
+        setFetchSuccessful(false);
+        console.error('[CitaPopupConfirm - cancelCitaAction]: ', response);
+        Alert.alert('Error', 'Intentelo nuevamenta en unos minutos', [
+          {text: 'OK', onPress: handleMsgAccepted},
+        ]);
       }
     } catch (error) {
-      console.log('[CitaPopupConfirm - cancelCitaAction]: ', error);
+      console.error('[CitaPopupConfirm - cancelCitaAction]: ', error);
     }
   };
 
@@ -123,12 +131,54 @@ const DefaultModalContent = ({
       );
       if (response.CodigoMensaje >= 100 && response.CodigoMensaje <= 199) {
         setIsLoading(false);
-        setCitaAccepted(true);
+        setFetchSuccessful(true);
       } else {
-        Alert.alert('Error', response.RespuestaMensaje);
+        setIsLoading(false);
+        setFetchSuccessful(false);
+        console.error('[CitaPopupConfirm - cancelCitaAction]: ', response);
+        Alert.alert('Error', 'Intentelo nuevamenta en unos minutos', [
+          {text: 'OK', onPress: handleMsgAccepted},
+        ]);
       }
     } catch (error) {
-      console.log('[CitaPopupConfirm - cancelCitaAction]: ', error);
+      console.error('[CitaPopupConfirm - cancelCitaAction]: ', error);
+    }
+  };
+
+  const acceptedRemoveSolicitudInclusion = async () => {
+    try {
+      setIsLoading(true);
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno:
+          route.params.userRoot.idUsuarioExterno,
+        IdSolicitud: citaBody.idSolicitud,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.PUT_CANCELAR_SOLICITUD_INCLUSION,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      if (response.CodigoMensaje === 100) {
+        setIsLoading(false);
+        setFetchSuccessful(true);
+      } else {
+        setIsLoading(false);
+        setFetchSuccessful(false);
+        console.error(
+          '[CitaPopupConfirm - acceptedRemoveSolicitudInclusion]: ',
+          response,
+        );
+        Alert.alert('Error', 'Intentelo nuevamenta en unos minutos', [
+          {text: 'OK', onPress: handleMsgAccepted},
+        ]);
+      }
+    } catch (error) {
+      console.error(
+        '[CitaPopupConfirm - acceptedRemoveSolicitudInclusion]: ',
+        error,
+      );
     }
   };
 
@@ -274,22 +324,93 @@ const DefaultModalContent = ({
     );
   };
 
+  const msgPopupTypeCancelSolicitudInclusion = () => {
+    return (
+      <View style={styles.card}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+          }}>
+          <View
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 3,
+            }}>
+            <TouchableOpacity onPress={handleMsgAccepted}>
+              <Icon
+                name="close-outline"
+                type="ionicon"
+                size={35}
+                color={'gray'}
+                style={{marginRight: 10}}
+              />
+            </TouchableOpacity>
+          </View>
+          <Icon
+            name="checkmark-circle"
+            type="ionicon"
+            size={85}
+            color={'#11EE91'}
+            style={{marginTop: 35}}
+          />
+          <Text
+            style={{
+              fontSize: 17,
+              color: '#4CBDA1',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              ...Platform.select({
+                ios: {
+                  marginHorizontal: 10,
+                },
+                android: {
+                  marginHorizontal: 20,
+                },
+              }),
+            }}>
+            ¡Tu solicitud se canceló con éxito!
+          </Text>
+          <Text
+            style={{
+              marginHorizontal: 20,
+              fontSize: 13,
+              textAlign: 'center',
+              marginBottom: 40,
+              marginTop: 20,
+              color: css.colors.gray_opaque,
+            }}>
+            Tu solicitud ha sido cancelada correctamente sin opción a retorno,
+            ya no podrás visualizarlo en tu lista de tus solicitudes.
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <>
       {isLoading ? (
         <ActivityIndicator size="large" color={css.colors.primary} />
       ) : (
-        <View
-          style={{
-            flex: 1,
-            zIndex: 9999,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          {type === 'registerCita'
-            ? msgPopupTypeRegisterCitaShow()
-            : msgPopupTypeCancelCitaShow()}
-        </View>
+        fetchSuccessful && (
+          <View
+            style={{
+              flex: 1,
+              zIndex: 9999,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {(type === 'registerCita' && msgPopupTypeRegisterCitaShow()) ||
+              (type === 'cancelCita' && msgPopupTypeCancelCitaShow()) ||
+              (type === 'cancelSolicitudInclusion' &&
+                msgPopupTypeCancelSolicitudInclusion())}
+          </View>
+        )
       )}
     </>
   );

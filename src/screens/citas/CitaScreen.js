@@ -25,7 +25,7 @@ import {fetchWithToken} from '../../utils/fetchCustom';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import BottomSheetScreen from './BottomSheetScreen';
 import CitaNewScreen from './CitaNewScreen';
-import CitaNotFound from './CitaNotFound';
+import DataNotFound from '../../components/CitaNotFound';
 import CitaPopupCancel from './CitaPopupCancel';
 
 console.log('EJECUTIVOS-HOME: ');
@@ -209,7 +209,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
       ) : (
         <>
           {items.length === 0 ? (
-            <CitaNotFound />
+            <DataNotFound />
           ) : (
             <FlatList
               data={items}

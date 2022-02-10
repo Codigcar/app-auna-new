@@ -49,6 +49,9 @@ const BottomSheetScreen = ({
     if( type === 'registerCita'){
       setSizeBottomSheetScreen(['1%', '42%'])
     }
+    if(type==='cancelSolicitudInclusion'){
+      setSizeBottomSheetScreen(['1%','30%'])
+    }
   }, [])
   
 
@@ -91,12 +94,17 @@ const BottomSheetScreen = ({
     bottomSheetModalRef.current?.snapToIndex(-1);
     setIsVisiblePopupConfirm(true);
   }
-  const handleCancelCitaNo = () =>{
+  const closeBottomSheet = () =>{
     setIsVisiblePopup(false);
     bottomSheetModalRef.current?.snapToIndex(-1);
   }
 
-  const cancelCita = () => {
+  const handleCancelSolicitudCitaConfirm = () => {
+    bottomSheetModalRef.current?.snapToIndex(-1);
+    setIsVisiblePopupConfirm(true);
+  }
+  
+  const cancelCitaScreen = () => {
     return (
       <>
         <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
@@ -118,13 +126,13 @@ const BottomSheetScreen = ({
             color: css.colors.primary_opaque,
             ...Platform.select({ios: {fontWeight: 'bold'}}),
           }}
-          onPress={() => handleCancelCitaNo()}
+          onPress={() => closeBottomSheet()}
         />
       </>
     );
   };
 
-  const solicitudRegistrarCita = () => {
+  const solicitudRegistrarCitaScreen = () => {
     return (
       <View style={{backgroundColor: 'transparent'}}>
         <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center', color:css.colors.primary_opaque}}>
@@ -211,6 +219,34 @@ const BottomSheetScreen = ({
     );
   };
 
+  const cancelarSolicitudInclusionScreen = () => {
+    return (
+      <>
+        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
+          ¿Deseas cancelar la solicitud?
+        </Text>
+        <Button
+          buttonStyle={css.buttonContainerOutline}
+          title="Si, cancelar"
+          titleStyle={{
+            color: css.colors.primary_opaque,
+            ...Platform.select({ios: {fontWeight: 'bold'}}),
+          }}
+          onPress={handleCancelSolicitudCitaConfirm}
+        />
+        <Button
+          buttonStyle={css.buttonContainerOutline}
+          title="No"
+          titleStyle={{
+            color: css.colors.primary_opaque,
+            ...Platform.select({ios: {fontWeight: 'bold'}}),
+          }}
+          onPress={closeBottomSheet}
+        />
+      </>
+    );
+  };
+
 
   return (
     <>
@@ -254,7 +290,11 @@ const BottomSheetScreen = ({
           />
         )}
       >
-        <BottomSheetView>{type==='registerCita' ? solicitudRegistrarCita() : cancelCita()}</BottomSheetView>
+        <BottomSheetView>{
+          type==='registerCita' && solicitudRegistrarCitaScreen() || 
+          type==='cancelCita' && cancelCitaScreen() ||
+          type==='cancelSolicitudInclusion' &&  cancelarSolicitudInclusionScreen()
+        }</BottomSheetView>
       </BottomSheet>
       {/* </BottomSheetModalProvider> */}
     </View>)

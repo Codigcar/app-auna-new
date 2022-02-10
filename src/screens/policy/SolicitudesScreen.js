@@ -13,11 +13,12 @@ import {
 import {Button} from 'react-native-elements';
 
 import {SearchBar} from 'react-native-elements';
-import {ButtonInitial} from '../../components';
+import {ButtonInitial, DataNotFound} from '../../components';
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 import {fetchWithToken} from '../../utils/fetchCustom';
-import SolicitudesPopupCancelScreen from './SolicitudesPopupCancelScreen';
+import BottomSheetScreen from '../citas/BottomSheetScreen';
+import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 
 export default function SolicitudesScreen({navigation, route}) {
   console.log('[SolicitudesScreen]');
@@ -61,35 +62,12 @@ export default function SolicitudesScreen({navigation, route}) {
 const App = ({route}) => {
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [masterDataSource, setMasterDataSource] = useState([]);
-  const [isVisiblePopupCancel, setIsVisiblePopupCancel] = useState(false);
+  const [masterDataSource, setMasterDataSource] = useState('');
   const [solicitudBody, setSolicitudBody] = useState({});
+  const [isVisiblePopup, setIsVisiblePopup] = useState(false);
 
   useEffect(() => {
-    // console.log(
-    //   '2 ConsoleLog - IDPOLIZA: ' +
-    //     JSON.stringify(route.params.policy.idPoliza),
-    // );
-    // fetch(Constant.URI.PATH80 + Constant.URI.GET_SOLICITADUS_INCLUSION, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': route.params.userRoot.Token
-    //   },
-    //   body: JSON.stringify({
-    //     "I_Sistema_IdSistema": route.params.userRoot.idSistema,
-    //     "I_UsuarioExterno_IdUsuarioExterno": route.params.userRoot.idUsuarioExterno,
-    //   })
-
     dataListSolicitudes();
-    // .then((response) => response.json())
-    // .then((responseJson) => {
-    //   setFilteredDataSource(responseJson);
-    //   setMasterDataSource(responseJson);
-    // })
-    // .catch((error) => {
-    //   console.error(error);
-    // });
   }, []);
 
   const dataListSolicitudes = async () => {
@@ -105,12 +83,7 @@ const App = ({route}) => {
         route.params.userRoot.Token,
       );
 
-      // console.log(
-      //   '3 ConsoleLog - SOLICITUD/DEPENDIENTES response: ' +
-      //     JSON.stringify(response),
-      // );
       if (response.CodigoMensaje == 100) {
-        // console.log('CodigoMensaje ==== 10000000000000000');
         setFilteredDataSource(response.Result);
         setMasterDataSource(response.Result);
       } else {
@@ -154,7 +127,8 @@ const App = ({route}) => {
       horario: itemCita.fechaRegistro,
       idSolicitud: itemCita.idSolicitud,
     });
-    setIsVisiblePopupCancel(true);
+    // setIsVisiblePopupCancel(true);
+    setIsVisiblePopup(true);
   };
 
   const ItemView = ({item}) => {
@@ -162,7 +136,6 @@ const App = ({route}) => {
     // const fechaInicio = convertDateDDMMYYYY('2022-01-20 22:37:18.147');
 
     return (
-      // Flat List Item
       <View style={[styles.card, css.designElevationCardiOS]}>
         <View
           style={{paddingLeft: 10, backgroundColor: 'transparent', flex: 1}}>
@@ -192,7 +165,9 @@ const App = ({route}) => {
             </View>
             <View style={styles.cardSection}>
               <Text>Asegurado</Text>
-              <Text style={styles.cardSectionText}>{item.Asegurado}</Text>
+              <Text style={styles.cardSectionText}>
+                {item.nombres} {item.apellido_paterno} {item.apellido_materno}
+              </Text>
             </View>
             <View style={styles.cardSection}>
               <Text>Parentesco</Text>
@@ -200,17 +175,21 @@ const App = ({route}) => {
             </View>
             <View style={styles.cardSection}>
               <Text>Estado</Text>
-              <Text style={styles.cardSectionText}>{item.estado}</Text>
+              <Text style={styles.cardSectionText}>
+                {item.estado_solicitud}
+              </Text>
             </View>
-            {item.observacion.length > 0 && (
+            {/* {item.observacion.length > 0 && (
               <View style={styles.cardSection}>
                 <Text>Observación</Text>
                 <Text style={styles.cardSectionText}>{item.observacion}</Text>
               </View>
-            )}
+            )} */}
             <View style={styles.cardSection}>
               <Text>Fecha de registro</Text>
-              <Text style={styles.cardSectionText}>{item.fechaRegistro}</Text>
+              <Text style={styles.cardSectionText}>
+                {item.fecha_inclusion.substring(0, 10)}
+              </Text>
             </View>
           </View>
         </View>
@@ -256,56 +235,71 @@ const App = ({route}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFF'}}>
-      <SolicitudesPopupCancelScreen
-        isVisiblePopupCancel={isVisiblePopupCancel}
-        setIsVisiblePopupCancel={setIsVisiblePopupCancel}
-        navigation={{}}
-        route={route}
-        citaBody={solicitudBody}
-      />
-      <View style={{flex: 1, backgroundColor: 'transparent'}}>
-        <View
-          style={{
-            ...Platform.select({
-              ios: {
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                elevation: 5,
-                marginHorizontal: 15,
-                marginTop:15
-              },
-            }),
-          }}>
-          <SearchBar
-            containerStyle={{
-              backgroundColor: '#FFF',
-              borderTopColor: '#FFF',
-              borderBottomColor: '#FFF',
-              paddingHorizontal: 0,
-              ...Platform.select({
-                ios: {
-                  paddingVertical: 0,
-                  borderRadius: 10,
-                },
-              }),
-            }}
-            inputContainerStyle={styles.estiloBarraBusqueda}
-            onChangeText={text => searchFilterFunction(text)}
-            onClear={() => searchFilterFunction('')}
-            placeholder="Asegurado"
-            value={search}
-          />
-        </View>
-        <FlatList
-          data={filteredDataSource}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={ItemView}
+      {isVisiblePopup && (
+        <BottomSheetScreen
+          isVisiblePopup={isVisiblePopup}
+          setIsVisiblePopup={setIsVisiblePopup}
+          navigation={{}}
+          route={route}
+          citaBody={solicitudBody}
+          type={'cancelSolicitudInclusion'}
         />
+      )}
+      <View style={{flex: 1, backgroundColor: 'transparent'}}>
+        {typeof masterDataSource ==='string' ? (
+          <AuthLoadingScreen />
+        ) : (
+          <>
+          { masterDataSource.length === 0 ? (
+            <DataNotFound message='No se encontraron solicitudes' />
+          ):
+          (<>
+            <View
+              style={{
+                ...Platform.select({
+                  ios: {
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    marginHorizontal: 15,
+                    marginTop: 15,
+                  },
+                }),
+              }}>
+              <SearchBar
+                containerStyle={{
+                  backgroundColor: '#FFF',
+                  borderTopColor: '#FFF',
+                  borderBottomColor: '#FFF',
+                  paddingHorizontal: 0,
+                  ...Platform.select({
+                    ios: {
+                      paddingVertical: 0,
+                      borderRadius: 10,
+                    },
+                  }),
+                }}
+                inputContainerStyle={styles.estiloBarraBusqueda}
+                onChangeText={text => searchFilterFunction(text)}
+                onClear={() => searchFilterFunction('')}
+                placeholder="Asegurado"
+                value={search}
+              />
+            </View>
+            <FlatList
+              data={filteredDataSource}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={ItemView}
+            />
+          </>)
+}
+          </>
+        )}
       </View>
     </SafeAreaView>
   );

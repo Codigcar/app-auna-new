@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { View, StatusBar, ActivityIndicator, StyleSheet, Text } from 'react-native'
-import constants from '../../utils/constants';
-import { css } from '../../utils/css';
+import constants from '../utils/constants';
+import { css } from '../utils/css';
 
 export default function CitaNotFound (){
     return (
