@@ -92,20 +92,22 @@ const DefaultModalContent = ({
         horaFin: citaBody.horario[1],
         fechaCita: citaBody.horario[2].substring(0, 10),
       });
+      console.log('[Log Input]: ', JSON.stringify(params));
       const response = await fetchWithToken(
         Constant.URI.POST_REGISTRAR_CITA,
         'POST',
         params,
         route.params.userRoot.Token,
       );
-      if (response.CodigoMensaje === 100) {
+      console.log('[Log Response]: ', response);
+      if (response.Result[0].CodigoMensaje === 100) {
         setIsLoading(false);
         setFetchSuccessful(true);
       } else {
         setIsLoading(false);
         setFetchSuccessful(false);
         console.error('[CitaPopupConfirm - cancelCitaAction]: ', response);
-        Alert.alert('Error', 'Intentelo nuevamenta en unos minutos', [
+        Alert.alert('Error', response.Result[0].RespuestaMensaje , [
           {text: 'OK', onPress: handleMsgAccepted},
         ]);
       }
