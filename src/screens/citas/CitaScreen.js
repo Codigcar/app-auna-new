@@ -195,6 +195,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
           navigation={navigation}
           route={route}
           citaBody={citaBody}
+          type={'cancelCita'}
         />
       )}
       <View>

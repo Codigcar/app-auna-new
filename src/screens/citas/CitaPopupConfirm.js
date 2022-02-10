@@ -23,6 +23,7 @@ export default function CitaPopupConfirm({
   setIsVisiblePopupConfirm,
   citaBody,
   setIsVisiblePopup,
+  type,
 }) {
   //
   // console.log('[citaBody], ', citaBody);
@@ -49,6 +50,7 @@ export default function CitaPopupConfirm({
         navigation={navigation}
         route={route}
         setIsVisiblePopup={setIsVisiblePopup}
+        type={type}
       />
     </Modal>
   );
@@ -59,38 +61,74 @@ const DefaultModalContent = ({
   navigation,
   route,
   setIsVisiblePopup,
+  type,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [citaAccepted, setCitaAccepted] = useState(false);
-  const [citaRegisterSuccess, setCitaRegisterSuccess] = useState(false);
 
   useEffect(() => {
-    citaAcceptedAction();
+    if (type === 'cancelCita') {
+      cancelCitaAction();
+    }
+    if (type === 'registerCita') {
+      acceptedRegisterCitaAction();
+    }
   }, []);
 
-  const citaAcceptedAction = async () => {
-    setIsLoading(true);
-    const params = new URLSearchParams({
-      I_Sistema_IdSistema: route.params.userRoot.idSistema,
-      I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-      IdEspecialidad: citaBody.specialty_value,
-      I_idPersonaAsegurada: citaBody.patient_value,
-      horaInicio: citaBody.horario[0],
-      horaFin: citaBody.horario[1],
-      fechaCita: citaBody.horario[2].substring(0, 10),
-    });
-    const response = await fetchWithToken(
-      Constant.URI.POST_REGISTRAR_CITA,
-      'POST',
-      params,
-      route.params.userRoot.Token,
-    );
-    if (response.CodigoMensaje === 100) {
-      setIsLoading(false);
-      setCitaAccepted(true);
-      console.log('[Response]*********: ', response);
-    } else {
-      Alert.alert('Error', response.RespuestaMensaje);
+  const acceptedRegisterCitaAction = async () => {
+    try {
+      setIsLoading(true);
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno:
+          route.params.userRoot.idUsuarioExterno,
+        IdEspecialidad: citaBody.specialty_value,
+        I_idPersonaAsegurada: citaBody.patient_value,
+        horaInicio: citaBody.horario[0],
+        horaFin: citaBody.horario[1],
+        fechaCita: citaBody.horario[2].substring(0, 10),
+      });
+      const response = await fetchWithToken(
+        Constant.URI.POST_REGISTRAR_CITA,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      if (response.CodigoMensaje === 100) {
+        setIsLoading(false);
+        setCitaAccepted(true);
+        console.log('[Response]*********: ', response);
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+      }
+    } catch (error) {
+      console.log('[CitaPopupConfirm - cancelCitaAction]: ', error);
+    }
+  };
+
+  const cancelCitaAction = async () => {
+    try {
+      setIsLoading(true);
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno:
+          route.params.userRoot.idUsuarioExterno,
+        Idcita: citaBody.idCita,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.PUT_CANCELAR_CITA,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      if (response.CodigoMensaje >= 100 && response.CodigoMensaje <= 199) {
+        setIsLoading(false);
+        setCitaAccepted(true);
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+      }
+    } catch (error) {
+      console.log('[CitaPopupConfirm - cancelCitaAction]: ', error);
     }
   };
 
@@ -98,6 +136,144 @@ const DefaultModalContent = ({
     setIsVisiblePopupConfirm(false);
     setIsVisiblePopup(false);
   };
+
+  const msgPopupTypeRegisterCitaShow = () => {
+    return (
+      <View style={styles.card}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+          }}>
+          <View
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 3,
+            }}>
+            <TouchableOpacity onPress={handleMsgAccepted}>
+              <Icon
+                name="close-outline"
+                type="ionicon"
+                size={35}
+                color={'gray'}
+                style={{marginRight: 10}}
+              />
+            </TouchableOpacity>
+          </View>
+          <Icon
+            name="checkmark-circle"
+            type="ionicon"
+            size={85}
+            color={'#11EE91'}
+            style={{marginTop: 35}}
+          />
+          <Text
+            style={{
+              fontSize: 17,
+              color: '#4CBDA1',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              ...Platform.select({
+                ios: {
+                  marginHorizontal: 10,
+                },
+                android: {
+                  marginHorizontal: 20,
+                },
+              }),
+            }}>
+            ¡Tu cita médica se registró con éxito!
+          </Text>
+          <Text
+            style={{
+              marginHorizontal: 20,
+              fontSize: 13,
+              textAlign: 'center',
+              marginBottom: 40,
+              marginTop: 20,
+              color: css.colors.gray_opaque,
+            }}>
+            Minutos antes de tu fecha y hora elegida te llegará el link del meet
+            por correo electrónico. Puedes visualizar tu nueva cita registrada
+            en la sección 'Mis Citas Médicas'.
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
+  const msgPopupTypeCancelCitaShow = () => {
+    return (
+      <View style={styles.card}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+          }}>
+          <View
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 3,
+            }}>
+            <TouchableOpacity onPress={handleMsgAccepted}>
+              <Icon
+                name="close-outline"
+                type="ionicon"
+                size={35}
+                color={'gray'}
+                style={{marginRight: 10}}
+              />
+            </TouchableOpacity>
+          </View>
+          <Icon
+            name="checkmark-circle"
+            type="ionicon"
+            size={85}
+            color={'#11EE91'}
+            style={{marginTop: 35}}
+          />
+          <Text
+            style={{
+              fontSize: 17,
+              color: '#4CBDA1',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              ...Platform.select({
+                ios: {
+                  marginHorizontal: 10,
+                },
+                android: {
+                  marginHorizontal: 20,
+                },
+              }),
+            }}>
+            ¡Tu cita médica se canceló con éxito!
+          </Text>
+          <Text
+            style={{
+              marginHorizontal: 20,
+              fontSize: 13,
+              textAlign: 'center',
+              marginBottom: 40,
+              marginTop: 20,
+              color: css.colors.gray_opaque,
+            }}>
+            La cita médica ha sido cancelada correctamente sin opción a retorno,
+            ya no podrás visualizarlo en tu lista de tus citas médicas.
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <>
       {isLoading ? (
@@ -109,74 +285,10 @@ const DefaultModalContent = ({
             zIndex: 9999,
             justifyContent: 'center',
             alignItems: 'center',
-            // position:'relative'
           }}>
-          <View style={styles.card}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'transparent',
-              }}>
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 3,
-                }}>
-                <TouchableOpacity
-                  onPress={handleMsgAccepted}
-                >
-                  <Icon
-                    name="close-outline"
-                    type="ionicon"
-                    size={35}
-                    color={'gray'}
-                    style={{marginRight: 10}}
-                  />
-                </TouchableOpacity>
-              </View>
-              <Icon
-                name="checkmark-circle"
-                type="ionicon"
-                size={85}
-                color={'#11EE91'}
-                style={{marginTop: 35}}
-              />
-              <Text
-                style={{
-                  fontSize: 17,
-                  color: '#4CBDA1',
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  ...Platform.select({
-                    ios: {
-                      marginHorizontal: 10,
-                    },
-                    android: {
-                      marginHorizontal: 20,
-                    },
-                  }),
-                }}>
-                ¡Tu cita médica se registró con éxito!
-              </Text>
-              <Text
-                style={{
-                  marginHorizontal: 20,
-                  fontSize: 13,
-                  textAlign: 'center',
-                  marginBottom: 40,
-                  marginTop: 20,
-                  color: css.colors.gray_opaque,
-                }}>
-                Minutos antes de tu fecha y hora elegida te llegará el link del
-                meet por correo electrónico. Puedes visualizar tu nueva cita
-                registrada en la sección 'Mis Citas Médicas'.
-              </Text>
-            </View>
-          </View>
+          {type === 'registerCita'
+            ? msgPopupTypeRegisterCitaShow()
+            : msgPopupTypeCancelCitaShow()}
         </View>
       )}
     </>

@@ -35,11 +35,23 @@ const BottomSheetScreen = ({
   navigation,
   route,
   citaBody,
+  type,
 }) => {
   const bottomSheetModalRef = React.useRef(null);
-
   // variables
-  const snapPoints = useMemo(() => ['1%', '40%'], []);
+  const [sizeBottomSheetScreen, setSizeBottomSheetScreen] = useState(['1%', '42%']);
+  const snapPoints = useMemo(() => sizeBottomSheetScreen, [sizeBottomSheetScreen]);
+
+  useEffect(() => {
+    if(type==='cancelCita'){
+      setSizeBottomSheetScreen(['1%','30%'])
+    }
+    if( type === 'registerCita'){
+      setSizeBottomSheetScreen(['1%', '42%'])
+    }
+  }, [])
+  
+
   // const snapPoints = ['50%'];
 
   // callbacks
@@ -68,6 +80,22 @@ const BottomSheetScreen = ({
     }
   }, []);
 
+
+  const handleRegisterCita = () => {
+    // setIsVisiblePopup(false);
+    bottomSheetModalRef.current?.snapToIndex(-1);
+    setIsVisiblePopupConfirm(true);
+  }
+  const handleCancelCitaConfirm = () => {
+    // setIsVisiblePopup(false);
+    bottomSheetModalRef.current?.snapToIndex(-1);
+    setIsVisiblePopupConfirm(true);
+  }
+  const handleCancelCitaNo = () =>{
+    setIsVisiblePopup(false);
+    bottomSheetModalRef.current?.snapToIndex(-1);
+  }
+
   const cancelCita = () => {
     return (
       <>
@@ -81,7 +109,7 @@ const BottomSheetScreen = ({
             color: css.colors.primary_opaque,
             ...Platform.select({ios: {fontWeight: 'bold'}}),
           }}
-          onPress={() => handleRegisterCita()}
+          onPress={() => handleCancelCitaConfirm()}
         />
         <Button
           buttonStyle={css.buttonContainerOutline}
@@ -90,7 +118,7 @@ const BottomSheetScreen = ({
             color: css.colors.primary_opaque,
             ...Platform.select({ios: {fontWeight: 'bold'}}),
           }}
-          onPress={() => handleRegisterCita()}
+          onPress={() => handleCancelCitaNo()}
         />
       </>
     );
@@ -99,10 +127,10 @@ const BottomSheetScreen = ({
   const solicitudRegistrarCita = () => {
     return (
       <View style={{backgroundColor: 'transparent'}}>
-        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
+        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center', color:css.colors.primary_opaque}}>
           Resumen
         </Text>
-        <View style={{marginLeft: 30, marginTop: 20}}>
+        <View style={{marginLeft: 35, marginTop: 20}}>
           <View
             style={{
               display: 'flex',
@@ -116,7 +144,7 @@ const BottomSheetScreen = ({
               color={'black'}
               style={{marginRight: 10}}
             />
-            <Text>{citaBody.fecha}</Text>
+            <Text style={styles.labeText}>Fecha: {citaBody.fecha}</Text>
           </View>
           <View
             style={{
@@ -132,8 +160,8 @@ const BottomSheetScreen = ({
               color={'black'}
               style={{marginRight: 10}}
             />
-            <Text>
-              {citaBody.horario[0]} - {citaBody.horario[1]}
+            <Text style={styles.labeText}>
+              Horario: {citaBody.horario[0]} - {citaBody.horario[1]}
             </Text>
           </View>
           <View
@@ -150,7 +178,7 @@ const BottomSheetScreen = ({
               color={'black'}
               style={{marginRight: 10}}
             />
-            <Text>{citaBody.specialty_label}</Text>
+            <Text style={styles.labeText}>Especialidad: {citaBody.specialty_label}</Text>
           </View>
           <View
             style={{
@@ -166,7 +194,7 @@ const BottomSheetScreen = ({
               color={'black'}
               style={{marginRight: 10}}
             />
-            <Text>{citaBody.patient_label}</Text>
+            <Text style={styles.labeText}>Paciente: {citaBody.patient_label}</Text>
           </View>
         </View>
         {/* <Text>{ JSON.stringify(citaBody) } </Text> */}
@@ -183,12 +211,6 @@ const BottomSheetScreen = ({
     );
   };
 
-  const handleRegisterCita = () => {
-    // setIsVisiblePopup(false);
-    bottomSheetModalRef.current?.snapToIndex(-1);
-
-    setIsVisiblePopupConfirm(true);
-  }
 
   return (
     <>
@@ -201,6 +223,7 @@ const BottomSheetScreen = ({
         navigation={navigation}
         route={route}
         setIsVisiblePopup={setIsVisiblePopup}
+        type={type}
       /> 
    ) 
    :
@@ -231,7 +254,7 @@ const BottomSheetScreen = ({
           />
         )}
       >
-        <BottomSheetView>{solicitudRegistrarCita()}</BottomSheetView>
+        <BottomSheetView>{type==='registerCita' ? solicitudRegistrarCita() : cancelCita()}</BottomSheetView>
       </BottomSheet>
       {/* </BottomSheetModalProvider> */}
     </View>)
@@ -255,6 +278,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  labeText:{
+    fontSize:15
+  }
 });
 
 export default memo(BottomSheetScreen);

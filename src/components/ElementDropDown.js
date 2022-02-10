@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import { Icon } from 'react-native-elements';
@@ -17,10 +17,18 @@ import { css } from '../utils/css';
 // ];
 
 const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) => {
-  // console.log('[data]: ',data);
-  // console.log('[datav2]: ',data[0].label);
-  // const [value, setValue] = useState(null);
+  
   const [isFocus, setIsFocus] = useState(false);
+  const [disableField, setDisableField] = useState(false);
+
+  useEffect(() => {
+    if(data[0].label ==="cargando..."  && (label ==="Fecha" || label ==="Hora")){
+      setDisableField(true);
+    } else {
+      setDisableField(false);
+    }
+  }, [data])
+  
 
   const renderLabel = () => {
     if (value || isFocus) {
@@ -34,7 +42,7 @@ const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) 
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,   disableField && { opacity:0.5} ]}>
       {renderLabel()}
       <Dropdown
         style={[styles.dropdown, isFocus && {borderColor:css.colors.primary_opaque}, {}]}
@@ -46,6 +54,7 @@ const ElementDropDown = ({data, placeholder, label, value, setValue, iconName}) 
         // disable={data[0].label === "cargando..." ? true: false}
         // search
         // searchPlaceholder="Search..."
+        disable={disableField}
         dropdownPosition={'bottom'}
         autoScroll={false}
         maxHeight={label === "Fecha" ? 300 : 120}
@@ -81,7 +90,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     // padding: 16,
-    paddingVertical:6
+    paddingVertical:6,
   },
   dropdown: {
     backgroundColor: 'transparent',

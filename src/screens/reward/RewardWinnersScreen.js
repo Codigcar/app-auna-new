@@ -372,7 +372,7 @@ const App = ({route}) => {
             // styles.estiloBarraBusqueda
             onChangeText={text => searchFilterFunction(text)}
             onClear={() => searchFilterFunction('')}
-            placeholder="Buscar Ganador"
+            placeholder="Ganador"
             value={search}
           />
         </View>
