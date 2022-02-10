@@ -12,7 +12,7 @@ import { css } from '../utils/css';
 const Stack = createStackNavigator();
 
 export default function DataScreen({ navigation, route }) {
-
+  console.log(['Stack-DatosPersonalesScreen']);
   
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,6 +39,8 @@ export default function DataScreen({ navigation, route }) {
 }
 
 function HomeScreen({ navigation, route }) {
+  console.log(['DatosPersonalesScreen']);
+
   const [SignUpErrors, setSignUpErrors] = useState({});
   const [cellphone, setCellphone] = useState(route.params.userRoot.telefonoMovil);
   const [email, setEmail] = useState(route.params.userRoot.correoElectronico);

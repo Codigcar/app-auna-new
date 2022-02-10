@@ -8,6 +8,7 @@ import giftbox from '../../assets/svg/giftbox';
 import {css} from '../../utils/css';
 
 export const SorteoHomeScreen = () => {
+  console.log('[SorteoHomeScreen]');
   const [items, setItems] = useState([
     {
       CodigoMensaje: 100,

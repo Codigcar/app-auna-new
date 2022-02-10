@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useMemo, useState, useEffect} from 'react';
+import React, {useCallback, useRef, useMemo, useState, useEffect, Fragment} from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,6 +18,7 @@ import Constant from '../../utils/constants';
 import {ButtonInitial} from '../../components';
 import {css} from '../../utils/css';
 import {fetchWithToken} from '../../utils/fetchCustom';
+import PopupTicket from '../reward/PopupTicket';
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
@@ -41,6 +42,7 @@ const items = [
 ];
 
 const CarouselScreen = ({navigation, route}) => {
+  console.log('[Stack-CarouselScreen]');
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -81,10 +83,12 @@ const CarouselScreen = ({navigation, route}) => {
 const Stack = createStackNavigator();
 
 const CarouselHome = ({navigation, route}) => {
+  console.log('[CarouselHomeScreen]');
   const [activeIndex, setActiveIndex] = useState(0);
   const isMounted = useRef(true);
   const [banners, setBanners] = useState([]);
-  console.log('[CarouselHome]');
+  const [isViewPopupTicket, setIsViewPopupTicket] = useState(true);
+
 
   useEffect(() => {
     return () => {
@@ -190,7 +194,7 @@ const CarouselHome = ({navigation, route}) => {
               }}>
               <View
                 style={{
-                  marginBottom: 20,
+                  marginBottom: 10,
                   marginHorizontal: 40,
                   marginTop: 30,
                 }}>
@@ -206,19 +210,6 @@ const CarouselHome = ({navigation, route}) => {
                   marginHorizontal: 10,
                 }}></View>
               <View>
-                {/* {item.desc.length > 0 ? (
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      textAlign: 'center',
-                      color: css.colors.gray_opaque,
-                      marginTop: 20,
-                      marginHorizontal: 40,
-                      marginBottom:20
-                    }}>
-                    {banner.desc}
-                  </Text>
-                ) : ( */}
                 <View
                   style={{
                     backgroundColor: 'transparent',
@@ -229,7 +220,6 @@ const CarouselHome = ({navigation, route}) => {
                     marginTop: 20,
                   }}>
                   <Button
-                  
                     buttonStyle={{
                       backgroundColor: css.colors.primary_opaque,
                       paddingHorizontal: 20,
@@ -243,7 +233,6 @@ const CarouselHome = ({navigation, route}) => {
                     onPress={fetchPronostikEncriptar}
                   />
                 </View>
-                {/* )} */}
               </View>
               <Pagination
                 dotsLength={banners.length}
@@ -263,20 +252,23 @@ const CarouselHome = ({navigation, route}) => {
   };
 
   return (
-    <SafeAreaView>
-      <View style={styles.headerContainer}>
-        <Carousel
-          data={banners}
-          renderItem={({item}) => renderItem(item)}
-          sliderWidth={screenWidth}
-          itemWidth={screenWidth}
-          onSnapToItem={index => {
-            setActiveIndex(index);
-          }}
-          style={{}}
-        />
-      </View>
-    </SafeAreaView>
+     <Fragment>
+    {isViewPopupTicket && <PopupTicket />}
+      <SafeAreaView>
+        <View style={styles.headerContainer}>
+          <Carousel
+            data={banners}
+            renderItem={({item}) => renderItem(item)}
+            sliderWidth={screenWidth}
+            itemWidth={screenWidth}
+            onSnapToItem={index => {
+              setActiveIndex(index);
+            }}
+            style={{}}
+          />
+        </View>
+      </SafeAreaView>
+    </Fragment>
   );
 };
 

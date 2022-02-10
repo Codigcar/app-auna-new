@@ -20,7 +20,7 @@ import DataNotFound from '../../components/DataNotFound';
 console.log('1 ConsoleLog - ASEGURADOS/DEPENDIENTES: ');
 
 export default function RewardWinnersScreen({navigation, route}) {
-  console.log('[route]:: ', route.params);
+  console.log('[Stack-SorteoGanadoresSreen');
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Solicitudes',
@@ -58,6 +58,7 @@ export default function RewardWinnersScreen({navigation, route}) {
 }
 
 const App = ({route}) => {
+  console.log('[SorteoGanadoresSreen');
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState('');
   const [masterDataSource, setMasterDataSource] = useState('');

@@ -33,6 +33,7 @@ import { Constants } from '../../utils/util';
 console.log('EJECUTIVOS-HOME: ');
 
 export default function CitaScreen({navigation, route}) {
+  console.log('[Stack-CitaScreen]');
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Mis Citas Médicas',
@@ -140,7 +141,7 @@ export default function CitaScreen({navigation, route}) {
 }
 
 const HomeScreen = React.memo(({navigation, route}) => {
-  // console.log('[HomeScreen CitaHome]');
+  console.log('[CitaScreen]');
   const isMounted = useRef(true);
   const [items, setItems] = useState('');
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);

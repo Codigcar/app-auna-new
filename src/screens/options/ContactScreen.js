@@ -12,7 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 console.log('ContactScreen');
 
 export default function ContactScreen({ navigation, route }) {
-
+  console.log('[Stack-ContactScreen]');
   useLayoutEffect(() => {
     navigation.setOptions({
         title: 'Central de Ayuda',
@@ -54,7 +54,7 @@ export default function ContactScreen({ navigation, route }) {
 }
 
 function HomeScreen({ navigation, route }) {
-
+    console.log('[ContactScreen]');
     const [items, setItems] = useState(null);
 
     useLayoutEffect(() => {

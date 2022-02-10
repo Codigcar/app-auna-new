@@ -15,10 +15,9 @@ import {ButtonInitial} from '../../components';
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 
-
 export default function DependientesScreen({navigation, route}) {
-  console.log('[ASEGURADOS/DEPENDIENTES] ');
-  
+  console.log('[Stack-AseguradosScreen - 2] ');
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Dependientes',
@@ -56,6 +55,7 @@ export default function DependientesScreen({navigation, route}) {
 }
 
 const App = ({route}) => {
+  console.log('[AseguradosScreen - 2] ');
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
@@ -177,6 +177,13 @@ const App = ({route}) => {
                 backgroundColor: '#FFF',
                 borderTopColor: '#FFF',
                 borderBottomColor: '#FFF',
+                paddingHorizontal: 0,
+                ...Platform.select({
+                  ios: {
+                    paddingVertical: 0,
+                    borderRadius: 10,
+                  },
+                }),
               }}
               inputContainerStyle={styles.estiloBarraBusqueda}
               onChangeText={text => searchFilterFunction(text)}
@@ -211,7 +218,7 @@ const App = ({route}) => {
                   },
                 }),
               }}
-              titleStyle={{color: '#FFF', fontSize: 16}}></Button>
+              titleStyle={{color: '#FFF', fontSize: 16, ...Platform.select({ios:{fontWeight:'bold'}})}}></Button>
           </View>
         </View>
         <FlatList
@@ -255,16 +262,28 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 1,
     borderWidth: 0,
-    // width:'100%',
     flex: 1,
     marginBottom: 5,
     ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        marginHorizontal: 15,
+        marginTop: 10,
+      },
       android: {
         elevation: 0,
         //display: 'none',
         borderColor: '#0FF',
         borderTopWidth: 0,
-        margin: 0,
+        marginLeft:10,
+        marginRight:10
       },
       default: {
         margin: 20,

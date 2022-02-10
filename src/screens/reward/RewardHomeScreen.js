@@ -28,9 +28,9 @@ import SorteoHomeScreen from './SorteoHomeScreen';
 //SI "CLINICAS"
 //SI "DEPENDIENTES"
 
-console.log('LOG1   *********************** PolicyDetailScreen 1');
 
 export default function RewardHomeScreen({navigation, route}) {
+  console.log('[Stack-SorteoScreen]');
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Sorteos',
@@ -130,7 +130,7 @@ export default function RewardHomeScreen({navigation, route}) {
 }
 
 function HomeScreen({navigation, route}) {
-  console.log('SorteoHome');
+  // console.log('SorteoHome');
   const [items, setItems] = useState([
     {
       CodigoMensaje: 100,

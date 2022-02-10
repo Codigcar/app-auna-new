@@ -20,7 +20,6 @@ import FuncionariosScreen from '../../screens/agent/FuncionariosScreen';
 import CitaScreen from '../../screens/citas/CitaScreen';
 import RewardHomeScreen from '../../screens/reward/RewardHomeScreen';
 
-console.log('SettingsHomeScreen');
 
 const DATA = [
   {
@@ -67,6 +66,8 @@ const DATA = [
 ];
 
 export default function SettingsHomeScreen({navigation, route}) {
+console.log('[Stack-SettingsHomeScreen]');
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -115,6 +116,7 @@ export default function SettingsHomeScreen({navigation, route}) {
 }
 
 function HomeScreen({navigation, route}) {
+  console.log('[SettingsHomeScreen]');
   const [network, setNetwork] = useState(null);
 
   useEffect(() => {

@@ -11,8 +11,6 @@ import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 
 export default function PolicyRiskGroupScreen({ navigation, route }) {
   console.log('[PolicyRiskGroupScreen]');
-  
-  // console.log('PolicyRiskGroupScreen:********** ', route);
   const [items, setItems] = useState([]);
   const [poliza, setPoliza] = useState('');
 

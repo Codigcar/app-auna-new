@@ -27,7 +27,7 @@ import SolicitudesScreen from './SolicitudesScreen';
 //SI "DEPENDIENTES"
 
 export default function PolicyDetailScreen({navigation, route}) {
-  console.log('[PolicyDetailScreen 1]');
+  console.log('[Stack-PolicyDetailScreen-1]');
 
   // console.log('[PolicyDetailScreen]::**************************** ', route.params);
   useLayoutEffect(() => {
@@ -219,6 +219,7 @@ export default function PolicyDetailScreen({navigation, route}) {
 }
 
 function HomeScreen({navigation, route}) {
+  console.log('[PolicyDetailScreen 1]');
   const [items, setItems] = useState([]);
 
   useEffect(() => {

@@ -15,6 +15,7 @@ console.log('EJECUTIVOS-HOME: ');
 
 export default function AgentHomeScreen({ navigation, route }) {
 
+  console.log('[Stack-EjecutivosScreen]');
   
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -57,6 +58,7 @@ export default function AgentHomeScreen({ navigation, route }) {
 }
 
 function HomeScreen({ navigation, route }) {
+  console.log('[EjecutivosScreen]');
   const [items, setItems] = useState([]);
 
   useEffect(() => {

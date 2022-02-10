@@ -115,6 +115,11 @@ const DefaultModalContent = ({setIsVisible}) => (
                 fontSize: 16,
                 height:24
               },
+              android:{
+                fontSize: 16,
+                height:30,
+                color:'red'
+              }
             }),
           }}
         />

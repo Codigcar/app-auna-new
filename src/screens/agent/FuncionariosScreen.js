@@ -12,7 +12,7 @@ import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 console.log('FuncionariosScreen'); 
 
 export default function FuncionariosScreen({ navigation, route }) {
-
+  console.log('[Stack-FuncionariosScreen]');
   useLayoutEffect(() => {
     navigation.setOptions({
         title: 'Funcionarios',
@@ -54,7 +54,7 @@ export default function FuncionariosScreen({ navigation, route }) {
 }
 
 function HomeScreen({ navigation, route }) {
-
+  console.log('[FuncionariosScreen]');
   const [items, setItems] = useState([]);
 
   useEffect(() => {

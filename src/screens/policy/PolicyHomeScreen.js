@@ -25,7 +25,7 @@ import PopupTicket from '../reward/PopupTicket';
 
 
 export default function PolicyHomeScreen({navigation, route}) {
-  console.log('PolicyHomeScreen');
+  console.log('[Stack-PolicyHomeScreen]');
   // console.log('[PolicyHomeScreen]: ',route);
   useEffect(
     () =>
@@ -118,8 +118,8 @@ export default function PolicyHomeScreen({navigation, route}) {
 }
 
 function HomeScreen({navigation, route}) {
+  console.log('[PolicyHomeScreen]');
   const [items, setItems] = useState([]);
-  const [isViewPopupTicket, setIsViewPopupTicket] = useState(true);
   const [messageTicket, setMessageTicket] = useState('');
   useEffect(() => {
     if (items.length === 0) {
@@ -175,8 +175,6 @@ function HomeScreen({navigation, route}) {
   };
 
   return (
-    <Fragment>
-    {isViewPopupTicket && <PopupTicket />}
       <SafeAreaView style={css.screen}>
         <View>
           <View style={styles.headerContainer}>
@@ -223,7 +221,6 @@ function HomeScreen({navigation, route}) {
           )}
         />
       </SafeAreaView>
-    </Fragment>
   );
 }
 

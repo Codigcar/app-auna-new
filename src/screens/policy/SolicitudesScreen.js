@@ -21,7 +21,7 @@ import BottomSheetScreen from '../citas/BottomSheetScreen';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 
 export default function SolicitudesScreen({navigation, route}) {
-  console.log('[SolicitudesScreen]');
+  console.log('[Stack-SolicitudesScreen - 5]');
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -60,6 +60,7 @@ export default function SolicitudesScreen({navigation, route}) {
 }
 
 const App = ({route}) => {
+  console.log('[SolicitudesScreen - 5]');
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState('');
   const [masterDataSource, setMasterDataSource] = useState('');

@@ -9,7 +9,7 @@ import FileViewer from 'react-native-file-viewer';
 
 
 export default function PolicyDocumentScreen({ navigation, route }) {
-  console.log('[PolicyDocumentScreen]');
+  console.log('[PolicyDocumentScreen - 3]');
   
   const [items, setItems] = useState([]);
 

@@ -8,7 +8,7 @@ import { css } from '../../utils/css';
 
 
 export default function PolicyClinicaScreen({ navigation, route }) {
-  console.log('[PolicyClinicaScreen]');
+  console.log('[PolicyClinicaScreen - 4]');
 
   const [categorias, setCategorias] = useState([]);
   const [categoria, setCategoria] = useState(0);
