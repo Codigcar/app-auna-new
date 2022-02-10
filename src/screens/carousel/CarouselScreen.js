@@ -265,6 +265,9 @@ const CarouselHome = ({navigation, route}) => {
               setActiveIndex(index);
             }}
             style={{}}
+            layout={'stack'}
+            // layoutCardOffset={`18`}
+            // hasParallaxImages={false}
           />
         </View>
       </SafeAreaView>

@@ -10,7 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Avatar, ListItem, SocialIcon} from 'react-native-elements';
+import {Avatar, Icon, ListItem, SocialIcon} from 'react-native-elements';
 import {ButtonInitial} from '../../components';
 import {DataScreen} from '../../screens';
 import Constant from '../../utils/constants';
@@ -19,7 +19,7 @@ import AgentHomeScreen from '../agent/AgentHomeScreen';
 import FuncionariosScreen from '../../screens/agent/FuncionariosScreen';
 import CitaScreen from '../../screens/citas/CitaScreen';
 import RewardHomeScreen from '../../screens/reward/RewardHomeScreen';
-
+import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 
 const DATA = [
   {
@@ -66,7 +66,7 @@ const DATA = [
 ];
 
 export default function SettingsHomeScreen({navigation, route}) {
-console.log('[Stack-SettingsHomeScreen]');
+  console.log('[Stack-SettingsHomeScreen]');
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -117,7 +117,7 @@ console.log('[Stack-SettingsHomeScreen]');
 
 function HomeScreen({navigation, route}) {
   console.log('[SettingsHomeScreen]');
-  const [network, setNetwork] = useState(null);
+  const [network, setNetwork] = useState('');
 
   useEffect(() => {
     if (!network) {
@@ -145,25 +145,25 @@ function HomeScreen({navigation, route}) {
   });
 
   const renderItem = item => {
-
-    if((item.title === "Citas" && route.params.userRoot.nombreClientePotencial !== "AUNA") || (item.title === "Citas" && route.params.userRoot.nombreClientePotencial !== "AUNA")){
-      return (
-        <></>
-      )
+    if (
+      (item.title === 'Citas' &&
+        route.params.userRoot.nombreClientePotencial !== 'AUNA') ||
+      (item.title === 'Citas' &&
+        route.params.userRoot.nombreClientePotencial !== 'AUNA')
+    ) {
+      return <></>;
     }
-
     return (
       <ListItem
-        title={item.title}
-        leftIcon={{name: item.icon, type: item.icon_type, size: 24}}
         onPress={() => navigation.navigate(item.name)}
-        chevron={{size: 24}}
-        containerStyle={{
-          borderBottomColor: css.colors.opaque,
-          borderBottomWidth: 1,
-        }}
         bottomDivider
-      />
+        style={{borderBottomColor: css.colors.opaque, borderBottomWidth: 1}}>
+        <Icon name={item.icon} type={item.icon_type} size={24} color={css.colors.opaque} />
+        <ListItem.Content>
+          <ListItem.Title>{item.title}</ListItem.Title>
+        </ListItem.Content>
+        <ListItem.Chevron size={24} />
+      </ListItem>
     );
   };
 
@@ -182,52 +182,56 @@ function HomeScreen({navigation, route}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <View style={styles.headerContainer}>
-          <Avatar
-            rounded
-            size="large"
-            title={`${route.params.userRoot.nombre.substring(
-              0,
-              1,
-            )}${route.params.userRoot.apellidoPaterno.substring(0, 1)}`}
-            containerStyle={{margin: 5, padding: 3}}
-            overlayContainerStyle={{
-              backgroundColor: '#DE0B21',
-              borderColor: css.colors.opaque,
-              ...Platform.select({
-                android: {
-                  elevation: 5,
-                },
-                default: {
-                  shadowColor: 'rgba(0,0,0, .2)',
-                  shadowOffset: {height: 0, width: 0},
-                  shadowOpacity: 1,
-                  shadowRadius: 1,
-                },
-              }),
-            }}
-          />
-          <View style={styles.headerSubContainer}>
-            <Text style={styles.headerTitle}>
-              {route.params.userRoot.nombre}
-            </Text>
-            <Text style={styles.headerSubTitle}>
-              {route.params.userRoot.correoElectronico}
-            </Text>
+      {network == null ? (
+        <AuthLoadingScreen />
+      ) : (
+        <>
+          <View>
+            <View style={styles.headerContainer}>
+              <Avatar
+                rounded
+                size="large"
+                title={`${route.params.userRoot.nombre.substring(
+                  0,
+                  1,
+                )}${route.params.userRoot.apellidoPaterno.substring(0, 1)}`}
+                containerStyle={{margin: 5, padding: 3}}
+                overlayContainerStyle={{
+                  backgroundColor: '#DE0B21',
+                  borderColor: css.colors.opaque,
+                  ...Platform.select({
+                    android: {
+                      elevation: 5,
+                    },
+                    default: {
+                      shadowColor: 'rgba(0,0,0, .2)',
+                      shadowOffset: {height: 0, width: 0},
+                      shadowOpacity: 1,
+                      shadowRadius: 1,
+                    },
+                  }),
+                }}
+              />
+              <View style={styles.headerSubContainer}>
+                <Text style={styles.headerTitle}>
+                  {route.params.userRoot.nombre}
+                </Text>
+                <Text style={styles.headerSubTitle}>
+                  {route.params.userRoot.correoElectronico}
+                </Text>
+              </View>
+            </View>
+            <View>
+              <FlatList
+                data={DATA}
+                renderItem={({item}) => {
+                  return renderItem(item);
+                }}
+                keyExtractor={item => item.name}
+              />
+            </View>
           </View>
-        </View>
-        <View>
-          <FlatList
-            data={DATA}
-            renderItem={({item}) => { 
-              return renderItem(item);
-            }}
-            keyExtractor={item => item.name}
-          />
-        </View>
-      </View>
-      <View style={{padding: 10}}>
+          <View style={{padding: 10}}>
         <Text style={{fontSize: 14}}>Síguenos en: </Text>
         <View style={{flexDirection: 'row'}}>
           {network != null && network.facebook != null ? (
@@ -268,6 +272,8 @@ function HomeScreen({navigation, route}) {
           ) : null}
         </View>
       </View>
+        </>
+      )}
     </SafeAreaView>
   );
 }
