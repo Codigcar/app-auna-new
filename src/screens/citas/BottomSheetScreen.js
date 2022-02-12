@@ -68,18 +68,18 @@ const BottomSheetScreen = ({
   const [isVisiblePopupConfirm, setIsVisiblePopupConfirm] = useState(false);
 
   const handleModalClose = () => {
-    console.log('Cerrado');
+    // console.log('Cerrado');
     bottomSheetModalRef.current?.snapToIndex(-1);
     setIsVisiblePopup(false);
   };
 
   const handleSheetChanges = useCallback(index => {
-    console.log('handleSheetChanges', index);
+    // console.log('handleSheetChanges', index);
     if (index == -1) {
-      console.log('Cerradov2');
+      // console.log('Cerradov2');
       setIsVisiblePopup(false);
       bottomSheetModalRef.current?.snapToIndex(-1);
-      console.log('isVisiblePopup: ', isVisiblePopup);
+      // console.log('isVisiblePopup: ', isVisiblePopup);
     }
   }, []);
 

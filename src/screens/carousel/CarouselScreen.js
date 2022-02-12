@@ -21,6 +21,7 @@ import {fetchWithToken} from '../../utils/fetchCustom';
 import PopupTicket from '../reward/PopupTicket';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
+import { animatedStyles, scrollInterpolator } from '../../utils/animationsCarousel';
 
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
@@ -263,7 +264,7 @@ const CarouselHome = ({navigation, route}) => {
       :
       (
         <>
-    {isViewPopupTicket && <PopupTicket />}
+    {/* {isViewPopupTicket && <PopupTicket />} */}
       <SafeAreaView>
         <View style={styles.headerContainer}>
           <Carousel
@@ -271,13 +272,12 @@ const CarouselHome = ({navigation, route}) => {
             renderItem={({item}) => renderItem(item)}
             sliderWidth={screenWidth}
             itemWidth={screenWidth}
+            scrollInterpolator={scrollInterpolator}
+            slideInterpolatedStyle={animatedStyles}
             onSnapToItem={index => {
               setActiveIndex(index);
             }}
-            style={{}}
-            layout={'stack'}
-            // layoutCardOffset={`18`}
-            // hasParallaxImages={false}
+            // useScrollView={true}
           />
         </View>
       </SafeAreaView>

@@ -92,14 +92,14 @@ const DefaultModalContent = ({
         horaFin: citaBody.horario[1],
         fechaCita: citaBody.horario[2].substring(0, 10),
       });
-      console.log('[Log Input]: ', JSON.stringify(params));
+      // console.log('[Log Input]: ', JSON.stringify(params));
       const response = await fetchWithToken(
         Constant.URI.POST_REGISTRAR_CITA,
         'POST',
         params,
         route.params.userRoot.Token,
       );
-      console.log('[Log Response]: ', response);
+      // console.log('[Log Response]: ', response);
       if (response.Result[0].CodigoMensaje === 100) {
         setIsLoading(false);
         setFetchSuccessful(true);

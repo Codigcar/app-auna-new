@@ -53,17 +53,18 @@ export default function CitaNewScreen({navigation, route}) {
 function HomeScreen({navigation, route}) {
   console.log('[CitaNewScreen]');
 
+  const initiaState = [{label:'cargando...', value:''}]
   const [SignUpErrors, setSignUpErrors] = useState({});
   const [userUpdated, setUserUpdate] = useState(true);
   const [passUpdated, setPassUpdate] = useState(true);
   // console.log('[route]:: ', route.params);
 
   // data para DropDown Especialidad
-  const [specialties, setSpecialties] = useState([{label: 'cargando...', value: ''}]);
+  const [specialties, setSpecialties] = useState(initiaState);
   const [specialty, setSpecialty] = useState(null);
 
   // data para DropDown Paciente
-  const [patients, setPatients] = useState([{label: 'cargando...', value: ''}]);
+  const [patients, setPatients] = useState(initiaState);
   const [patient, setPatient] = useState(null);
 
   // datepicker
@@ -76,7 +77,7 @@ function HomeScreen({navigation, route}) {
   );
 
   //horario
-  const [horarios, setHorarios] = useState([{label: 'cargando...', value: ''}]);
+  const [horarios, setHorarios] = useState(initiaState);
   const [horario, setHorario] = useState(null);
   const [saveListFechas, setSaveListFechas] = useState([]);
   const [isLoadingHora, setIsLoadingHora] = useState(false);
@@ -91,18 +92,16 @@ function HomeScreen({navigation, route}) {
 
   const [isVisibleEspecialidad, setIsVisibleEspecialidad] = useState(false);
   // fechas disponibles
-  const [listFechasDisponibles, setListFechasDisponibles] = useState([{label: 'cargando...', value: ''}]);
+  const [listFechasDisponibles, setListFechasDisponibles] = useState(initiaState);
   const [fechaDisponibleElegida, setFechaDisponibleElegida] = useState(null);
   const [saveAllFechasDisponibles, setSaveAllFechasDisponibles] = useState([]);
-
-  // definir tipo de BottomSheet
 
   const runUseEffects = useRef(false);
 
   useEffect(() => {
     runUseEffects.current && fetchListarFechasDisponibles();
-    setHorarios([{label: 'cargando...', value: ''}])
-    setHorario(null);
+    // setHorarios([{label: 'cargando...', value: ''}])
+    // setHorario(null);
   }, [specialty]);
 
   useEffect(() => {
@@ -143,7 +142,7 @@ function HomeScreen({navigation, route}) {
       setSpecialties(list);
       // setSpecialty(list[0]['value']);
       setIsVisibleEspecialidad(true);
-      console.log('isVisibleEspecialidad: ', isVisibleEspecialidad);
+      // console.log('isVisibleEspecialidad: ', isVisibleEspecialidad);
     } catch (error) {
       console.error('[CitaNewScreen - fetchDataEspecialidadListar]: ', error)
     }

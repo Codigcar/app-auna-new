@@ -1,5 +1,4 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
 import React, {
   useEffect,
   useLayoutEffect,
@@ -29,6 +28,7 @@ import CitaNewScreen from './CitaNewScreen';
 import DataNotFound from '../../components/CitaNotFound';
 import CitaPopupCancel from './CitaPopupCancel';
 import {Constants} from '../../utils/util';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function CitaScreen({navigation, route}) {
   console.log('[Stack-CitaScreen]');
@@ -52,6 +52,8 @@ export default function CitaScreen({navigation, route}) {
 
   return (
     <Tab.Navigator
+    lazy={true}
+    optimizationsEnabled={true}
       initialRouteName="Home"
       initialParams={{
         userRoot: route.params.userRoot,
@@ -93,12 +95,6 @@ export default function CitaScreen({navigation, route}) {
             </Text>
           ),
           tabBarIcon: ({color}) => (
-            // <Icon
-            //   name="today"
-            //   type="material-icon"
-            //   size={24}
-            //   color={css.colors.opaque}
-            // />
             <Image
               style={{
                 width: 30,
@@ -151,12 +147,25 @@ export default function CitaScreen({navigation, route}) {
 }
 
 const HomeScreen = React.memo(({navigation, route}) => {
-  // console.log('[CitaScreen]');
+  console.log('[CitaScreen]');
   const isMounted = useRef(true);
   const [items, setItems] = useState('');
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
   const [citaBody, setCitaBody] = useState({});
-  const bottomSheetModalRef = React.useRef(null);
+
+  useFocusEffect(
+    React.useCallback(
+      () => {
+      console.log('Montado');
+      fetchDataCitasListar();
+      isMounted.current = true;
+      return () => {
+        console.log('Des-montado');
+        isMounted.current = false;
+      }
+    },[]
+    )
+  )
 
   useEffect(() => {
     return () => {
@@ -164,11 +173,13 @@ const HomeScreen = React.memo(({navigation, route}) => {
     };
   }, []);
 
-  useEffect(() => {
-    fetchDataCitasListar();
-  }, [items]);
+  // useEffect(() => {
+  //   // if()
+  //   fetchDataCitasListar();
+  // }, []);
 
   const fetchDataCitasListar = async () => {
+    console.log('function fetchDataCitasListar');
     const params = new URLSearchParams({
       I_Sistema_IdSistema: route.params.userRoot.idSistema,
       I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
@@ -362,7 +373,6 @@ const HomeScreen = React.memo(({navigation, route}) => {
   );
 });
 
-const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 //Styles

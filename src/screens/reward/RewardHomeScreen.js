@@ -49,6 +49,8 @@ export default function RewardHomeScreen({navigation, route}) {
 
   return (
     <Tab.Navigator
+      lazy={true}
+      optimizationsEnabled={true}
       initialRouteName="Home"
       initialParams={{
         userRoot: route.params.userRoot,
@@ -200,9 +202,6 @@ function HomeScreen({navigation, route}) {
 
   function Imagenes(props) {
     const items = props.items;
-    console.log(
-      'PANTALLA EJECUTIVOSHomeScreen imagenes: ' + JSON.stringify(props.items),
-    );
     return (
       <FlatList
         // persistentScrollbar={true}

@@ -55,9 +55,6 @@ export const SorteoHomeScreen = () => {
 
   function Imagenes(props) {
     const items = props.items;
-    console.log(
-      'PANTALLA EJECUTIVOSHomeScreen imagenes: ' + JSON.stringify(props.items),
-    );
     return (
       <FlatList
         // persistentScrollbar={true}

@@ -26,9 +26,7 @@ const ElementDropDown = ({
 }) => {
   const [isFocus, setIsFocus] = useState(false);
   const [disableField, setDisableField] = useState(false);
-  console.log('longitud: ', data);
-  console.log('longitudv2: ', data.length);
-  console.log('longitudv3: ', data.size);
+ 
   useEffect(() => {
     if (
       data[0].label === 'cargando...' &&
