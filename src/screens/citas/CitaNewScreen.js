@@ -253,14 +253,14 @@ function HomeScreen({navigation, route}) {
     saveAllFechasDisponibles.filter(
       e => {
         e['fechaDisponible2'] == fechaElegida;
-        console.log('e:fechaDisponible2', e['fechaDisponible2']);
-        console.log('fechaElegida: ', fechaElegida);
+        // console.log('e:fechaDisponible2', e['fechaDisponible2']);
+        // console.log('fechaElegida: ', fechaElegida);
       }
     );
     const listHorarioXFechaFiltrada = saveAllFechasDisponibles.filter(
       e => e['fechaDisponible2'] == fechaElegida,
     );
-    console.log('[listHorarioXFechaFiltrada]: ',listHorarioXFechaFiltrada);
+    // console.log('[listHorarioXFechaFiltrada]: ',listHorarioXFechaFiltrada);
     const listHorarios = listHorarioXFechaFiltrada.map(e => {
       return {
         label: e['horaInicio'] + ' - ' + e['horaFin'],

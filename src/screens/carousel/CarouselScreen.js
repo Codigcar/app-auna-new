@@ -264,7 +264,7 @@ const CarouselHome = ({navigation, route}) => {
       :
       (
         <>
-    {/* {isViewPopupTicket && <PopupTicket />} */}
+    {isViewPopupTicket && <PopupTicket />}
       <SafeAreaView>
         <View style={styles.headerContainer}>
           <Carousel

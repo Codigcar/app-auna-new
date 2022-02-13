@@ -157,6 +157,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
     React.useCallback(
       () => {
       console.log('Montado');
+      setItems('');
       fetchDataCitasListar();
       isMounted.current = true;
       return () => {
@@ -172,11 +173,6 @@ const HomeScreen = React.memo(({navigation, route}) => {
       isMounted.current = false;
     };
   }, []);
-
-  // useEffect(() => {
-  //   // if()
-  //   fetchDataCitasListar();
-  // }, []);
 
   const fetchDataCitasListar = async () => {
     console.log('function fetchDataCitasListar');
