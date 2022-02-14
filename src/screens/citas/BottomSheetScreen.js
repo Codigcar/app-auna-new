@@ -30,32 +30,45 @@ import {css} from '../../utils/css';
 import CitaPopupConfirm from './CitaPopupConfirm';
 
 const BottomSheetScreen = ({
-  isVisiblePopup,
   setIsVisiblePopup,
   navigation,
   route,
   citaBody,
   type,
   realodingMisCitas,
-  setRealodingMisCitas
+  setRealodingMisCitas,
 }) => {
   const bottomSheetModalRef = React.useRef(null);
+//
+//   const [height, setHeight] = useState('0%');
+//   const onLayout = useCallback(
+//     (event) => {
+//             setHeight(event.nativeEvent.layout.height);
+//     },
+//     []
+// );
+
   // variables
-  const [sizeBottomSheetScreen, setSizeBottomSheetScreen] = useState(['1%', '42%']);
-  const snapPoints = useMemo(() => sizeBottomSheetScreen, [sizeBottomSheetScreen]);
+  const [sizeBottomSheetScreen, setSizeBottomSheetScreen] = useState([
+    '1%',
+    '42%',
+  ]);
+  const snapPoints = useMemo(
+    () => sizeBottomSheetScreen,
+    [sizeBottomSheetScreen],
+  );
 
   useEffect(() => {
-    if(type==='cancelCita'){
-      setSizeBottomSheetScreen(['1%','30%'])
+    if (type === 'cancelCita') {
+      setSizeBottomSheetScreen(['1%', 200]);
     }
-    if( type === 'registerCita'){
-      setSizeBottomSheetScreen(['1%', '42%'])
+    if (type === 'registerCita') {
+      setSizeBottomSheetScreen(['1%', 280]);
     }
-    if(type==='cancelSolicitudInclusion'){
-      setSizeBottomSheetScreen(['1%','30%'])
+    if (type === 'cancelSolicitudInclusion') {
+      setSizeBottomSheetScreen(['1%',200]);
     }
-  }, [])
-  
+  }, []);
 
   // const snapPoints = ['50%'];
 
@@ -85,27 +98,28 @@ const BottomSheetScreen = ({
     }
   }, []);
 
-
   const handleRegisterCita = () => {
     // setIsVisiblePopup(false);
     bottomSheetModalRef.current?.snapToIndex(-1);
     setIsVisiblePopupConfirm(true);
-  }
+  };
   const handleCancelCitaConfirm = () => {
     // setIsVisiblePopup(false);
     bottomSheetModalRef.current?.snapToIndex(-1);
     setIsVisiblePopupConfirm(true);
-  }
-  const closeBottomSheet = () =>{
+  };
+  const closeBottomSheet = () => {
     setIsVisiblePopup(false);
     bottomSheetModalRef.current?.snapToIndex(-1);
-  }
+  };
 
   const handleCancelSolicitudInclusionConfirm = () => {
     bottomSheetModalRef.current?.snapToIndex(-1);
     setIsVisiblePopupConfirm(true);
-  }
+  };
+
   
+
   const cancelCitaScreen = () => {
     return (
       <>
@@ -137,7 +151,13 @@ const BottomSheetScreen = ({
   const solicitudRegistrarCitaScreen = () => {
     return (
       <View style={{backgroundColor: 'transparent'}}>
-        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center', color:'black'}}>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            color: 'black',
+          }}>
           Resumen
         </Text>
         <View style={{marginHorizontal: 35, marginTop: 20}}>
@@ -154,9 +174,9 @@ const BottomSheetScreen = ({
               color={css.colors.primary_opaque}
               style={{marginRight: 10}}
             />
-            <View style={styles.flexSpaceBetween} >
+            <View style={styles.flexSpaceBetween}>
               <Text style={styles.labeText}>Fecha:</Text>
-              <Text style={styles.textBody}>{citaBody.fecha}</Text> 
+              <Text style={styles.textBody}>{citaBody.fecha}</Text>
             </View>
           </View>
           <View
@@ -173,11 +193,11 @@ const BottomSheetScreen = ({
               color={css.colors.primary_opaque}
               style={{marginRight: 10}}
             />
-            <View style={styles.flexSpaceBetween} >
-            <Text style={styles.labeText}>
-              Horario: 
-            </Text>
-            <Text style={styles.textBody}>{citaBody.horario[0]} - {citaBody.horario[1]}</Text>
+            <View style={styles.flexSpaceBetween}>
+              <Text style={styles.labeText}>Horario:</Text>
+              <Text style={styles.textBody}>
+                {citaBody.horario[0]} - {citaBody.horario[1]}
+              </Text>
             </View>
           </View>
           <View
@@ -194,7 +214,7 @@ const BottomSheetScreen = ({
               color={css.colors.primary_opaque}
               style={{marginRight: 10}}
             />
-            <View style={styles.flexSpaceBetween} >
+            <View style={styles.flexSpaceBetween}>
               <Text style={styles.labeText}>Especialidad:</Text>
               <Text style={styles.textBody}>{citaBody.specialty_label}</Text>
             </View>
@@ -213,9 +233,9 @@ const BottomSheetScreen = ({
               color={css.colors.primary_opaque}
               style={{marginRight: 10}}
             />
-            <View style={styles.flexSpaceBetween} >
-            <Text style={styles.labeText}>Paciente:</Text>
-            <Text style={styles.textBody}>{citaBody.patient_label}</Text>
+            <View style={styles.flexSpaceBetween}>
+              <Text style={styles.labeText}>Paciente:</Text>
+              <Text style={styles.textBody}>{citaBody.patient_label}</Text>
             </View>
           </View>
         </View>
@@ -261,59 +281,56 @@ const BottomSheetScreen = ({
     );
   };
 
-
   return (
-    <>
- {
-   isVisiblePopupConfirm ? (
-    <CitaPopupConfirm
-        isVisiblePopupConfirm={isVisiblePopupConfirm}
-        setIsVisiblePopupConfirm={setIsVisiblePopupConfirm}
-        citaBody={citaBody}
-        navigation={navigation}
-        route={route}
-        setIsVisiblePopup={setIsVisiblePopup}
-        type={type}
-        realodingMisCitas={realodingMisCitas}
-        setRealodingMisCitas={setRealodingMisCitas}
-      /> 
-   ) 
-   :
-   (<View
-      style={{
-        flex: 1,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 9,
-      }}>
-      <BottomSheet
-        ref={bottomSheetModalRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        enablePanDownToClose={true}
-        onClose={handleModalClose}
-        backdropComponent={backdropProps => (
-          <BottomSheetBackdrop
-            {...backdropProps}
-            enableTouchThrough={true}
-            opacity={0.2}
-          />
-        )}
-      >
-        <BottomSheetView>{
-          type==='registerCita' && solicitudRegistrarCitaScreen() || 
-          type==='cancelCita' && cancelCitaScreen() ||
-          type==='cancelSolicitudInclusion' &&  cancelarSolicitudInclusionScreen()
-        }</BottomSheetView>
-      </BottomSheet>
-      {/* </BottomSheetModalProvider> */}
-    </View>)
-  }
-  </>
+    < >
+      {isVisiblePopupConfirm ? (
+        <CitaPopupConfirm
+          isVisiblePopupConfirm={isVisiblePopupConfirm}
+          setIsVisiblePopupConfirm={setIsVisiblePopupConfirm}
+          citaBody={citaBody}
+          navigation={navigation}
+          route={route}
+          setIsVisiblePopup={setIsVisiblePopup}
+          type={type}
+          realodingMisCitas={realodingMisCitas}
+          setRealodingMisCitas={setRealodingMisCitas}
+        />
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9,
+          }}>
+          <BottomSheet
+            ref={bottomSheetModalRef}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+            enablePanDownToClose={true}
+            onClose={handleModalClose}
+            backdropComponent={backdropProps => (
+              <BottomSheetBackdrop
+                {...backdropProps}
+                enableTouchThrough={true}
+                opacity={0.2}
+              />
+            )}>
+            <BottomSheetView>
+              {(type === 'registerCita' && solicitudRegistrarCitaScreen()) ||
+                (type === 'cancelCita' && cancelCitaScreen()) ||
+                (type === 'cancelSolicitudInclusion' &&
+                  cancelarSolicitudInclusionScreen())}
+            </BottomSheetView>
+          </BottomSheet>
+          {/* </BottomSheetModalProvider> */}
+        </View>
+      )}
+    </>
   );
 };
 
@@ -328,17 +345,21 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  labeText:{
-    fontSize:15,
-    color: 'black'
+  labeText: {
+    fontSize: 15,
+    color: 'black',
   },
-  flexSpaceBetween:{
-    display:'flex', flexDirection:'row', justifyContent:'space-between', backgroundColor:'transparent', flex:1
+  flexSpaceBetween: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    flex: 1,
   },
-  textBody:{
-     color:css.colors.gray_opaque, fontSize:15
+  textBody: {
+    color: css.colors.gray_opaque,
+    fontSize: 15,
   },
- 
 });
 
 export default memo(BottomSheetScreen);

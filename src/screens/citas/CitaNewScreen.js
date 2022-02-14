@@ -15,6 +15,7 @@ import {
   Pressable,
   ActivityIndicator,
   Platform,
+  ScrollView,
 } from 'react-native';
 import {Button, Icon, Divider} from 'react-native-elements';
 import 'react-native-gesture-handler';
@@ -291,10 +292,10 @@ function HomeScreen({navigation, route}) {
             type={'registerCita'}
           />
         )}
-
         <KeyboardAvoidingView
           behavior={Constant.GLOBAL.KEYBOARD_BEHAVIOR}
           style={{flex: 1, backgroundColor:'transparent' }}>
+          <ScrollView style={{backgroundColor:'white'}}>
           <View>
             <View style={styles.headerContainer}>
               <Text style={styles.headerTitle}>Solicita tu cita médica</Text>
@@ -340,11 +341,10 @@ function HomeScreen({navigation, route}) {
             </Collapse>
             <Button
               buttonStyle={[
-                // css.buttonContainer,
-                {backgroundColor: css.colors.primary_opaque, marginHorizontal:20, borderRadius:10, paddingVertical:16, marginTop:30},
+                {backgroundColor: css.colors.primary_opaque, marginHorizontal:20, borderRadius:10, paddingVertical:10, marginTop:30, marginBottom:30},
               ]}
               loading={!(userUpdated && passUpdated)}
-              title="REGISTRAR CITA"
+              title="Registrar"
               titleStyle={{
                 ...Platform.select({
                   ios: {
@@ -362,8 +362,8 @@ function HomeScreen({navigation, route}) {
             />
            
           </View>
+      </ScrollView>
         </KeyboardAvoidingView>
-      {/* </ScrollView> */}
     </View>
   );
 }
