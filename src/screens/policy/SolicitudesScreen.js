@@ -68,15 +68,16 @@ const App = ({route}) => {
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
 
   useEffect(() => {
-    dataListSolicitudes();
+    fetchDataListSolicitudes();
   }, []);
 
-  const dataListSolicitudes = async () => {
-    const params = new URLSearchParams({
-      I_Sistema_IdSistema: route.params.userRoot.idSistema,
-      I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-    });
+  const fetchDataListSolicitudes = async () => {
     try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno:
+          route.params.userRoot.idUsuarioExterno,
+      });
       const response = await fetchWithToken(
         Constant.URI.GET_LISTAR_SOLICITUDES_INCLUSION,
         'POST',

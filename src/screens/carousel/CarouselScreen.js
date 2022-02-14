@@ -103,6 +103,7 @@ const CarouselHome = ({navigation, route}) => {
   const [isViewPopupTicket, setIsViewPopupTicket] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [bodyTicket, setBodyTicket] = useState([]);
+  const [isLoadingGoPronostik, setIsLoadingGoPronostik] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -132,16 +133,19 @@ const CarouselHome = ({navigation, route}) => {
         if (response.CodigoMensaje === 100) {
           setBanners(response.Result);
         } else {
-          Alert.alert('Error', 'Error de servidor');
+          console.error('[CarouselScreen - fetchBannerListar error]: ', response);
+          Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
         }
       }
     } catch (error) {
       console.error('[CarouselScreen - fetchBannerListar error]: ', error);
+      Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
     }
   };
 
   const fetchPronostikEncriptar = async () => {
     try {
+      setIsLoadingGoPronostik(true);
       const params = new URLSearchParams({
         I_Sistema_IdSistema: route.params.userRoot.idSistema,
         TipoDocumento: '1',
@@ -157,14 +161,13 @@ const CarouselHome = ({navigation, route}) => {
         params,
         route.params.userRoot.Token,
       );
-      if (isMounted.current) {
+        console.warn('responsePronostik: ',response);
         if (response.CodigoMensaje === '100') {
           openURL(response.Url);
         }
-      }
     } catch (error) {
       console.log('[CarouselScreen - fetchPronostikEncriptar error]: ', error);
-      Alert.alert('Error', 'Ha ocurrido un error.');
+      Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
     }
   };
 
@@ -182,17 +185,19 @@ const CarouselHome = ({navigation, route}) => {
         route.params.userRoot.Token,
       );
       if (response.CodigoMensaje === 100) {
-        console.warn('Response: ', response);
         setIsViewPopupTicket(true);
       } else {
         Alert.alert('Error', response.RespuestaMensaje);
       }
     } catch (error) {
       console.error('[CarouselScreen - fetchRegisterTicketSorteo]: ', error);
+      Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
     }
   };
 
   const openURL = (url, appname) => {
+    setIsLoadingGoPronostik(false);
+    console.log('openIURL: ',url);
     if (url) {
       Linking.openURL(url)
         .then()
@@ -267,6 +272,7 @@ const CarouselHome = ({navigation, route}) => {
                     buttonStyle={{
                       backgroundColor: css.colors.primary_opaque,
                       paddingHorizontal: 20,
+                      minWidth: '50%'
                     }}
                     title="Iniciar orientación"
                     titleStyle={{
@@ -275,6 +281,7 @@ const CarouselHome = ({navigation, route}) => {
                       fontWeight: 'bold',
                     }}
                     onPress={fetchPronostikEncriptar}
+                    loading={isLoadingGoPronostik}
                   />
                 </View>
               </View>

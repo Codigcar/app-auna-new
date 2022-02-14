@@ -26,8 +26,8 @@ const CitaPopupConfirm = ({
   setIsVisiblePopup,
   type,
   realodingMisCitas,
-  setRealodingMisCitas
-})  => {
+  setRealodingMisCitas,
+}) => {
   //
   // console.log('[citaBody], ', citaBody);
   const [isVisible, setisVisible] = useState(false);
@@ -59,7 +59,7 @@ const CitaPopupConfirm = ({
       />
     </Modal>
   );
-}
+};
 const DefaultModalContent = ({
   setIsVisiblePopupConfirm,
   citaBody,
@@ -68,7 +68,7 @@ const DefaultModalContent = ({
   setIsVisiblePopup,
   type,
   realodingMisCitas,
-  setRealodingMisCitas
+  setRealodingMisCitas,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchSuccessful, setFetchSuccessful] = useState(false);
@@ -113,7 +113,7 @@ const DefaultModalContent = ({
         setIsLoading(false);
         setFetchSuccessful(false);
         console.error('[CitaPopupConfirm - cancelCitaAction]: ', response);
-        Alert.alert('Error', response.Result[0].RespuestaMensaje , [
+        Alert.alert('Error', response.Result[0].RespuestaMensaje, [
           {text: 'OK', onPress: handleMsgAccepted},
         ]);
       }
@@ -170,6 +170,7 @@ const DefaultModalContent = ({
         params,
         route.params.userRoot.Token,
       );
+      console.warn('Response: ', response);
       if (response.CodigoMensaje === 100) {
         setIsLoading(false);
         setFetchSuccessful(true);
@@ -326,7 +327,8 @@ const DefaultModalContent = ({
               marginTop: 20,
               color: css.colors.gray_opaque,
             }}>
-            La cita cancelada no podrá ser visualizada en la lista de tus Citas Médicas.
+            La cita cancelada no podrá ser visualizada en la lista de tus Citas
+            Médicas.
           </Text>
         </View>
       </View>
@@ -424,7 +426,7 @@ const DefaultModalContent = ({
     </>
   );
 };
-export default React.memo(CitaPopupConfirm); 
+export default React.memo(CitaPopupConfirm);
 const styles = StyleSheet.create({
   contentTitle: {
     fontSize: 20,

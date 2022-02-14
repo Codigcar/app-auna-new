@@ -78,8 +78,8 @@ const DefaultModalContent = ({setIsVisible}) => (
           }}>
           <View
             style={{
-              borderWidth: 2,
-              borderColor: '#DCDDE0',
+              borderWidth: 3,
+              borderColor: css.colors.primary_opaque,
               borderStyle:'dotted',
               width: 150,
               borderRadius: 10,
@@ -143,8 +143,9 @@ const DefaultModalContent = ({setIsVisible}) => (
           onPress={() => setIsVisible(false)}
           title="Aceptar"
           buttonStyle={{
-            backgroundColor: 'white',
             //   borderColor: 'rgba(0,0,0,0.5)',
+
+            backgroundColor: 'white',
             borderWidth: 1,
             borderColor: 'red',
             borderRadius: 10,
@@ -153,9 +154,6 @@ const DefaultModalContent = ({setIsVisible}) => (
             paddingVertical: 15,
             marginLeft: 'auto',
             marginRight: 'auto',
-            // marginBottom: 0,
-            // marginRight: 16,
-            // marginBottom: 36,
             width: '90%',
             shadowOpacity: 0.39,
             shadowRadius: 13.97,
