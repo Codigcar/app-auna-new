@@ -1,4 +1,11 @@
-import React, {useCallback, useRef, useMemo, useState, useEffect, Fragment} from 'react';
+import React, {
+  useCallback,
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
+  Fragment,
+} from 'react';
 import {
   StyleSheet,
   Text,
@@ -21,8 +28,10 @@ import {fetchWithToken} from '../../utils/fetchCustom';
 import PopupTicket from '../reward/PopupTicket';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
-import { animatedStyles, scrollInterpolator } from '../../utils/animationsCarousel';
-
+import {
+  animatedStyles,
+  scrollInterpolator,
+} from '../../utils/animationsCarousel';
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
@@ -91,8 +100,9 @@ const CarouselHome = ({navigation, route}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const isMounted = useRef(true);
   const [banners, setBanners] = useState([]);
-  const [isViewPopupTicket, setIsViewPopupTicket] = useState(true);
+  const [isViewPopupTicket, setIsViewPopupTicket] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [bodyTicket, setBodyTicket] = useState([]);
 
   useEffect(() => {
     return () => {
@@ -102,6 +112,7 @@ const CarouselHome = ({navigation, route}) => {
 
   useEffect(() => {
     fetchBannerListar();
+    fetchRegisterTicketSorteo();
   }, []);
 
   const fetchBannerListar = async () => {
@@ -129,13 +140,16 @@ const CarouselHome = ({navigation, route}) => {
     }
   };
 
-  const fetchPronostikEncriptar = async() => {
+  const fetchPronostikEncriptar = async () => {
     try {
       const params = new URLSearchParams({
         I_Sistema_IdSistema: route.params.userRoot.idSistema,
-        TipoDocumento: "1",
+        TipoDocumento: '1',
         Documento: route.params.userRoot.numeroDocumento,
-        Nombres: route.params.userRoot.nombre + route.params.userRoot.apellidoPaterno + route.params.userRoot.apellidoMaterno,
+        Nombres:
+          route.params.userRoot.nombre +
+          route.params.userRoot.apellidoPaterno +
+          route.params.userRoot.apellidoMaterno,
       });
       const response = await fetchWithToken(
         Constant.URI.POST_PRONOSTIK,
@@ -144,15 +158,39 @@ const CarouselHome = ({navigation, route}) => {
         route.params.userRoot.Token,
       );
       if (isMounted.current) {
-        if(response.CodigoMensaje === "100"){
-          openURL(response.Url)
+        if (response.CodigoMensaje === '100') {
+          openURL(response.Url);
         }
       }
     } catch (error) {
       console.log('[CarouselScreen - fetchPronostikEncriptar error]: ', error);
       Alert.alert('Error', 'Ha ocurrido un error.');
     }
-  }
+  };
+
+  const fetchRegisterTicketSorteo = async () => {
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno:
+          route.params.userRoot.idUsuarioExterno,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.POST_REGISTRAR_USUARIO_SORTEO,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      if (response.CodigoMensaje === 100) {
+        console.warn('Response: ', response);
+        setIsViewPopupTicket(true);
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+      }
+    } catch (error) {
+      console.error('[CarouselScreen - fetchRegisterTicketSorteo]: ', error);
+    }
+  };
 
   const openURL = (url, appname) => {
     if (url) {
@@ -259,31 +297,29 @@ const CarouselHome = ({navigation, route}) => {
 
   return (
     <Fragment>
-    {
-      isLoading ? (<LoadingActivityIndicator />)
-      :
-      (
+      {isLoading ? (
+        <LoadingActivityIndicator />
+      ) : (
         <>
-    {isViewPopupTicket && <PopupTicket />}
-      <SafeAreaView>
-        <View style={styles.headerContainer}>
-          <Carousel
-            data={banners}
-            renderItem={({item}) => renderItem(item)}
-            sliderWidth={screenWidth}
-            itemWidth={screenWidth}
-            scrollInterpolator={scrollInterpolator}
-            slideInterpolatedStyle={animatedStyles}
-            onSnapToItem={index => {
-              setActiveIndex(index);
-            }}
-            // useScrollView={true}
-          />
-        </View>
-      </SafeAreaView>
+          {isViewPopupTicket && <PopupTicket />}
+          <SafeAreaView>
+            <View style={styles.headerContainer}>
+              <Carousel
+                data={banners}
+                renderItem={({item}) => renderItem(item)}
+                sliderWidth={screenWidth}
+                itemWidth={screenWidth}
+                scrollInterpolator={scrollInterpolator}
+                slideInterpolatedStyle={animatedStyles}
+                onSnapToItem={index => {
+                  setActiveIndex(index);
+                }}
+                // useScrollView={true}
+              />
+            </View>
+          </SafeAreaView>
         </>
-      )
-    }
+      )}
     </Fragment>
   );
 };

@@ -1,13 +1,15 @@
 import React from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 
-export default LoadingActivityIndicator = () => {
+const LoadingActivityIndicator = () => {
   return (
     <View style={styles.container}>
       <ActivityIndicator size="large" color={'red'} />
     </View>
   );
 };
+
+export default React.memo(LoadingActivityIndicator)
 
 const styles = StyleSheet .create({
   container: {

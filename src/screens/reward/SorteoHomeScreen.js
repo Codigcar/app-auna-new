@@ -1,8 +1,8 @@
 import {View} from 'native-base';
 import React, {useState} from 'react';
-import {FlatList, Image} from 'react-native';
+import {FlatList, Image, Platform} from 'react-native';
 import {Avatar, Icon, Text} from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import {SvgXml} from 'react-native-svg';
 import giftbox from '../../assets/svg/giftbox';
 import constants from '../../utils/constants';
@@ -70,7 +70,7 @@ export const SorteoHomeScreen = () => {
             ) : (
               <View
                 style={{
-                  backgroundColor:'transparent',
+                  backgroundColor: 'transparent',
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -85,7 +85,7 @@ export const SorteoHomeScreen = () => {
                   shadowOpacity: 0.39,
                   shadowRadius: 13.97,
                   paddingVertical: 20,
-                  maxWidth: constants.DEVICE.WIDTH*0.3
+                  maxWidth: constants.DEVICE.WIDTH * 0.3,
                 }}>
                 <View
                   style={{
@@ -97,22 +97,42 @@ export const SorteoHomeScreen = () => {
                     size={70}
                     rounded
                     // source={{ uri: SV_RutaImagen }}
-                    icon={{name: 'gift-outline', type: 'ionicon', size: 40, color:css.colors.primary_opaque}}
+                    icon={{
+                      name: 'gift-outline',
+                      type: 'ionicon',
+                      size: 40,
+                      color: css.colors.primary_opaque,
+                    }}
                     containerStyle={{
                       backgroundColor: 'white',
-                      shadowColor: css.colors.primary_opaque,
-                      elevation: 24,
-                      // shadowColor: 'gray',
-                      shadowOffset: {
-                        width: 0,
-                        height: 12,
-                      },
-                      shadowOpacity: 0.58,
-                      shadowRadius: 16.0,
-
+                      ...Platform.select({
+                        ios: {
+                          shadowColor: css.colors.primary_opaque,
+                          shadowOffset: {
+                            width: 0,
+                            height: 0,
+                          },
+                          shadowOpacity: 1,
+                          shadowRadius: 5,
+                          // elevation: 4,
+                        },
+                        android: {
+                          shadowColor: css.colors.primary_opaque,
+                          elevation: 24,
+                          shadowOffset: {
+                            width: 0,
+                            height: 12,
+                          },
+                          shadowOpacity: 0.58,
+                          shadowRadius: 16.0,
+                        },
+                      }),
                     }}
                   />
-                  <Text style={{paddingTop: 10, textAlign:'center', fontSize:12}}>{item.nombreRiesgo}</Text>
+                  <Text
+                    style={{paddingTop: 10, textAlign: 'center', fontSize: 12}}>
+                    {item.nombreRiesgo}
+                  </Text>
                 </View>
               </View>
             )}
@@ -124,7 +144,7 @@ export const SorteoHomeScreen = () => {
 
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
-        {/* <SvgXml
+      {/* <SvgXml
           xml={giftbox}
           height={150}
           width={'100%'}
@@ -132,54 +152,158 @@ export const SorteoHomeScreen = () => {
             backgroundColor: '#FAFAFA'
           }}
         /> */}
-        <Image
-                style={{  height:140,resizeMode:'cover', width:'100%'}}
-                source={require('../../assets/box.png')}
-                PlaceholderContent={<Text></Text>}
-              />
-        <Text
-          style={{textAlign: 'center', marginHorizontal: 20, marginTop:15}}>
-          <Text style={{fontSize: 17}}>¡Sé uno de los</Text>
-          <Text style={{color: css.colors.primary_opaque, fontSize: 30}}>
-            10 ganadores
-          </Text>
-          <Text style={{fontSize: 17}}>
-            {' '}
-            mensuales de nuestros super premios!
-          </Text>
+      <Image
+        style={{height: 145, resizeMode: 'cover', width: '100%'}}
+        source={require('../../assets/box.png')}
+        PlaceholderContent={<Text></Text>}
+      />
+      <Text style={{textAlign: 'center', marginHorizontal: 20, marginTop: 15}}>
+        <Text style={{fontSize: 17}}>¡Sé uno de los</Text>
+        <Text style={{color: css.colors.primary_opaque, fontSize: 30}}>
+          10 ganadores
         </Text>
-        <View >
-          <Imagenes items={items[0].riesgos} />
+        <Text style={{fontSize: 17}}>
+          {' '}
+          mensuales de nuestros super premios!
+        </Text>
+      </Text>
+      <View>
+        <Imagenes items={items[0].riesgos} />
+      </View>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            borderWidth: 3,
+            borderColor: '#DCDDE0',
+            width: 200,
+            borderStyle: 'dotted',
+            borderRadius: 10,
+            padding: 10,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              textAlign: 'center',
+              backgroundColor: 'transparent',
+              marginRight: 10,
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 13,
+                color: css.colors.gray_opaque,
+              }}>
+              Tu ticket
+            </Text>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 35,
+                  color: css.colors.primary_opaque,
+                  fontWeight: 'bold',
+                  // ...Platform.select({
+                  //   ios: {
+                  //     fontWeight: '500',
+                  //   },
+                  //   android: {
+                  //     fontWeight: '600',
+                  //   },
+                  // }),
+                }}></Text>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 32,
+                  ...Platform.select({
+                    ios: {
+                      fontWeight: '600',
+                    },
+                    android: {
+                      fontWeight: 'bold',
+                    },
+                  }),
+                }}>
+                N°321
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              textAlign: 'center',
+              backgroundColor: 'transparent',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <Icon
+              name="ticket"
+              type="fontisto"
+              size={40}
+              color={css.colors.primary_opaque}
+            />
+          </View>
         </View>
-        <View style={{ display:'flex', flexDirection:'row', justifyContent:'center'}} >
-            <View style={{ borderWidth:.8, borderColor:'#DCDDE0', width:200,borderRadius:10, padding:10, display:'flex', flexDirection:'row', justifyContent:'space-around', alignItems:'center' }} >
-                <View style={{textAlign:'center', backgroundColor:'transparent'}} >
-                    <Text style={{textAlign:'center', fontSize:13, color:css.colors.gray_opaque}} >Tu ticket</Text>
-                    <Text style={{textAlign:'center', fontSize:35, fontWeight:'bold'}} > N°321</Text>
-                </View>
-               <View style={{textAlign:'center', backgroundColor:'transparent', display:'flex', flexDirection:'row', justifyContent:'center'}}>
+      </View>
+      <View style={{marginVertical: 30}}>
+        <View
+          style={{
+            backgroundColor: '#FEF4E8',
+            marginHorizontal: 20,
+            borderRadius: 7,
+            padding: 5,
+          }}>
+          <View style={{backgroundColor: 'white', padding: 5, borderRadius: 7}}>
+            <View
+              style={{
+                backgroundColor: '#FEF4E8',
+                borderRadius: 7,
+                padding: 10,
+                display: 'flex',
+                flexDirection: 'row',
+              }}>
+              <View
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  // paddingHorizontal:5
+                  paddingRight: 10,
+                }}>
                 <Icon
-                    name="ticket-alt"
-                    type="fontisto"
-                    size={40}
-                    color={css.colors.primary_opaque}
-                    />
-               </View>
+                  name="warning"
+                  type="ionicon"
+                  size={30}
+                  color={'#FFCA00'}
+                />
+              </View>
+              <View style={{marginRight:30}} >
+                <Text >
+                  Importante: Por cada mes que ingreses tendrás automáticamente
+                  un número de ticket con el que podrás participar en nuestros
+                  increibles sorteos mensuales.
+                </Text>
+              </View>
             </View>
+          </View>
         </View>
-        <View style={{marginVertical:30}}>
-            <View style={{backgroundColor:'#FEF4E8', marginHorizontal:20, borderRadius:7, padding:5}}>
-                <View style={{backgroundColor:'white', padding:5,borderRadius:7,}}>
-                    <View  style={{backgroundColor:'#FEF4E8',borderRadius:7, padding:10}}>
-                        <Text>Importante: Por cada mes que ingreses tendrás automáticamente un número de ticket con el que podrás participar en nuestros increibles sorteos mensuales. Una vez ganador te llegará un mensaje a tu correo en menos de 24h</Text>
-                    </View>
-                </View>
-            </View>
-        </View>
-        <View style={{backgroundColor:'transparent', marginBottom:40}} >
-            <Text style={{textAlign:'center', textDecorationLine:'underline'}} >Ver términos de uso</Text>
-            <Text style={{textAlign:'center', textDecorationLine:'underline'}}>Ver Política de Privacidad</Text>
-        </View>
+      </View>
+      <View style={{backgroundColor: 'transparent', marginBottom: 40}}>
+        <Text style={{textAlign: 'center', textDecorationLine: 'underline'}}>
+          Ver términos de uso
+        </Text>
+        <Text style={{textAlign: 'center', textDecorationLine: 'underline'}}>
+          Ver Política de Privacidad
+        </Text>
+      </View>
     </ScrollView>
   );
 };

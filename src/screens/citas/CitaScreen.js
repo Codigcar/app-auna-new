@@ -29,6 +29,7 @@ import DataNotFound from '../../components/CitaNotFound';
 import CitaPopupCancel from './CitaPopupCancel';
 import {Constants} from '../../utils/util';
 import { useFocusEffect } from '@react-navigation/native';
+import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
 
 export default function CitaScreen({navigation, route}) {
   console.log('[Stack-CitaScreen]');
@@ -152,6 +153,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
   const [items, setItems] = useState('');
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
   const [citaBody, setCitaBody] = useState({});
+  const [realodingMisCitas, setRealodingMisCitas] = useState(false);
 
   useFocusEffect(
     React.useCallback(
@@ -164,7 +166,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
         console.log('Des-montado');
         isMounted.current = false;
       }
-    },[]
+    },[realodingMisCitas]
     )
   )
 
@@ -175,23 +177,26 @@ const HomeScreen = React.memo(({navigation, route}) => {
   }, []);
 
   const fetchDataCitasListar = async () => {
-    console.log('function fetchDataCitasListar');
-    const params = new URLSearchParams({
-      I_Sistema_IdSistema: route.params.userRoot.idSistema,
-      I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-    });
-    const response = await fetchWithToken(
-      Constant.URI.GET_LISTAR_CITA,
-      'POST',
-      params,
-      route.params.userRoot.Token,
-    );
-    if (isMounted.current) {
-      if (response.CodigoMensaje === 100) {
-        setItems(response.Result.reverse());
-      } else {
-        Alert.alert('Error', response.RespuestaMensaje);
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.GET_LISTAR_CITA,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      if (isMounted.current) {
+        if (response.CodigoMensaje === 100) {
+          setItems(response.Result.reverse());
+        } else {
+          Alert.alert('Error', response.RespuestaMensaje);
+        }
       }
+    } catch (error) {
+      console.error('[CitaScreen - fetchDataCitasLitar]: ',error);
     }
   };
 
@@ -216,6 +221,8 @@ const HomeScreen = React.memo(({navigation, route}) => {
           route={route}
           citaBody={citaBody}
           type={'cancelCita'}
+          realodingMisCitas={realodingMisCitas}
+          setRealodingMisCitas={setRealodingMisCitas}
         />
       )}
       <View>
@@ -225,7 +232,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
         <Divider style={css.dividerTitleLineRed} />
       </View>
       {typeof items === 'string' ? (
-        <AuthLoadingScreen />
+        <LoadingActivityIndicator />
       ) : (
         <>
           {items.length === 0 ? (
@@ -283,7 +290,6 @@ const HomeScreen = React.memo(({navigation, route}) => {
                             <Text>{item.descripcion}</Text>
                             <Text
                               style={{fontSize: 11, color: css.colors.opaque}}>
-                              {' '}
                               {item.Dia}, {item.Mes}{' '}
                               {item.fechaCita.substring(0, 2)},{' '}
                               {item.fechaCita.substring(6, 10)}

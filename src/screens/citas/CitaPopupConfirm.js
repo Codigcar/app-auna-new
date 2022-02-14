@@ -25,6 +25,8 @@ const CitaPopupConfirm = ({
   citaBody,
   setIsVisiblePopup,
   type,
+  realodingMisCitas,
+  setRealodingMisCitas
 })  => {
   //
   // console.log('[citaBody], ', citaBody);
@@ -52,6 +54,8 @@ const CitaPopupConfirm = ({
         route={route}
         setIsVisiblePopup={setIsVisiblePopup}
         type={type}
+        realodingMisCitas={realodingMisCitas}
+        setRealodingMisCitas={setRealodingMisCitas}
       />
     </Modal>
   );
@@ -63,6 +67,8 @@ const DefaultModalContent = ({
   route,
   setIsVisiblePopup,
   type,
+  realodingMisCitas,
+  setRealodingMisCitas
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchSuccessful, setFetchSuccessful] = useState(false);
@@ -134,9 +140,11 @@ const DefaultModalContent = ({
       if (response.CodigoMensaje >= 100 && response.CodigoMensaje <= 199) {
         setIsLoading(false);
         setFetchSuccessful(true);
+        setRealodingMisCitas(!realodingMisCitas);
       } else {
         setIsLoading(false);
         setFetchSuccessful(false);
+        setRealodingMisCitas(!realodingMisCitas);
         console.error('[CitaPopupConfirm - cancelCitaAction]: ', response);
         Alert.alert('Error', 'Intentelo nuevamenta en unos minutos', [
           {text: 'OK', onPress: handleMsgAccepted},

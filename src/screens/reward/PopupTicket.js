@@ -7,7 +7,7 @@ import {
   // Button
 } from 'react-native';
 import {SvgXml} from 'react-native-svg';
-import {Button} from 'react-native-elements';
+import {Button, Icon} from 'react-native-elements';
 
 import {css} from '../../utils/css';
 import giftbox from '../../assets/svg/giftbox';
@@ -16,6 +16,7 @@ import Modal from 'react-native-modal';
 export default function PopupTicket({navigation, route}) {
   //
   const [isVisible, setIsVisible] = useState(true);
+
   return (
     <Modal
       testID={'modal'}
@@ -55,23 +56,88 @@ const DefaultModalContent = ({setIsVisible}) => (
       <View style={{height: 90, backgroundColor: 'transparent'}} />
       <View style={{backgroundColor: 'transparent'}}>
         <View>
-          <Text style={styles.textCenter}>
+          <Text style={(styles.textCenter, {textAlign: 'center'})}>
             Se te ha asignado un número aleatorio para participar en nuestros
             sorteos
           </Text>
         </View>
-        <Text
+        {/* <Text
           style={[
             styles.textCenter,
             styles.numTicket,
-            {color: css.colors.primary, marginVertical: 20},
+            {color: css.colors.primary, marginVertical: 20 },
           ]}>
-          N° Ticket: 321
-        </Text>
-        <Text style={[styles.textCenter, {color: 'rgba(166, 166, 172, 1)'}]}>
-          Ahora te encuentras participando en nuestros sorteos mensuales. El
-          próximo sorteo es el 01/01/2022. Encuentra mayor información en la
-          sección Más/Sorteos.
+           Ticket: 321
+        </Text> */}
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginVertical:20
+          }}>
+          <View
+            style={{
+              borderWidth: 2,
+              borderColor: '#DCDDE0',
+              borderStyle:'dotted',
+              width: 150,
+              borderRadius: 10,
+              padding: 5,
+              // paddingHorizontal:10,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+            }}>
+            <View style={{textAlign: 'center', backgroundColor: 'transparent', marginRight:0}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 11,
+                  color: css.colors.gray_opaque,
+                }}>
+                Tu ticket N°
+              </Text>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 35,
+                  color:css.colors.primary_opaque,
+                  ...Platform.select({
+                    ios: {
+                      fontWeight: '600',
+                    },
+                    android: {
+                      fontWeight: 'bold',
+                    },
+                  }),
+                }}>
+                321
+              </Text>
+            </View>
+            <View>
+              <Icon 
+                name="ticket"
+                type="fontisto"
+                size={40}
+                color={css.colors.primary_opaque}
+                // style={{transform:[{rotate:"90deg"}]}}
+              />
+            </View>
+          </View>
+        </View>
+        <Text
+          style={[
+            styles.textCenter,
+            {
+              color: 'rgba(166, 166, 172, 1)',
+              fontSize: 13,
+              marginHorizontal: 9,
+            },
+          ]}>
+          Ahora te encuentras participando en nuestros sorteos mensuales.
+          Encuentra mayor información en la sección Más/Sorteos.
         </Text>
         <Button
           onPress={() => setIsVisible(false)}
@@ -113,13 +179,13 @@ const DefaultModalContent = ({setIsVisible}) => (
             ...Platform.select({
               ios: {
                 fontSize: 16,
-                height:24
+                height: 24,
               },
-              android:{
+              android: {
                 fontSize: 16,
-                height:30,
-                color:'red'
-              }
+                height: 30,
+                color: 'red',
+              },
             }),
           }}
         />

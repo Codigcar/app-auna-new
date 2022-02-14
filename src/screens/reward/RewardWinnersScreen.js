@@ -272,7 +272,7 @@ const App = ({route}) => {
                   TICKET N° {item.CodigoTicket}
                 </Text>
                 <Icon
-                  name="ticket-alt"
+                  name="ticket"
                   type="fontisto"
                   size={20}
                   color={css.colors.opaque}

@@ -36,6 +36,8 @@ const BottomSheetScreen = ({
   route,
   citaBody,
   type,
+  realodingMisCitas,
+  setRealodingMisCitas
 }) => {
   const bottomSheetModalRef = React.useRef(null);
   // variables
@@ -99,7 +101,7 @@ const BottomSheetScreen = ({
     bottomSheetModalRef.current?.snapToIndex(-1);
   }
 
-  const handleCancelSolicitudCitaConfirm = () => {
+  const handleCancelSolicitudInclusionConfirm = () => {
     bottomSheetModalRef.current?.snapToIndex(-1);
     setIsVisiblePopupConfirm(true);
   }
@@ -112,7 +114,7 @@ const BottomSheetScreen = ({
         </Text>
         <Button
           buttonStyle={css.buttonContainerOutline}
-          title="Si, cancelar"
+          title="Sí, cancelar"
           titleStyle={{
             color: css.colors.primary_opaque,
             ...Platform.select({ios: {fontWeight: 'bold'}}),
@@ -244,7 +246,7 @@ const BottomSheetScreen = ({
             color: css.colors.primary_opaque,
             ...Platform.select({ios: {fontWeight: 'bold'}}),
           }}
-          onPress={handleCancelSolicitudCitaConfirm}
+          onPress={handleCancelSolicitudInclusionConfirm}
         />
         <Button
           buttonStyle={css.buttonContainerOutline}
@@ -272,6 +274,8 @@ const BottomSheetScreen = ({
         route={route}
         setIsVisiblePopup={setIsVisiblePopup}
         type={type}
+        realodingMisCitas={realodingMisCitas}
+        setRealodingMisCitas={setRealodingMisCitas}
       /> 
    ) 
    :
@@ -285,8 +289,6 @@ const BottomSheetScreen = ({
         bottom: 0,
         zIndex: 9,
       }}>
-      {/* <Button onPress={abiert} title="Present Modal" color="black" /> */}
-      {/* <BottomSheetModalProvider> */}
       <BottomSheet
         ref={bottomSheetModalRef}
         index={1}
@@ -321,10 +323,6 @@ const styles = StyleSheet.create({
     padding: 24,
     justifyContent: 'center',
     backgroundColor: 'white',
-    // position:'absolute',
-    // // top:0,
-    // // left:0
-    // backgroundColor: css.colors.shadowColorCard,
   },
   contentContainer: {
     flex: 1,
