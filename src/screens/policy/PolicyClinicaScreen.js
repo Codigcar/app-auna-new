@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Divider } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
+import ElementDropDown from '../../components/ElementDropDown';
 import Constant from '../../utils/constants';
 import { css } from '../../utils/css';
 
@@ -43,7 +44,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
           // console.log('CATEGORIAS: ' + JSON.stringify(response));
           // console.log('CATEGORIAS.Result: ' + response.Result);
           // console.log('CATEGORIAS.Result.L: ' + response.Result.length);
-
+          console.log('[Clinicas]: ', response);
           if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199)
           {
             Alert.alert('', response.RespuestaMensaje);
@@ -65,7 +66,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
                 .then((response) => response.json())
                 .then((response) => {
           
-                  //console.log('GET_DEPARTAMENTOS: ' + JSON.stringify(response));
+                  // console.log('GET_DEPARTAMENTOS: ' + JSON.stringify(response));
           
                   if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199)
                   {
@@ -274,8 +275,8 @@ export default function PolicyClinicaScreen({ navigation, route }) {
     return (
       <View style={styles.pickers_container}>
         <View style={{ width:"100%", marginBottom:Platform.select({ android:10, ios:30 }) }}>
-          <Text style={{ fontSize: 16, fontWeight: "bold", marginLeft: Platform.select({ android:7, ios:0 }) }}>Categoría de clínicas</Text>
-          <RNPickerSelect
+         {/* <Text style={{ fontSize: 16, fontWeight: "bold", marginLeft: Platform.select({ android:7, ios:0 }) }}>Categoría de clínicas</Text>
+           <RNPickerSelect
             placeholder={{ label: 'Selecciona una categoría', value: 0, color: '#838383' }}
             onValueChange={onChangeCategorias}
             items={categorias}
@@ -283,11 +284,14 @@ export default function PolicyClinicaScreen({ navigation, route }) {
             pickerProps={{ 
               mode:Platform.select({android: "dropdown"})
             }}
-          />
+          /> */}
+          <ElementDropDown data={categorias} value={categoria} setValue={onChangeCategorias}
+                         placeholder={'Selecciona una categoria'} label={'Categoría de clínicas'} iconName={'shield-checkmark-outline'}  disable={false}/>
+
         </View>
         <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:30 }) }}>
-          <Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 }) }}>Departamento</Text>
-          <RNPickerSelect
+          {/*<Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 }) }}>Departamento</Text>
+           <RNPickerSelect
             placeholder={{ label: 'Selecciona un departamento', value: 0, color: '#838383' }}
             onValueChange={onChangeDepartamentos}
             items={departamentos}
@@ -295,11 +299,15 @@ export default function PolicyClinicaScreen({ navigation, route }) {
             pickerProps={{ 
               mode:Platform.select({android: "dropdown"})
             }}
-          />
+          /> */}
+
+          <ElementDropDown data={departamentos} value={departamento} setValue={onChangeDepartamentos}
+                         placeholder={'Selecciona un departamento'} label={'Departamento'} iconName={'shield-checkmark-outline'}  disable={false}/>
+                         
         </View>
         <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:30 }) }}>
-          <Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 }) }}>Provincia</Text>
-          <RNPickerSelect
+          {/*<Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 }) }}>Provincia</Text>
+           <RNPickerSelect
             placeholder={{ label: 'Selecciona una provincia', value: 0, color: '#838383' }}
             onValueChange={onChangeProvinces}
             items={provinces}
@@ -307,11 +315,14 @@ export default function PolicyClinicaScreen({ navigation, route }) {
             pickerProps={{ 
               mode:Platform.select({android: "dropdown"})
             }}
-          />
+          /> */}
+          <ElementDropDown data={provinces} value={province} setValue={onChangeProvinces}
+                         placeholder={'Selecciona una provincia'} label={'Provincia'} iconName={'shield-checkmark-outline'}  disable={false}/>
+                         
         </View>
         <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:30 }) }}>
-          <Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 })  }}>Distrito</Text>
-          <RNPickerSelect
+          {/* <Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 })  }}>Distrito</Text> */}
+          {/* <RNPickerSelect
             placeholder={{ label: 'Selecciona un distrito', value: 0, color: '#838383' }}
             onValueChange={onChangeDistritos}
             items={districts}
@@ -319,7 +330,10 @@ export default function PolicyClinicaScreen({ navigation, route }) {
             pickerProps={{ 
               mode:Platform.select({android: "dropdown"})
             }}
-          />
+          /> */}
+          <ElementDropDown data={districts} value={district} setValue={onChangeDistritos}
+                         placeholder={'Selecciona un distrito'} label={'Distrito'} iconName={'shield-checkmark-outline'}  disable={false}/>
+             
         </View>
       </View>
     )

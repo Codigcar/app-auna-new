@@ -29,7 +29,7 @@ const ElementDropDown = ({
  
   useEffect(() => {
     if (
-      data[0].label === 'cargando...' &&
+      data[0]?.label === 'cargando...' &&
       (label === 'Fecha' || label === 'Hora')
     ) {
       setDisableField(true);

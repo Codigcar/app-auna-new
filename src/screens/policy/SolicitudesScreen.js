@@ -84,7 +84,7 @@ const App = ({route}) => {
         params,
         route.params.userRoot.Token,
       );
-
+      console.log('[fetchDataListSolicitudes]: ', response);
       if (response.CodigoMensaje == 100) {
         setFilteredDataSource(response.Result);
         setMasterDataSource(response.Result);
@@ -142,30 +142,26 @@ const App = ({route}) => {
           style={{paddingLeft: 10, backgroundColor: 'transparent', flex: 1}}>
           <View style={{padding: 7}}>
             <View style={styles.cardSection}>
-              {item.tipo === '0' ? (
-                <View style={{display: 'flex', flexDirection: 'row'}}>
-                  <Text>Tipo:</Text>
-                  <Text style={styles.labelTipoInclusion}> Inclusión</Text>
-                </View>
-              ) : (
-                <View style={{display: 'flex', flexDirection: 'row'}}>
-                  <Text>Tipo:</Text>
-                  <Text style={styles.labelTipoExclusion}> Exclusión</Text>
-                </View>
-              )}
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                <Text>Tipo:</Text>
+                <Text style={styles.cardSectionText}>
+                  {' '}
+                  {item.tipoSolicitud}
+                </Text>
+              </View>
             </View>
             <View style={styles.cardSection}>
-              <Text>Asegurado</Text>
+              <Text>Asegurado:</Text>
               <Text style={styles.cardSectionText}>
                 {item.nombres} {item.apellido_paterno} {item.apellido_materno}
               </Text>
             </View>
             <View style={styles.cardSection}>
-              <Text>Parentesco</Text>
+              <Text>Parentesco:</Text>
               <Text style={styles.cardSectionText}>{item.parentesco}</Text>
             </View>
             <View style={styles.cardSection}>
-              <Text>Estado</Text>
+              <Text>Estado:</Text>
               <Text style={styles.cardSectionText}>
                 {item.estado_solicitud}
               </Text>
@@ -177,7 +173,7 @@ const App = ({route}) => {
               </View>
             )} */}
             <View style={styles.cardSection}>
-              <Text>Fecha de registro</Text>
+              <Text>Fecha de registro:</Text>
               <Text style={styles.cardSectionText}>
                 {item.fecha_inclusion.substring(0, 10)}
               </Text>

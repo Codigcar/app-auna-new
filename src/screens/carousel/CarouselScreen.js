@@ -35,25 +35,6 @@ import {
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
-const items = [
-  {
-    title: 'Tus Pólizas siempre contigo',
-    desc: 'Detalles, endoso, primas y mucho más',
-    img: require('../../assets/mundo.png'),
-  },
-  {
-    title:
-      'El primero orientador médico, basado en inteligencia artificial en el Perú',
-    desc: '',
-    img: require('../../assets/doctor.gif'),
-  },
-  {
-    title: 'Asegúralos sin perder los momentos en familia',
-    desc: '',
-    img: require('../../assets/mundo.png'),
-  },
-];
-
 const CarouselScreen = ({navigation, route}) => {
   console.log('[Stack-CarouselScreen]');
   return (
@@ -130,6 +111,7 @@ const CarouselHome = ({navigation, route}) => {
       );
       setIsLoading(false);
       if (isMounted.current) {
+        console.error('[banners]: ', response);
         if (response.CodigoMensaje === 100) {
           setBanners(response.Result);
         } else {

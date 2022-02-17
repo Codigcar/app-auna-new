@@ -128,24 +128,24 @@ const App = ({route}) => {
         <View style={{flexDirection: 'row'}}>
           <View style={{paddingLeft: 10}}>
             <View style={styles.cardSection}>
-              <Text style={{fontWeight: 'bold'}}>Asegurado</Text>
+              <Text style={{fontWeight: 'bold'}}>Asegurado:</Text>
               <Text style={{fontWeight: 'bold', marginLeft: 8, color: 'black'}}>
                 {item.apellidoPaternoAsegurado} {item.apellidoMaternoAsegurado}{' '}
                 {item.nombreAsegurado}
               </Text>
             </View>
             <View style={styles.cardSection}>
-              <Text>Parentesco</Text>
+              <Text>Parentesco:</Text>
               <Text style={styles.cardSectionText}>
                 {item.nombreTipoDependiente}
               </Text>
             </View>
             <View style={styles.cardSection}>
-              <Text>Edad</Text>
+              <Text>Edad:</Text>
               <Text style={styles.cardSectionText}>{item.edadAsegurado}</Text>
             </View>
             <View style={styles.cardSection}>
-              <Text>Fecha de inclusión</Text>
+              <Text>Fecha de inclusión:</Text>
               <Text style={styles.cardSectionText}>{item.fechaInclusion}</Text>
             </View>
           </View>
