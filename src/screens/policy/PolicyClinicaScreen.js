@@ -5,7 +5,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import ElementDropDown from '../../components/ElementDropDown';
 import Constant from '../../utils/constants';
 import { css } from '../../utils/css';
-
+import LoadingActivityIndicator from '../../components/LoadingActivityIndicator'
 
 
 export default function PolicyClinicaScreen({ navigation, route }) {
@@ -21,17 +21,14 @@ export default function PolicyClinicaScreen({ navigation, route }) {
   const [districts, setDistricts] = useState([]);
   const [district, setDistrict] = useState(0);
   const [clinics, setClinics] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
-    
-      //console.log('CATEGORIAS I_PlanAsegurado_idPlanAsegurado: ' +route.params.policy.idPlanAsegurado + " -> "+ (route.params.policy.idPlanAsegurado==null));
       let uri = Constant.URI.PATH + Constant.URI.GET_CATEGORIAS + '?I_Sistema_IdSistema=' + route.params.userRoot.idSistema + '&I_Riesgo_IdRiesgo=' + route.params.policy.idRiesgo + 
       '&I_PlanAsegurado_idPlanAsegurado=' + (route.params.policy.idPlanAsegurado==null ? 0 : route.params.policy.idPlanAsegurado) + 
       '&I_UsuarioExterno_IdUsuarioExterno=' + route.params.userRoot.idUsuarioExterno;
-      //console.log('CATEGORIAS uri: ' +uri);
-
-      fetch(uri, 
-      {
+      fetch(uri, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -41,10 +38,6 @@ export default function PolicyClinicaScreen({ navigation, route }) {
         .then((response) => response.json())
         .then((response) =>
         {
-          // console.log('CATEGORIAS: ' + JSON.stringify(response));
-          // console.log('CATEGORIAS.Result: ' + response.Result);
-          // console.log('CATEGORIAS.Result.L: ' + response.Result.length);
-          console.log('[Clinicas]: ', response);
           if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199)
           {
             Alert.alert('', response.RespuestaMensaje);
@@ -65,9 +58,6 @@ export default function PolicyClinicaScreen({ navigation, route }) {
               }) 
                 .then((response) => response.json())
                 .then((response) => {
-          
-                  // console.log('GET_DEPARTAMENTOS: ' + JSON.stringify(response));
-          
                   if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199)
                   {
                     Alert.alert('', response.RespuestaMensaje);
@@ -128,6 +118,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
     }
     else
     {
+      setIsLoading(true);
       setCategoria(idCategoriaClinicaSistemaRiesgoPlanAsegurado);
         fetch(Constant.URI.PATH + Constant.URI.GET_CLINICAS + '?I_Sistema_IdSistema=' + route.params.userRoot.idSistema + '&I_UsuarioExterno_IdUsuarioExterno=' + route.params.userRoot.idUsuarioExterno + '&I_Poliza_IdPoliza=' + route.params.policy.idPoliza + '&I_CategoriaClinicaSistemaRiesgoPlanAsegurado_IdCategoriaClinicaSistemaRiesgoPlanAsegurado=' + idCategoriaClinicaSistemaRiesgoPlanAsegurado + '&I_Departamento_IdDepartamento=' + departamento + '&I_Provincia_IdProvincia=' + province + '&I_Distrito_IdDistrito=' + district,{
           method: 'POST',
@@ -138,7 +129,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
         })
           .then((response) => response.json())
           .then((response) => {
-            console.log('LOG HOLA CLINICAS: ' + JSON.stringify(response));
+            setIsLoading(false);
             if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
               Alert.alert('', response.mensaje);
              } else {
@@ -161,6 +152,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
     setProvinces([]);
     setDepartamento(idDepartamento);
   } else {
+    setIsLoading(true);
     fetch(Constant.URI.PATH + Constant.URI.GET_PROVINCIAS + '?I_Sistema_IdSistema=' + route.params.userRoot.idSistema + '&I_UsuarioExterno_IdUsuarioExterno=' + route.params.userRoot.idUsuarioExterno + '&I_Departamento_IdDepartamento=' + idDepartamento, {
       method: 'POST',
       headers: {
@@ -170,6 +162,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
     })
       .then((response) => response.json())
       .then((response) => {
+        setIsLoading(false);
         if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
           Alert.alert('', response.mensaje);
         } else {
@@ -196,6 +189,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
       setDistricts([]);
       setProvince(idProvincia);
     } else {
+      setIsLoading(true);
       fetch(Constant.URI.PATH + Constant.URI.GET_DISTRITOS + '?I_Sistema_IdSistema=' + route.params.userRoot.idSistema + '&I_UsuarioExterno_IdUsuarioExterno=' + route.params.userRoot.idUsuarioExterno + '&I_Departamento_IdDepartamento=' + idDepartamento + '&I_Provincia_IdProvincia=' + idProvincia,{
         method: 'POST',     
         headers: {
@@ -205,6 +199,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
       })
         .then((response) => response.json())
         .then((response) => {
+          setIsLoading(false);
           if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
             Alert.alert('', response.mensaje);
           } else {
@@ -226,10 +221,6 @@ export default function PolicyClinicaScreen({ navigation, route }) {
     var idDepartamento = departamento;
     var idProvincia = province;
 
-    console.log('-----------ONCHNG - DISTRI : idCategoriaClinicaSistemaRiesgoPlanAsegurado:    ' + idCategoriaClinicaSistemaRiesgoPlanAsegurado);
-    console.log('-----------ONCHNG - DISTRI : categoria:    ' + categoria);
-    console.log('-----------ONCHNG - DISTRI : idDistrito:    ' + idDistrito);
-
     if (idCategoriaClinicaSistemaRiesgoPlanAsegurado == 0 || idDistrito == 0)
     {
       setCategoria(idCategoriaClinicaSistemaRiesgoPlanAsegurado);
@@ -238,6 +229,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
     }
     else
     {
+      setIsLoading(true);
       setCategoria(idCategoriaClinicaSistemaRiesgoPlanAsegurado);
         fetch(Constant.URI.PATH + Constant.URI.GET_CLINICAS + '?I_Sistema_IdSistema=' + route.params.userRoot.idSistema + '&I_UsuarioExterno_IdUsuarioExterno=' + route.params.userRoot.idUsuarioExterno + '&I_Poliza_IdPoliza=' + route.params.policy.idPoliza + '&I_CategoriaClinicaSistemaRiesgoPlanAsegurado_IdCategoriaClinicaSistemaRiesgoPlanAsegurado=' + idCategoriaClinicaSistemaRiesgoPlanAsegurado + '&I_Departamento_IdDepartamento=' + departamento + '&I_Provincia_IdProvincia=' + province + '&I_Distrito_IdDistrito=' + idDistrito,{
           method: 'POST',
@@ -248,7 +240,7 @@ export default function PolicyClinicaScreen({ navigation, route }) {
         })
           .then((response) => response.json())
           .then((response) => {
-            console.log('        -----------ONCHNG - DISTRI : Clínicas:    ' + JSON.stringify(response));
+            setIsLoading(false);
             if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
               Alert.alert('', response.mensaje);
              } else {
@@ -265,76 +257,42 @@ export default function PolicyClinicaScreen({ navigation, route }) {
 
   
 
-  
-
-
-
-
-
   const renderHeader = () => {
     return (
       <View style={styles.pickers_container}>
-        <View style={{ width:"100%", marginBottom:Platform.select({ android:10, ios:30 }) }}>
-         {/* <Text style={{ fontSize: 16, fontWeight: "bold", marginLeft: Platform.select({ android:7, ios:0 }) }}>Categoría de clínicas</Text>
-           <RNPickerSelect
-            placeholder={{ label: 'Selecciona una categoría', value: 0, color: '#838383' }}
-            onValueChange={onChangeCategorias}
-            items={categorias}
-            value={categoria}
-            pickerProps={{ 
-              mode:Platform.select({android: "dropdown"})
-            }}
-          /> */}
+        <View style={{ width:"100%", marginBottom:Platform.select({ android:10, ios:10 }) }}>
+        
           <ElementDropDown data={categorias} value={categoria} setValue={onChangeCategorias}
                          placeholder={'Selecciona una categoria'} label={'Categoría de clínicas'} iconName={'shield-checkmark-outline'}  disable={false}/>
 
         </View>
-        <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:30 }) }}>
-          {/*<Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 }) }}>Departamento</Text>
-           <RNPickerSelect
-            placeholder={{ label: 'Selecciona un departamento', value: 0, color: '#838383' }}
-            onValueChange={onChangeDepartamentos}
-            items={departamentos}
-            value={departamento}
-            pickerProps={{ 
-              mode:Platform.select({android: "dropdown"})
-            }}
-          /> */}
+        <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:10 }) }}>
 
           <ElementDropDown data={departamentos} value={departamento} setValue={onChangeDepartamentos}
                          placeholder={'Selecciona un departamento'} label={'Departamento'} iconName={'shield-checkmark-outline'}  disable={false}/>
                          
         </View>
-        <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:30 }) }}>
-          {/*<Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 }) }}>Provincia</Text>
-           <RNPickerSelect
-            placeholder={{ label: 'Selecciona una provincia', value: 0, color: '#838383' }}
-            onValueChange={onChangeProvinces}
-            items={provinces}
-            value={province}
-            pickerProps={{ 
-              mode:Platform.select({android: "dropdown"})
-            }}
-          /> */}
-          <ElementDropDown data={provinces} value={province} setValue={onChangeProvinces}
-                         placeholder={'Selecciona una provincia'} label={'Provincia'} iconName={'shield-checkmark-outline'}  disable={false}/>
-                         
-        </View>
-        <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:30 }) }}>
-          {/* <Text style={{ fontSize: 16, fontWeight: "bold", marginLeft:Platform.select({ android:7, ios:0 })  }}>Distrito</Text> */}
-          {/* <RNPickerSelect
-            placeholder={{ label: 'Selecciona un distrito', value: 0, color: '#838383' }}
-            onValueChange={onChangeDistritos}
-            items={districts}
-            value={district}
-            pickerProps={{ 
-              mode:Platform.select({android: "dropdown"})
-            }}
-          /> */}
-          <ElementDropDown data={districts} value={district} setValue={onChangeDistritos}
-                         placeholder={'Selecciona un distrito'} label={'Distrito'} iconName={'shield-checkmark-outline'}  disable={false}/>
-             
-        </View>
+        {
+          isLoading ? (<LoadingActivityIndicator />) :
+          (
+           <>
+              <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:10 }) }}>
+                {
+                <ElementDropDown data={provinces} value={province} setValue={onChangeProvinces}
+                                        placeholder={'Selecciona una provincia'} label={'Provincia'} iconName={'shield-checkmark-outline'}  disable={true}/>
+                }
+                            
+            </View>
+            <View style={{width:"100%", marginBottom:Platform.select({ android:10, ios:10 }) }}>
+              {
+                <ElementDropDown data={districts} value={district} setValue={onChangeDistritos}
+                            placeholder={'Selecciona un distrito'} label={'Distrito'} iconName={'shield-checkmark-outline'}  disable={false}/>
+              }
+                
+            </View>
+           </>
+          )
+        }
       </View>
     )
   }

@@ -115,7 +115,10 @@ const CarouselHome = ({navigation, route}) => {
         if (response.CodigoMensaje === 100) {
           setBanners(response.Result);
         } else {
-          console.error('[CarouselScreen - fetchBannerListar error]: ', response);
+          console.error(
+            '[CarouselScreen - fetchBannerListar error]: ',
+            response,
+          );
           Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
         }
       }
@@ -143,10 +146,10 @@ const CarouselHome = ({navigation, route}) => {
         params,
         route.params.userRoot.Token,
       );
-        console.warn('responsePronostik: ',response);
-        if (response.CodigoMensaje === '100') {
-          openURL(response.Url);
-        }
+      console.warn('responsePronostik: ', response);
+      if (response.CodigoMensaje === '100') {
+        openURL(response.Url);
+      }
     } catch (error) {
       console.log('[CarouselScreen - fetchPronostikEncriptar error]: ', error);
       Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
@@ -179,7 +182,7 @@ const CarouselHome = ({navigation, route}) => {
 
   const openURL = (url, appname) => {
     setIsLoadingGoPronostik(false);
-    console.log('openIURL: ',url);
+    console.log('openIURL: ', url);
     if (url) {
       Linking.openURL(url)
         .then()
@@ -220,19 +223,26 @@ const CarouselHome = ({navigation, route}) => {
               style={{
                 width: '80%',
                 backgroundColor: 'white',
-                borderTopEndRadius: 20,
-                borderBottomStartRadius: 20,
+                borderTopEndRadius: 40,
+                borderBottomStartRadius: 30,
               }}>
               <View
                 style={{
-                  marginBottom: 10,
-                  marginHorizontal: 40,
-                  marginTop: 30,
+                  marginBottom: 20,
+                  marginHorizontal: 30,
+                  marginTop: 20,
+                  borderLeftWidth:7,
+                  borderLeftColor:css.colors.primary_opaque,
+                  // backgroundColor:'green',
+
+                  // display:'flex',
+                  // justifyContent:'center',
+                  // alignItems:'center',
+                  // flexDirection:'row'
                 }}>
-                <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                <Text style={{fontWeight: 'bold', fontSize: 16,marginLeft:10, }}>
                   {banner.texto}
                 </Text>
-                <Text style={{fontWeight: 'bold', fontSize: 16}}></Text>
               </View>
               <View
                 style={{
@@ -254,7 +264,7 @@ const CarouselHome = ({navigation, route}) => {
                     buttonStyle={{
                       backgroundColor: css.colors.primary_opaque,
                       paddingHorizontal: 20,
-                      minWidth: '50%'
+                      minWidth: '50%',
                     }}
                     title="Iniciar orientación"
                     titleStyle={{
@@ -290,7 +300,7 @@ const CarouselHome = ({navigation, route}) => {
         <LoadingActivityIndicator />
       ) : (
         <>
-          {isViewPopupTicket && <PopupTicket />}
+          {/* {isViewPopupTicket && <PopupTicket />} */}
           <SafeAreaView>
             <View style={styles.headerContainer}>
               <Carousel

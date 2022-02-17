@@ -229,13 +229,13 @@ const DefaultModalContent = ({
             name="checkmark-circle"
             type="ionicon"
             size={85}
-            color={'#11EE91'}
+            color={'#19D692'}
             style={{marginTop: 35}}
           />
           <Text
             style={{
               fontSize: 17,
-              color: '#4CBDA1',
+              color: '#19D692',
               fontWeight: 'bold',
               textAlign: 'center',
               ...Platform.select({

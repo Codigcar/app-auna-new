@@ -210,14 +210,6 @@ export const SorteoHomeScreen = () => {
                   fontSize: 35,
                   color: css.colors.primary_opaque,
                   fontWeight: 'bold',
-                  // ...Platform.select({
-                  //   ios: {
-                  //     fontWeight: '500',
-                  //   },
-                  //   android: {
-                  //     fontWeight: '600',
-                  //   },
-                  // }),
                 }}></Text>
               <Text
                 style={{
@@ -285,8 +277,8 @@ export const SorteoHomeScreen = () => {
                   color={'#FFCA00'}
                 />
               </View>
-              <View style={{marginRight:30}} >
-                <Text >
+              <View style={{marginRight: 30}}>
+                <Text>
                   Importante: Por cada mes que ingreses tendrás automáticamente
                   un número de ticket con el que podrás participar en nuestros
                   increibles sorteos mensuales.
@@ -309,3 +301,431 @@ export const SorteoHomeScreen = () => {
 };
 
 export default SorteoHomeScreen;
+
+
+/* 
+
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  Image,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {Button, Divider, Icon, Avatar} from 'react-native-elements';
+import {SvgXml} from 'react-native-svg';
+
+import {ButtonInitial} from '../../components';
+import Constant from '../../utils/constants';
+import {css} from '../../utils/css';
+import AuthLoadingScreen from '../auth/AuthLoadingScreen';
+import RewardWinnersScreen from './RewardWinnersScreen';
+import {height, width} from 'react-native-dimension';
+import SorteoHomeScreen from './SorteoHomeScreen';
+import giftbox from '../../assets/svg/giftbox';
+
+export default function RewardHomeScreen({navigation, route}) {
+  console.log('[Stack-SorteoScreen]');
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'Sorteos',
+      headerTitleStyle: css.titleScreen,
+      headerTitleAlign: 'center',
+      headerBackTitleVisible: false,
+      headerRight: () => (
+        <ButtonInitial
+          navigation={navigation}
+          nombre={route.params.userRoot.nombre}
+          apellido={route.params.userRoot.apellidoPaterno}
+        />
+      ),
+    });
+  }, [navigation]);
+
+  return (
+    <Tab.Navigator
+      lazy={true}
+      optimizationsEnabled={true}
+      initialRouteName="Home"
+      initialParams={{
+        userRoot: route.params.userRoot,
+        policy: route.params.policy,
+        riskGroup: route.params.riskGroup,
+      }}
+      tabBarOptions={{
+        showIcon: true,
+        activeTintColor: css.colors.primary,
+        inactiveTintColor: css.colors.opaque,
+        labelStyle: {fontSize: 12},
+        indicatorStyle: {backgroundColor: css.colors.primary_opaque},
+      }}
+      style={{
+        borderTopColor: 'transparent',
+        borderTopWidth: 2,
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        initialParams={{
+          userRoot: route.params.userRoot,
+          policy: route.params.policy,
+          riskGroup: route.params.riskGroup,
+        }}
+        options={{
+          tabBarLabel: ({color}) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={{
+                color: css.colors.opaque,
+                fontSize: 9,
+                maxWidth: 87,
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}>
+              PREMIOS
+            </Text>
+          ),
+          tabBarIcon: ({color}) => (
+            <Image
+              style={{
+                width: 30,
+                height: 30,
+                resizeMode: 'contain',
+                marginTop: -4,
+              }}
+              source={Constant.GLOBAL.IMAGES.PREMIOS}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="RewardWinnersScreen"
+        component={RewardWinnersScreen}
+        initialParams={{
+          userRoot: route.params.userRoot,
+          policy: route.params.policy,
+        }}
+        options={{
+          tabBarLabel: ({color}) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={{
+                color: css.colors.opaque,
+                fontSize: 9,
+                maxWidth: 87,
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}>
+              GANADORES
+            </Text>
+          ),
+          tabBarIcon: ({color}) => (
+            <Image
+              style={{
+                width: 30,
+                height: 30,
+                resizeMode: 'contain',
+                marginTop: -4,
+              }}
+              source={Constant.GLOBAL.IMAGES.GANADORES}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+function HomeScreen({navigation, route}) {
+  return (
+    <SafeAreaView style={css.screen}>
+      <View style={{marginTop: 30}}>
+        <SvgXml
+          xml={giftbox}
+          height={130}
+          width={'100%'}
+          style={
+            {
+              // position: 'absolute',
+              // top: -50,
+              // flex: 1,
+            }
+          }
+        />
+        <Text style={{textAlign: 'center', marginTop: 20, fontSize:18, fontWeight:'300'}}>
+          ¡Tú puedes ser el{' '}
+          <Text style={{color: css.colors.primary_opaque, fontSize: 30, fontWeight:'bold'}}>
+            {' '}
+            GANADOR
+          </Text>{' '}
+          del mes!
+        </Text>
+      </View>
+
+      <View>
+        <View
+          style={{
+            backgroundColor: 'white',
+            display: 'flex',
+            flexDirection: 'row',
+            marginTop: 40,
+            marginHorizontal:20,
+            borderStyle: 'dotted',
+            borderWidth:3,
+            borderRadius: 10,
+            borderColor: '#DCDDE0',
+            paddingVertical:15
+
+          }}>
+          <View style={{flex: 2, backgroundColor: 'transparent', paddingTop:10, paddingLeft:10}}>
+            <Text style={{textAlign: 'justify', marginHorizontal:10 ,fontSize:12}}>
+              Con este ticket estas participando en nuestros increibles sorteos mensuales.
+            </Text>
+            <View
+              style={{
+                backgroundColor: 'transparent',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  // borderWidth: 3,
+                  // borderColor: '#DCDDE0',
+                  width: 200,
+                  borderStyle: 'dotted',
+                  borderRadius: 10,
+                  padding: 10,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View
+                  style={{
+                    textAlign: 'center',
+                    backgroundColor: 'transparent',
+                    marginRight: 10,
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 13,
+                      color: css.colors.gray_opaque,
+                    }}>
+                    Tu ticket
+                  </Text>
+                  <View style={{display: 'flex', flexDirection: 'row'}}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        fontSize: 35,
+                        color: css.colors.primary_opaque,
+                        fontWeight: 'bold',
+                      }}></Text>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        fontSize: 32,
+                        ...Platform.select({
+                          ios: {
+                            fontWeight: '600',
+                          },
+                          android: {
+                            fontWeight: 'bold',
+                          },
+                        }),
+                      }}>
+                      N°321
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    textAlign: 'center',
+                    backgroundColor: 'transparent',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                  }}>
+                  <Icon
+                    name="ticket"
+                    type="fontisto"
+                    size={40}
+                    color={css.colors.primary_opaque}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+          <View style={{flex: 1, backgroundColor:'transparent', display:'flex', flexDirection:'column', justifyContent:'space-evenly'}}>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Icon
+                name="gift"
+                type="ionicon"
+                size={30}
+                color={css.colors.primary_opaque}
+              />
+              <Text>Premio 1</Text>
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Icon
+                name="time"
+                type="ionicon"
+                size={30}
+                color={css.colors.primary_opaque}
+              />
+              <Text>Premio 1</Text>
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Icon
+                name="calendar"
+                type="ionicon"
+                size={30}
+                color={css.colors.primary_opaque}
+              />
+              <Text>Premio 1</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      <View style={{marginVertical: 30, position:'absolute', bottom:40, left:1, right:1 }}>
+        <View
+          style={{
+            backgroundColor: '#FEF4E8',
+            marginHorizontal: 20,
+            borderRadius: 7,
+            padding: 5,
+          }}>
+          <View style={{backgroundColor: 'white', padding: 5, borderRadius: 7}}>
+            <View
+              style={{
+                backgroundColor: '#FEF4E8',
+                borderRadius: 7,
+                padding: 10,
+                display: 'flex',
+                flexDirection: 'row',
+              }}>
+              <View
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  // paddingHorizontal:5
+                  paddingRight: 10,
+                }}>
+                <Icon
+                  name="warning"
+                  type="ionicon"
+                  size={30}
+                  color={'#FFCA00'}
+                />
+              </View>
+              <View style={{marginRight: 30}}>
+                <Text style={{color: css.colors.primary_opaque}}>
+                  Importante:
+                  <Text style={{color: 'black'}}>
+                    En caso seas el ganador del mes, se te enviará un correo
+                    electrónico con las indicaciones necesarias para recoger tu
+                    premio.
+                  </Text>{' '}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const Tab = createMaterialTopTabNavigator();
+
+const styles = StyleSheet.create({
+  // ----------------------- CARD
+  headerContainer: {
+    backgroundColor: '#FFF',
+    borderTopColor: 'transparent',
+    borderTopWidth: 2,
+    height: 70,
+    paddingLeft: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginBottom: 0,
+    borderColor: css.colors.opaque,
+    ...Platform.select({
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: 'rgba(0,0,0, .2)',
+        shadowOffset: {height: 0, width: 0},
+        shadowOpacity: 1,
+        shadowRadius: 1,
+      },
+    }),
+  },
+  headerTitle: {
+    fontSize: 26,
+  },
+  cardSection: {
+    flexDirection: 'row',
+    margin: 3,
+    height: 24,
+    alignItems: 'center',
+  },
+  cardSectionText: {
+    color: 'rgba(166, 166, 172, 1)',
+    marginLeft: 5,
+  },
+  cardIconDetails: {
+    // borderWidth: 1,
+    // borderColor: css.colors.opaque,
+    padding: 3,
+    // borderRadius: Platform.select({android: Dimensions.get('window').width / 2, default:10}),
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+  cardImage: {
+    width: 80,
+    height: 80,
+    resizeMode: 'cover',
+    margin: 10,
+  },
+  divider: {
+    backgroundColor: css.colors.opaque,
+    padding: 0.2,
+    margin: 2,
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+});
+*/

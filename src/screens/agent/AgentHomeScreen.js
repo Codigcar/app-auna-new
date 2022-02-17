@@ -2,7 +2,7 @@ import { CommonActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import qs from 'qs';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Alert, Dimensions, FlatList, Image, Linking, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, FlatList, Image, Linking, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Divider, Icon } from 'react-native-elements';
 import { ButtonInitial } from '../../components';
 import DataScreen from '../../screens/DataScreen';
@@ -155,7 +155,7 @@ function HomeScreen({ navigation, route }) {
               <View style={{ flexDirection: "row" }}>
                 <View style={{ paddingLeft: 10 }}>
                   <Text style={{ fontSize: 22, fontWeight: "bold" }}>{item.nombre} {item.apellidoPaterno}</Text>
-                  <Text style={{ fontSize: 12, color: css.colors.opaque, marginTop: -1, marginBottom: 3 }}>{item.cargo}</Text>  
+                  <Text style={{ fontSize: 12, color: css.colors.opaque, marginBottom: 3, ...Platform.select({ios:{marginTop: 2}, android:{marginTop: -1,}}) }}>{item.cargo}</Text>  
                   <View style={styles.cardSection}>
                     <TouchableOpacity style={{flexDirection:"row"}} onPress={() => callPhone(item.telefonoMovil)} activeOpacity={0.7}>
                       <Icon rounded name='phone' type='material-community' color= {"#000"} size={12} iconStyle={styles.cardIconDetails}  />

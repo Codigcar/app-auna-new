@@ -328,7 +328,9 @@ const HomeScreen = React.memo(({navigation, route}) => {
                     </View>
                   </View>
 
-                  <Button
+                  {
+                    item.estado === 1  && 
+                    <Button
                     onPress={() => handleVisiblePopupCancel(item)}
                     title="Cancelar"
                     buttonStyle={{
@@ -365,6 +367,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
                       }),
                     }}
                   />
+                  }
                 </View>
               )}
             />

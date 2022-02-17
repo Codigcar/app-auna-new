@@ -55,11 +55,15 @@ export default function PolicyDetailScreen({navigation, route}) {
         riskGroup: route.params.riskGroup,
       }}
       tabBarOptions={{
+        scrollEnabled:true,
         showIcon: true,
         activeTintColor: css.colors.primary,
         inactiveTintColor: css.colors.opaque,
         labelStyle: {fontSize: 12},
         indicatorStyle: {backgroundColor: '#FF0000'},
+        tabStyle:{
+          width:110
+        }
       }}
       style={{
         borderTopColor: '#FF0000',
