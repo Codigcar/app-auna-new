@@ -144,7 +144,7 @@ function HomeScreen({navigation, route}) {
       <View style={{marginTop: 20}}>
         <SvgXml
           xml={giftbox}
-          height={150}
+          height={120}
           width={'100%'}
           style={
             {
@@ -158,15 +158,15 @@ function HomeScreen({navigation, route}) {
         <Text
           style={{
             textAlign: 'center',
-            marginTop: 20,
             fontSize: 18,
             fontWeight: '300',
+            marginTop:30
           }}>
           ¡Tú puedes ser el{' '}
           <Text
             style={{
               color: css.colors.primary_opaque,
-              fontSize: 30,
+              fontSize: 20,
               fontWeight: 'bold',
             }}>
             {' '}
@@ -365,12 +365,11 @@ function HomeScreen({navigation, route}) {
 
       <View
         style={{
-          marginVertical: 30,
-          position: 'absolute',
-          // bottom: 16,
-          bottom: 20,
-          left: 1,
-          right: 1,
+          marginTop:40
+          // position: 'absolute',
+          // bottom: 20,
+          // left: 1,
+          // right: 1,
         }}>
         <View
           style={{
@@ -403,7 +402,6 @@ function HomeScreen({navigation, route}) {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  // paddingHorizontal:5
                   paddingRight: 10,
                 }}>
                 <Icon
@@ -417,7 +415,7 @@ function HomeScreen({navigation, route}) {
                 <Text style={{color: css.colors.primary_opaque}}>
                   Importante:
                   <Text style={{color: 'black'}}>
-                    En caso seas el ganador del mes, se te enviará un correo
+                    {' '}Si eres el ganador del mes, se te enviará un correo
                     electrónico con las indicaciones necesarias para recoger tu
                     premio.
                   </Text>{' '}

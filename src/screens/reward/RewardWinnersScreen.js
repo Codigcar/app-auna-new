@@ -16,6 +16,7 @@ import {fetchWithToken} from '../../utils/fetchCustom';
 import Constant from '../../utils/constants';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import DataNotFound from '../../components/DataNotFound';
+import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
 
 console.log('1 ConsoleLog - ASEGURADOS/DEPENDIENTES: ');
 
@@ -363,7 +364,7 @@ const App = ({route}) => {
           />
         </View>
         {typeof filteredDataSource === 'string' ? (
-          <AuthLoadingScreen />
+          <LoadingActivityIndicator />
         ) : (
           <>
             {filteredDataSource.length === 0 ? (

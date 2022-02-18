@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useMemo, useReducer } from 'react';
-import { SafeAreaView, Image } from 'react-native';
+import React, { Fragment, useEffect, useMemo, useReducer } from 'react';
+import { SafeAreaView, Image, StatusBar, Platform } from 'react-native';
 import 'react-native-gesture-handler';
 import { AuthContext } from './src/components/authContext';
 import {
@@ -164,12 +164,18 @@ export default App = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <Fragment>
+    <SafeAreaView style={{ flex: 0, backgroundColor:'white' }} />
+    <SafeAreaView style={{ flex: 1, backgroundColor:'white' }}>
+    {
+      Platform.OS ==="android" && <StatusBar barStyle="dark-content" backgroundColor={'white'}/>
+    }
       <AuthContext.Provider value={authContextValue}>
         <NavigationContainer>
           <Stack.Navigator>{chooseScreen(state)}</Stack.Navigator>
         </NavigationContainer>
       </AuthContext.Provider>
     </SafeAreaView>
+    </Fragment>
   );
 };

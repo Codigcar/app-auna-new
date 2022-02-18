@@ -1,5 +1,11 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 const LoadingActivityIndicator = () => {
   return (
@@ -9,9 +15,9 @@ const LoadingActivityIndicator = () => {
   );
 };
 
-export default React.memo(LoadingActivityIndicator)
+export default React.memo(LoadingActivityIndicator);
 
-const styles = StyleSheet .create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
