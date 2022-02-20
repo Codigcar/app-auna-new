@@ -16,6 +16,7 @@ import {
   Dimensions,
   Alert,
   Linking,
+  ImageBackground,
 } from 'react-native';
 import {Button, Icon, Divider} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -195,15 +196,26 @@ const CarouselHome = ({navigation, route}) => {
     }
   };
 
-  const renderItem = banner => {
+  const pronostikBanners = banner => {
     return (
-      <View>
-        <Image
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+        }}>
+        <ImageBackground
           source={{uri: banner.imagen}}
           style={{
             width: '100%',
             height: '100%',
-            backgroundColor: 'transparent',
+            position: 'absolute',
+          }}
+        />
+        <Image
+          source={{uri: banner.imagen2}}
+          style={{
+            width: '100%',
+            height: '100%',
           }}
         />
         <View
@@ -231,22 +243,17 @@ const CarouselHome = ({navigation, route}) => {
                   marginBottom: 20,
                   marginHorizontal: 30,
                   marginTop: 20,
-                  borderLeftWidth:7,
-                  borderLeftColor:css.colors.primary_opaque,
-                  // backgroundColor:'green',
-
-                  // display:'flex',
-                  // justifyContent:'center',
-                  // alignItems:'center',
-                  // flexDirection:'row'
+                  borderLeftWidth: 7,
+                  borderLeftColor: css.colors.primary_opaque,
                 }}>
-                <Text style={{fontWeight: 'bold', fontSize: 16,marginLeft:10, }}>
+                <Text
+                  style={{fontWeight: 'bold', fontSize: 16, marginLeft: 10}}>
                   {banner.texto}
                 </Text>
               </View>
               <View
                 style={{
-                  borderBottomWidth: 0.3,
+                  borderBottomWidth: 0.5,
                   borderBottomColor: css.colors.gray_opaque,
                   marginHorizontal: 10,
                 }}></View>
@@ -291,6 +298,112 @@ const CarouselHome = ({navigation, route}) => {
           </View>
         </View>
       </View>
+    );
+  };
+  const othersBanners = banner => {
+    return (
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+        }}>
+        <Image
+          source={{uri: banner.imagen}}
+          style={{
+            width: '100%',
+            height: '100%',
+          }}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 80,
+            backgroundColor: 'transparent',
+          }}>
+          <View
+            style={{
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                width: '80%',
+                backgroundColor: 'white',
+                borderTopEndRadius: 40,
+                borderBottomStartRadius: 30,
+              }}>
+              <View
+                style={{
+                  marginBottom: 20,
+                  marginHorizontal: 30,
+                  marginTop: 20,
+                  borderLeftWidth: 7,
+                  borderLeftColor: css.colors.primary_opaque,
+                }}>
+                <Text
+                  style={{fontWeight: 'bold', fontSize: 16, marginLeft: 10}}>
+                  {banner.texto}
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: css.colors.gray_opaque,
+                  marginHorizontal: 10,
+                }}></View>
+              <View>
+                <View
+                  style={{
+                    backgroundColor: 'transparent',
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 20,
+                  }}>
+                  <Button
+                    buttonStyle={{
+                      backgroundColor: css.colors.primary_opaque,
+                      paddingHorizontal: 20,
+                      minWidth: '50%',
+                    }}
+                    title="Iniciar orientación"
+                    titleStyle={{
+                      fontSize: 14,
+                      color: 'white',
+                      fontWeight: 'bold',
+                    }}
+                    onPress={() => openURL(banner.link)}
+                    loading={isLoadingGoPronostik}
+                  />
+                </View>
+              </View>
+              <Pagination
+                dotsLength={banners.length}
+                activeDotIndex={activeIndex}
+                dotStyle={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: 10,
+                }}
+                containerStyle={{paddingTop: 25, paddingBottom: 10}}
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const renderItem = banner => {
+    return (
+      <>
+        {banner.tipo === 'Pronostik'
+          ? pronostikBanners(banner)
+          : othersBanners(banner)}
+      </>
     );
   };
 
