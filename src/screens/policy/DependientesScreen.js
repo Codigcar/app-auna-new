@@ -81,10 +81,7 @@ const App = ({route}) => {
     })
       .then(response => response.json())
       .then(responseJson => {
-        // console.log(
-        //   '3 ConsoleLog - ASEGURADOS/DEPENDIENTES response: ' +
-        //     JSON.stringify(responseJson),
-        // );
+        console.error('[responseJson]: ', responseJson);
         setFilteredDataSource(responseJson);
         setMasterDataSource(responseJson);
       })
@@ -94,13 +91,8 @@ const App = ({route}) => {
   }, []);
 
   const searchFilterFunction = text => {
-    // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
       const newData = masterDataSource.filter(function (item) {
-        //const itemData = item.nombreAsegurado ? item.nombreAsegurado.toUpperCase() : ''.toUpperCase();
         const itemData = (
           item.apellidoPaternoAsegurado +
           ' ' +
@@ -114,8 +106,6 @@ const App = ({route}) => {
       setFilteredDataSource(newData);
       setSearch(text);
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
       setFilteredDataSource(masterDataSource);
       setSearch(text);
     }
@@ -123,7 +113,6 @@ const App = ({route}) => {
 
   const ItemView = ({item}) => {
     return (
-      // Flat List Item
       <View style={[styles.card, css.designElevationCardiOS]}>
         <View style={{flexDirection: 'row'}}>
           <View style={{paddingLeft: 10}}>
@@ -191,40 +180,61 @@ const App = ({route}) => {
               placeholder="Asegurado"
               value={search}></SearchBar>
           </View>
-          <View style={{backgroundColor: 'transparent'}}>
-            <Button
-              onPress={() => openURL('https://zonasegura.laprotectora.com.pe/')}
-              title="Inclusión"
-              buttonStyle={{
-                backgroundColor: '#ff0000',
-                borderColor: 'rgba(0,0,0,0.5)',
-                borderRadius: 10,
-                marginBottom: 0,
-                width: 100,
-                marginTop: 10,
-                shadowOpacity: 0.39,
-                shadowRadius: 13.97,
-                height: 50,
-                marginRight: 16,
-                ...Platform.select({
-                  android: {
-                    elevation: 6,
-                  },
-                  default: {
-                    shadowColor: 'rgba(0,0,0, .2)',
-                    shadowOffset: {height: 0, width: 0},
-                    shadowOpacity: 1,
-                    shadowRadius: 1,
-                  },
-                }),
-              }}
-              titleStyle={{color: '#FFF', fontSize: 16, ...Platform.select({ios:{fontWeight:'bold'}})}}></Button>
-          </View>
         </View>
         <FlatList
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
           renderItem={ItemView}></FlatList>
+        <View
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+            borderTopStartRadius: 10,
+            borderTopEndRadius: 10,
+            
+          }}>
+          <Button
+            onPress={() => openURL('https://zonasegura.laprotectora.com.pe/')}
+            title="Agregar a un familiar"
+            icon={
+              <Icon
+                name="add-circle-outline"
+                type="ionicon"
+                size={24}
+                color={'white'}
+                style={{marginLeft: 5}}
+              />
+            }
+            iconRight
+            buttonStyle={{
+              backgroundColor: '#ff0000',
+              borderColor: 'rgba(0,0,0,0.5)',
+              borderRadius: 10,
+              marginBottom: 0,
+              marginHorizontal: 20,
+              marginTop: 15,
+              marginBottom: 15,
+              shadowOpacity: 0.39,
+              shadowRadius: 13.97,
+              height: 50,
+              marginRight: 16,
+              ...Platform.select({
+                android: {
+                  elevation: 6,
+                },
+                default: {
+                  shadowColor: 'rgba(0,0,0, .2)',
+                  shadowOffset: {height: 0, width: 0},
+                  shadowOpacity: 1,
+                  shadowRadius: 1,
+                },
+              }),
+            }}
+            titleStyle={{
+              color: '#FFF',
+              fontSize: 16,
+              ...Platform.select({ios: {fontWeight: 'bold'}}),
+            }}></Button>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -282,8 +292,8 @@ const styles = StyleSheet.create({
         //display: 'none',
         borderColor: '#0FF',
         borderTopWidth: 0,
-        marginLeft:10,
-        marginRight:10
+        marginLeft: 10,
+        marginRight: 10,
       },
       default: {
         margin: 20,

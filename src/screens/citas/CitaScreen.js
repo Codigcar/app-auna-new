@@ -87,7 +87,7 @@ export default function CitaScreen({navigation, route}) {
               adjustsFontSizeToFit
               style={{
                 color: css.colors.opaque,
-                fontSize: 9,
+                fontSize: 10,
                 maxWidth: 87,
                 textAlignVertical: 'center',
                 textAlign: 'center',
@@ -122,7 +122,7 @@ export default function CitaScreen({navigation, route}) {
               adjustsFontSizeToFit
               style={{
                 color: css.colors.opaque,
-                fontSize: 9,
+                fontSize: 10,
                 maxWidth: 87,
                 textAlignVertical: 'center',
                 textAlign: 'center',

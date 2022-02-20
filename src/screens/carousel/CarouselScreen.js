@@ -196,21 +196,23 @@ const CarouselHome = ({navigation, route}) => {
     }
   };
 
-  const pronostikBanners = banner => {
+  const renderItem = banner => {
     return (
       <View
         style={{
           width: '100%',
           height: '100%',
         }}>
-        <ImageBackground
-          source={{uri: banner.imagen}}
-          style={{
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-          }}
-        />
+        {banner.tipo === 'Pronostik' && (
+          <Image
+            source={{uri: banner.imagen}}
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+            }}
+          />
+        )}
         <Image
           source={{uri: banner.imagen2}}
           style={{
@@ -225,6 +227,29 @@ const CarouselHome = ({navigation, route}) => {
             right: 0,
             bottom: 80,
             backgroundColor: 'transparent',
+            ...Platform.select({
+              ios: {
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
+              android: {
+                shadowOpacity: 0.39,
+                shadowRadius: 13.97,
+                elevation: 11,
+              },
+              default: {
+                shadowColor: 'rgba(0,0,0, .2)',
+                shadowOffset: {height: 0, width: 0},
+                shadowOpacity: 1,
+                shadowRadius: 1,
+              },
+            }),
           }}>
           <View
             style={{
@@ -245,6 +270,7 @@ const CarouselHome = ({navigation, route}) => {
                   marginTop: 20,
                   borderLeftWidth: 7,
                   borderLeftColor: css.colors.primary_opaque,
+                  height:70
                 }}>
                 <Text
                   style={{fontWeight: 'bold', fontSize: 16, marginLeft: 10}}>
@@ -279,7 +305,11 @@ const CarouselHome = ({navigation, route}) => {
                       color: 'white',
                       fontWeight: 'bold',
                     }}
-                    onPress={fetchPronostikEncriptar}
+                    onPress={() => {
+                      banner.tipo === 'Pronostik'
+                        ? fetchPronostikEncriptar()
+                        : openURL(banner.link);
+                    }}
                     loading={isLoadingGoPronostik}
                   />
                 </View>
@@ -298,112 +328,6 @@ const CarouselHome = ({navigation, route}) => {
           </View>
         </View>
       </View>
-    );
-  };
-  const othersBanners = banner => {
-    return (
-      <View
-        style={{
-          width: '100%',
-          height: '100%',
-        }}>
-        <Image
-          source={{uri: banner.imagen}}
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-        />
-        <View
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            bottom: 80,
-            backgroundColor: 'transparent',
-          }}>
-          <View
-            style={{
-              backgroundColor: 'transparent',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                width: '80%',
-                backgroundColor: 'white',
-                borderTopEndRadius: 40,
-                borderBottomStartRadius: 30,
-              }}>
-              <View
-                style={{
-                  marginBottom: 20,
-                  marginHorizontal: 30,
-                  marginTop: 20,
-                  borderLeftWidth: 7,
-                  borderLeftColor: css.colors.primary_opaque,
-                }}>
-                <Text
-                  style={{fontWeight: 'bold', fontSize: 16, marginLeft: 10}}>
-                  {banner.texto}
-                </Text>
-              </View>
-              <View
-                style={{
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: css.colors.gray_opaque,
-                  marginHorizontal: 10,
-                }}></View>
-              <View>
-                <View
-                  style={{
-                    backgroundColor: 'transparent',
-                    flex: 1,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: 20,
-                  }}>
-                  <Button
-                    buttonStyle={{
-                      backgroundColor: css.colors.primary_opaque,
-                      paddingHorizontal: 20,
-                      minWidth: '50%',
-                    }}
-                    title="Iniciar orientación"
-                    titleStyle={{
-                      fontSize: 14,
-                      color: 'white',
-                      fontWeight: 'bold',
-                    }}
-                    onPress={() => openURL(banner.link)}
-                    loading={isLoadingGoPronostik}
-                  />
-                </View>
-              </View>
-              <Pagination
-                dotsLength={banners.length}
-                activeDotIndex={activeIndex}
-                dotStyle={{
-                  width: 5,
-                  height: 5,
-                  borderRadius: 10,
-                }}
-                containerStyle={{paddingTop: 25, paddingBottom: 10}}
-              />
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
-  const renderItem = banner => {
-    return (
-      <>
-        {banner.tipo === 'Pronostik'
-          ? pronostikBanners(banner)
-          : othersBanners(banner)}
-      </>
     );
   };
 

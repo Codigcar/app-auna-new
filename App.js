@@ -165,10 +165,10 @@ export default App = ({ navigation }) => {
 
   return (
     <Fragment>
-    <SafeAreaView style={{ flex: 0, backgroundColor:'white' }} />
+    {/* <SafeAreaView style={{ flex: 0, backgroundColor:'white' }} /> */}
     <SafeAreaView style={{ flex: 1, backgroundColor:'white' }}>
     {
-      Platform.OS ==="android" && <StatusBar barStyle="dark-content" backgroundColor={'white'}/>
+       <StatusBar barStyle="dark-content" backgroundColor={'white'}/>
     }
       <AuthContext.Provider value={authContextValue}>
         <NavigationContainer>
