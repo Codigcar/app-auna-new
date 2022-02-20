@@ -28,7 +28,7 @@ export default function RewardHomeScreen({navigation, route}) {
   console.log('[Stack-SorteoScreen]');
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'Sorteos',
+      title: 'SORTEOS',
       headerTitleStyle: css.titleScreen,
       headerTitleAlign: 'center',
       headerBackTitleVisible: false,

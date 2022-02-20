@@ -310,13 +310,13 @@ function HomeScreen({navigation, route}) {
                   <View style={{marginBottom: 12}}>
                     {
                       specialties.length > 0 && <ElementDropDown data={specialties} value={specialty} setValue={setSpecialty}
-                         placeholder={'Selecciona la especialidad'} label={'Especialidad'} iconName={'shield-checkmark-outline'}  disable={false}/>
+                         placeholder={'Selecciona una especialidad'} label={'Especialidad'} iconName={'shield-checkmark-outline'}  disable={false}/>
                     }
                   </View>
                   <View style={{marginBottom: 12}}>
                     {
                       patients.length > 0 && <ElementDropDown data={patients} value={patient} setValue={setPatient}
-                         placeholder={'Selecciona el paciente'} label={'Paciente'} iconName={'person-outline'} disable={false}/>
+                         placeholder={'Selecciona un paciente'} label={'Paciente'} iconName={'person-outline'} disable={false}/>
                     }
                   </View>
                   { isLoadingHora ? <ActivityIndicator color={'red'} size="large" /> 
@@ -325,13 +325,13 @@ function HomeScreen({navigation, route}) {
                       <View style={{marginBottom: 12}}>
                       {
                         listFechasDisponibles.length > 0 && <ElementDropDown data={listFechasDisponibles} value={fechaDisponibleElegida} setValue={setFechaDisponibleElegida}
-                            placeholder={'Selecciona la fecha'} label={'Fecha'} iconName={'calendar-outline'} disable={true}/>
+                            placeholder={'Selecciona una fecha'} label={'Fecha'} iconName={'calendar-outline'} disable={true}/>
                         }
                       </View>
                       <View style={{marginBottom: 12}}>
                         {
                           horarios.length > 0 && <ElementDropDown data={horarios} value={horario} setValue={setHorario}
-                            placeholder={'Selecciona la hora'} label={'Hora'} iconName={'alarm-outline'} disable={true} />
+                            placeholder={'Selecciona una hora'} label={'Hora'} iconName={'alarm-outline'} disable={true} />
                         }
                       </View>
                     </View>

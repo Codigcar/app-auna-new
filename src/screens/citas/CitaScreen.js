@@ -35,7 +35,7 @@ export default function CitaScreen({navigation, route}) {
   console.log('[Stack-CitaScreen]');
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'Mis Citas Médicas',
+      title: 'CITAS MÉDICAS',
       headerTitleStyle: css.titleScreen,
       headerTitleAlign: 'center',
       headerBackTitleVisible: false,
