@@ -105,7 +105,6 @@ const DefaultModalContent = ({
         params,
         route.params.userRoot.Token,
       );
-      // console.log('[Log Response]: ', response);
       if (response.Result[0].CodigoMensaje === 100) {
         setIsLoading(false);
         setFetchSuccessful(true);

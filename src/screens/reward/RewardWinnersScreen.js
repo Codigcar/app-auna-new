@@ -255,7 +255,7 @@ const App = ({route}) => {
                   color: css.colors.gray_opaque,
                   textTransform: 'uppercase',
                 }}>
-                {item.Mes_Anio}
+                {' '}{item.Mes_Anio}
               </Text>
               <View
                 style={{
@@ -308,7 +308,7 @@ const App = ({route}) => {
               styles.textColorGray,
               {textAlign: 'center', fontSize: 24, marginVertical: 7},
             ]}>
-            ¡Felicitaciones a los ganadores!
+            ¡Felicitaciones a los Ganadores!
           </Text>
         </View>
         <View>

@@ -88,9 +88,9 @@ const CarouselHome = ({navigation, route}) => {
   const [isLoadingGoPronostik, setIsLoadingGoPronostik] = useState(false);
 
   useEffect(() => {
-    return () => {
+    /* return () => {
       isMounted.current = false;
-    };
+    }; */
   }, []);
 
   useEffect(() => {
@@ -205,7 +205,7 @@ const CarouselHome = ({navigation, route}) => {
         }}>
         {banner.tipo === 'Pronostik' && (
           <Image
-            source={{uri: banner.imagen}}
+            source={{uri: banner.imagen2}}
             style={{
               width: '100%',
               height: '100%',
@@ -214,18 +214,21 @@ const CarouselHome = ({navigation, route}) => {
           />
         )}
         <Image
-          source={{uri: banner.imagen2}}
-          style={{
+          source={{uri: banner.imagen}}
+          style={ banner.tipo === 'Pronostik' ? {
             width: '100%',
             height: '100%',
-          }}
+            resizeMode:'contain'
+          }: {width: '100%',
+            height: '100%'} 
+            }
         />
         <View
           style={{
             position: 'absolute',
             left: 0,
             right: 0,
-            bottom: 80,
+            bottom: 50,
             backgroundColor: 'transparent',
             ...Platform.select({
               ios: {
@@ -270,7 +273,7 @@ const CarouselHome = ({navigation, route}) => {
                   marginTop: 20,
                   borderLeftWidth: 7,
                   borderLeftColor: css.colors.primary_opaque,
-                  height:70
+                  // height: 70,
                 }}>
                 <Text
                   style={{fontWeight: 'bold', fontSize: 16, marginLeft: 10}}>
@@ -297,7 +300,8 @@ const CarouselHome = ({navigation, route}) => {
                     buttonStyle={{
                       backgroundColor: css.colors.primary_opaque,
                       paddingHorizontal: 20,
-                      minWidth: '50%',
+                      minWidth: '70%',
+                      borderRadius:7
                     }}
                     title="Iniciar orientación"
                     titleStyle={{
@@ -318,11 +322,13 @@ const CarouselHome = ({navigation, route}) => {
                 dotsLength={banners.length}
                 activeDotIndex={activeIndex}
                 dotStyle={{
-                  width: 5,
-                  height: 5,
+                  width: 10,
+                  height: 10,
                   borderRadius: 10,
                 }}
-                containerStyle={{paddingTop: 25, paddingBottom: 10}}
+                inactiveDotOpacity={0.4}
+                inactiveDotScale={0.6}
+                containerStyle={{paddingTop: 20, paddingBottom: 10}}
               />
             </View>
           </View>

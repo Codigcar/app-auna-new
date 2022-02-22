@@ -94,8 +94,8 @@ export default function PolicyDetailScreen({navigation, route}) {
           ),
           tabBarIcon: ({color}) => (
             <Image
-              style={{width: 26, height: 26}}
-              source={Constant.GLOBAL.IMAGES.POLICY_DETAIL}></Image>
+              style={{width: 28, height: 28, marginTop:-2}}
+              source={Constant.GLOBAL.IMAGES.DETALLE}></Image>
           ),
         }}
       />
@@ -123,8 +123,8 @@ export default function PolicyDetailScreen({navigation, route}) {
           ),
           tabBarIcon: ({color}) => (
             <Image
-              style={{width: 26, height: 26, marginTop: -3}}
-              source={Constant.GLOBAL.IMAGES.DEPENDIENTES_AVATAR}></Image>
+              style={{width: 32, height: 32, marginTop:-3}}
+              source={Constant.GLOBAL.IMAGES.ASEGURADORES}></Image>
           ),
         }}
       />
@@ -150,7 +150,6 @@ export default function PolicyDetailScreen({navigation, route}) {
               DOCUMENTOS
             </Text>
           ),
-          //tabBarLabel: 'DOCUMENTOS',
           tabBarIcon: ({color}) => (
             <Image
               style={{width: 26, height: 30, resizeMode:'contain', marginTop:-2}}

@@ -19,6 +19,8 @@ export default {
                 NUEVA_CITA: require('../assets/iconos/Nueva_cita.webp'),
                 PREMIOS: require('../assets/iconos/Premios.webp'),
                 GANADORES: require('../assets/iconos/Ganadores.webp'),
+                DETALLE: require('../assets/iconos/Detalle.webp'),
+                ASEGURADORES: require('../assets/iconos/Asegurados.webp'),
             }
             : {
                 BACKGROUND: require('../assets/background.psd'),
@@ -34,6 +36,8 @@ export default {
                 NUEVA_CITA: require('../assets/iconos/Nueva_cita.psd'),
                 PREMIOS: require('../assets/iconos/Premios.psd'),
                 GANADORES: require('../assets/iconos/Ganadores.psd'),
+                DETALLE: require('../assets/iconos/Detalle.psd'),
+                ASEGURADORES: require('../assets/iconos/Asegurados.psd'),
             },
         KEYBOARD_BEHAVIOR: Platform.OS == 'ios' ? "padding" : null,
         KEYBOARD_TYPE_NUMERIC: "numeric",

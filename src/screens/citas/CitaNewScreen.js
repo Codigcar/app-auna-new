@@ -101,12 +101,11 @@ function HomeScreen({navigation, route}) {
 
   useEffect(() => {
     runUseEffects.current && fetchListarFechasDisponibles();
-    // setHorarios([{label: 'cargando...', value: ''}])
-    // setHorario(null);
   }, [specialty]);
 
   useEffect(() => {
-    runUseEffects.current && showHorariosDisponibles(fechaDisponibleElegida);
+    setHorario(null);
+    runUseEffects.current && showHorariosDisponibles(fechaDisponibleElegida[0]);
   }, [fechaDisponibleElegida]); 
 
 
@@ -162,7 +161,6 @@ function HomeScreen({navigation, route}) {
         params,
         route.params.userRoot.Token,
       );
-  
       if (response.CodigoMensaje === 100) {
         if (response.Result[0].CodigoMensaje) {
           if (response.Result[0].CodigoMensaje !== 100) {
@@ -224,11 +222,16 @@ function HomeScreen({navigation, route}) {
       const listFechas = response.Result.map(e => {
         return {
           label: e['Fecha'],
-          value: e['fechaDisponible2'],
+          value: [e['fechaDisponible2'],e['fechaDisponible']],
         };
       });
       const listFechasUnicas = filtrarFechasUnicas(listFechas);
       setListFechasDisponibles(listFechasUnicas);
+
+      // reset field 'Hora'
+      setHorarios(initiaState);
+      setHorario(null);
+
       setIsLoadingHora(false);
     }}catch(error){
       console.error('[CitaNewScreen - dataHorarioListar]: ',error)
@@ -244,7 +247,7 @@ function HomeScreen({navigation, route}) {
       patient_value: patientFiltrado[0].value,
       specialty_label: specialtyFiltrado[0].label,
       specialty_value: specialtyFiltrado[0].value,
-      fecha: birthdayFormatDDMMYYYY,
+      fecha: fechaDisponibleElegida[1],
       horario: horario,
     });
     setIsVisiblePopup(true);
@@ -254,14 +257,11 @@ function HomeScreen({navigation, route}) {
     saveAllFechasDisponibles.filter(
       e => {
         e['fechaDisponible2'] == fechaElegida;
-        // console.log('e:fechaDisponible2', e['fechaDisponible2']);
-        // console.log('fechaElegida: ', fechaElegida);
       }
     );
     const listHorarioXFechaFiltrada = saveAllFechasDisponibles.filter(
       e => e['fechaDisponible2'] == fechaElegida,
     );
-    // console.log('[listHorarioXFechaFiltrada]: ',listHorarioXFechaFiltrada);
     const listHorarios = listHorarioXFechaFiltrada.map(e => {
       return {
         label: e['horaInicio'] + ' - ' + e['horaFin'],
@@ -275,13 +275,6 @@ function HomeScreen({navigation, route}) {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       {/* <ScrollView style={{flex: 1, backgroundColor: 'green'}}> */}
-        {/* <CitaPopupConfirm
-        isVisiblePopupConfirm={isVisiblePopupConfirm}
-        setIsVisiblePopupConfirm={setIsVisiblePopupConfirm}
-        citaBody={citaBody}
-        navigation={navigation}
-        route={route}
-      /> */}
         {isVisiblePopup && (
           <BottomSheetScreen
             isVisiblePopup={isVisiblePopup}
@@ -354,8 +347,8 @@ function HomeScreen({navigation, route}) {
               onPress={() => handleRegisterCita()}
               disabled={
                  horario == null ||
-                 specialty == 'string' ||
-                 patient == 'string'
+                 typeof specialty == 'string' ||
+                 typeof patient == 'string'
                   ? true
                   : false
               }

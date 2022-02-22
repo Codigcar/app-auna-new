@@ -81,7 +81,6 @@ const App = ({route}) => {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.error('[responseJson]: ', responseJson);
         setFilteredDataSource(responseJson);
         setMasterDataSource(responseJson);
       })
