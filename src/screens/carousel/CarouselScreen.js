@@ -209,19 +209,41 @@ const CarouselHome = ({navigation, route}) => {
             style={{
               width: '100%',
               height: '100%',
-              position: 'absolute',
+              position: 'absolute'
             }}
           />
         )}
+        {banner.tipo === 'Pronostik' && (
+          <View
+            style={{
+              backgroundColor: 'transparent',
+              width: '100%',
+              flexDirection: 'row',
+              display: 'flex',
+              justifyContent: 'center',
+              position: 'absolute',
+            }}>
+            <Image
+              source={{uri: banner.imagen3}}
+              style={{
+                width: 280,
+                height: 100,
+                resizeMode: 'contain',
+              }}
+            />
+          </View>
+        )}
         <Image
           source={{uri: banner.imagen}}
-          style={ banner.tipo === 'Pronostik' ? {
-            width: '100%',
-            height: '100%',
-            resizeMode:'contain'
-          }: {width: '100%',
-            height: '100%'} 
-            }
+          style={
+            banner.tipo === 'Pronostik'
+              ? {
+                  width: '100%',
+                  height: '100%',
+                  resizeMode: 'contain',
+                }
+              : {width: '100%', height: '100%'}
+          }
         />
         <View
           style={{
@@ -276,7 +298,7 @@ const CarouselHome = ({navigation, route}) => {
                   // height: 70,
                 }}>
                 <Text
-                  style={{fontWeight: 'bold', fontSize: 16, marginLeft: 10}}>
+                  style={{fontWeight: 'bold', fontSize: 17, marginLeft: 10}}>
                   {banner.texto}
                 </Text>
               </View>
@@ -301,7 +323,7 @@ const CarouselHome = ({navigation, route}) => {
                       backgroundColor: css.colors.primary_opaque,
                       paddingHorizontal: 20,
                       minWidth: '70%',
-                      borderRadius:7
+                      borderRadius: 7,
                     }}
                     title="Iniciar orientación"
                     titleStyle={{
@@ -320,15 +342,36 @@ const CarouselHome = ({navigation, route}) => {
               </View>
               <Pagination
                 dotsLength={banners.length}
+                // renderDots={activeIndex =>
+                //   banners.map((screen, i) => (
+                //     <View style={{flex: 1, alignItems: 'center'}} key={i}>
+                //       <Text
+                //         style={{color: activeIndex === i ? 'blue' : '#000'}}>
+                //         {i}
+                //       </Text>
+                //     </View>
+                //   ))
+                // }
                 activeDotIndex={activeIndex}
-                dotStyle={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 10,
+                dotContainerStyle={{
+                  backgroundColor: 'transparent',
+                  borderWidth: 1,
+                  borderColor: '#ddd',
+                  borderRadius: 20,
                 }}
-                inactiveDotOpacity={0.4}
-                inactiveDotScale={0.6}
-                containerStyle={{paddingTop: 20, paddingBottom: 10}}
+                dotStyle={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: 10,
+                  // backgroundColor:'red',
+                  margin: 2,
+                  // borderWidth:10,
+                  // borderColor:'#ddd',
+                }}
+                // inactiveDotStyle={{borderWidth:0,borderRadius: 10}}
+                inactiveDotOpacity={0.1}
+                inactiveDotScale={1}
+                containerStyle={{paddingTop: 15, paddingBottom: 10}}
               />
             </View>
           </View>
@@ -343,7 +386,7 @@ const CarouselHome = ({navigation, route}) => {
         <LoadingActivityIndicator />
       ) : (
         <>
-          {/* {isViewPopupTicket && <PopupTicket />} */}
+          {isViewPopupTicket && <PopupTicket />}
           <SafeAreaView>
             <View style={styles.headerContainer}>
               <Carousel

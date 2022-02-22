@@ -245,7 +245,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
               }
               renderItem={({item}) => (
                 <View style={styles.card}>
-                  <View style={{padding: 7}}>
+                  <View style={{padding: 7, marginBottom:10}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -339,8 +339,7 @@ const HomeScreen = React.memo(({navigation, route}) => {
                       // borderRadius: 10,
                       borderBottomEndRadius: 10,
                       borderBottomStartRadius: 10,
-                      // height: 35,
-                      marginTop: 15,
+                      // marginTop: 15,
                       width: '100%',
                       ...Platform.select({
                         android: {

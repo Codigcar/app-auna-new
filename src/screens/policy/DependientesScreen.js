@@ -193,7 +193,7 @@ const App = ({route}) => {
           }}>
           <Button
             onPress={() => openURL('https://zonasegura.laprotectora.com.pe/')}
-            title="Agregar a un familiar"
+            title="Agrega a un familiar"
             icon={
               <Icon
                 name="add-circle-outline"
@@ -214,7 +214,7 @@ const App = ({route}) => {
               marginBottom: 15,
               shadowOpacity: 0.39,
               shadowRadius: 13.97,
-              height: 50,
+              height: 45,
               marginRight: 16,
               ...Platform.select({
                 android: {

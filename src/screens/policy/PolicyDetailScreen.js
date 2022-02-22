@@ -62,7 +62,7 @@ export default function PolicyDetailScreen({navigation, route}) {
         labelStyle: {fontSize: 12},
         indicatorStyle: {backgroundColor: '#FF0000'},
         tabStyle:{
-          width:110
+          width:90
         }
       }}
       style={{
@@ -84,8 +84,8 @@ export default function PolicyDetailScreen({navigation, route}) {
               adjustsFontSizeToFit
               style={{
                 color: css.colors.opaque,
-                fontSize: 9,
-                maxWidth: 87,
+                fontSize: 10,
+                // maxWidth: 87,
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>
@@ -114,7 +114,7 @@ export default function PolicyDetailScreen({navigation, route}) {
               style={{
                 color: css.colors.opaque,
                 fontSize: 10,
-                maxWidth: 87,
+                // maxWidth: 87,
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>
@@ -123,7 +123,7 @@ export default function PolicyDetailScreen({navigation, route}) {
           ),
           tabBarIcon: ({color}) => (
             <Image
-              style={{width: 32, height: 32, marginTop:-3}}
+              style={{width: 35, height: 35, marginTop:-4, marginLeft:-5}}
               source={Constant.GLOBAL.IMAGES.ASEGURADORES}></Image>
           ),
         }}
@@ -143,7 +143,7 @@ export default function PolicyDetailScreen({navigation, route}) {
               style={{
                 color: css.colors.opaque,
                 fontSize: 10,
-                maxWidth: 87,
+                // maxWidth: 87,
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>
@@ -173,7 +173,7 @@ export default function PolicyDetailScreen({navigation, route}) {
               style={{
                 color: css.colors.opaque,
                 fontSize: 10,
-                maxWidth: 87,
+                // maxWidth: 87,
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>
@@ -203,7 +203,7 @@ export default function PolicyDetailScreen({navigation, route}) {
               style={{
                 color: css.colors.opaque,
                 fontSize: 10,
-                maxWidth: 87,
+                // maxWidth: 87,
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}>

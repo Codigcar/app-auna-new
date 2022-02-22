@@ -139,13 +139,12 @@ const App = ({route}) => {
     return (
       <View style={[styles.card, css.designElevationCardiOS]}>
         <View
-          style={{paddingLeft: 10, backgroundColor: 'transparent', flex: 1}}>
+          style={{paddingLeft: 10, backgroundColor: 'transparent', flex: 1, marginBottom:10}}>
           <View style={{padding: 7}}>
             <View style={styles.cardSection}>
               <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Text>Tipo:</Text>
-                <Text style={styles.cardSectionText}>
-                  {' '}
+                <Text style={{fontWeight:'bold', color:css.colors.primary_opaque}} >Tipo:</Text>
+                <Text style={{fontWeight:'bold', color: 'black',  marginLeft: 5,textTransform: 'capitalize'}}>
                   {item.tipoSolicitud}
                 </Text>
               </View>
@@ -163,15 +162,9 @@ const App = ({route}) => {
             <View style={styles.cardSection}>
               <Text>Estado:</Text>
               <Text style={styles.cardSectionText}>
-                {item.estado_solicitud}
+                {item.EstadoSolicitudDescripcion}
               </Text>
             </View>
-            {/* {item.observacion.length > 0 && (
-              <View style={styles.cardSection}>
-                <Text>Observación</Text>
-                <Text style={styles.cardSectionText}>{item.observacion}</Text>
-              </View>
-            )} */}
             <View style={styles.cardSection}>
               <Text>Fecha de registro:</Text>
               <Text style={styles.cardSectionText}>
@@ -180,42 +173,43 @@ const App = ({route}) => {
             </View>
           </View>
         </View>
-        <Button
-          onPress={() => handleVisiblePopupCancel(item)}
-          title="Cancelar"
-          buttonStyle={{
-            backgroundColor: css.colors.primary_opaque,
-            borderColor: 'rgba(0,0,0,0.5)',
-            borderBottomEndRadius: 10,
-            borderBottomStartRadius: 10,
-            // height: 30,
-            marginTop: 10,
-            width: '100%',
-            shadowOpacity: 0.39,
-            shadowRadius: 13.97,
-            ...Platform.select({
-              android: {
-                elevation: 16,
-              },
-              default: {
-                shadowColor: 'rgba(0,0,0, .2)',
-                shadowOffset: {height: 0, width: 0},
-                shadowOpacity: 1,
-                shadowRadius: 1,
-              },
-            }),
-          }}
-          titleStyle={{
-            color: '#FFF',
-            ...Platform.select({
-              ios: {
-                fontSize: 16,
-                height: 24,
-                fontWeight: 'bold',
-              },
-            }),
-          }}
-        />
+        {item.estado_solicitud == "PE" && (
+          <Button
+            onPress={() => handleVisiblePopupCancel(item)}
+            title="Cancelar"
+            buttonStyle={{
+              backgroundColor: css.colors.primary_opaque,
+              borderColor: 'rgba(0,0,0,0.5)',
+              borderBottomEndRadius: 10,
+              borderBottomStartRadius: 10,
+              // marginTop: 10,
+              width: '100%',
+              shadowOpacity: 0.39,
+              shadowRadius: 13.97,
+              ...Platform.select({
+                android: {
+                  elevation: 16,
+                },
+                default: {
+                  shadowColor: 'rgba(0,0,0, .2)',
+                  shadowOffset: {height: 0, width: 0},
+                  shadowOpacity: 1,
+                  shadowRadius: 1,
+                },
+              }),
+            }}
+            titleStyle={{
+              color: '#FFF',
+              ...Platform.select({
+                ios: {
+                  fontSize: 16,
+                  height: 24,
+                  fontWeight: 'bold',
+                },
+              }),
+            }}
+          />
+        )}
       </View>
     );
   };
@@ -374,17 +368,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.39,
     shadowRadius: 13.97,
     elevation: 11,
-    // ...Platform.select({
-    //   android: {
-    //     elevation: 11,
-    //   },
-    //   default: {
-    //     shadowColor: 'rgba(0,0,0, .2)',
-    //     shadowOffset: { height: 0, width: 0 },
-    //     shadowOpacity: 1,
-    //     shadowRadius: 1,
-    //   },
-    // }),
+   
   },
   card: {
     backgroundColor: '#FFF',
@@ -423,12 +407,6 @@ const styles = StyleSheet.create({
     borderColor: '#D3D3D3',
     borderRadius: Dimensions.get('window').width / 2,
   },
-  // cardIconDetails2: {
-  //   borderWidth: 3,
-  //   borderColor: "#d41c1c",
-  //   padding: 0,
-  //   borderRadius: Dimensions.get('window').width / 2
-  // },
   divider: {
     backgroundColor: css.colors.opaque,
     padding: 0.2,
@@ -449,12 +427,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 0,
     color: css.colors.primary_opaque,
-    // textTransform: 'uppercase',
   },
   labelTipoInclusion: {
     fontWeight: 'bold',
     marginLeft: 0,
     color: 'green',
-    // textTransform: 'uppercase',
   },
 });
