@@ -53,28 +53,20 @@ const DefaultModalContent = ({setIsVisible}) => (
           flex: 1,
         }}
       />
-      <View style={{height: 90, backgroundColor: 'transparent'}} />
+      <View style={{height: 80, backgroundColor: 'transparent'}} />
       <View style={{backgroundColor: 'transparent'}}>
         <View>
-          <Text style={(styles.textCenter, {textAlign: 'center'})}>
+          <Text style={(styles.textCenter, {textAlign: 'center', fontSize:15,marginHorizontal:10})}>
             Se te ha asignado un número aleatorio para participar en nuestros
             sorteos
           </Text>
         </View>
-        {/* <Text
-          style={[
-            styles.textCenter,
-            styles.numTicket,
-            {color: css.colors.primary, marginVertical: 20 },
-          ]}>
-           Ticket: 321
-        </Text> */}
         <View
           style={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'center',
-            marginVertical:20
+            marginVertical:25
           }}>
           <View
             style={{
@@ -132,8 +124,8 @@ const DefaultModalContent = ({setIsVisible}) => (
             styles.textCenter,
             {
               color: 'rgba(166, 166, 172, 1)',
-              fontSize: 13,
-              marginHorizontal: 9,
+              fontSize: 12,
+              marginHorizontal: 10,
             },
           ]}>
           Ahora te encuentras participando en nuestros sorteos mensuales.
@@ -141,13 +133,11 @@ const DefaultModalContent = ({setIsVisible}) => (
         </Text>
         <Button
           onPress={() => setIsVisible(false)}
-          title="Aceptar"
+          title="¡De acuerdo, gracias!"
           buttonStyle={{
-            //   borderColor: 'rgba(0,0,0,0.5)',
-
-            backgroundColor: 'white',
-            borderWidth: 1,
-            borderColor: 'red',
+            backgroundColor: '#d41c1c',
+            // borderWidth: 1,
+            // borderColor: 'red',
             borderRadius: 10,
             height: 40,
             marginVertical: 30,
@@ -173,16 +163,18 @@ const DefaultModalContent = ({setIsVisible}) => (
             }),
           }}
           titleStyle={{
-            color: css.colors.primary_opaque,
+            // color: css.colors.primary_opaque,
+            color: 'white',
             ...Platform.select({
               ios: {
                 fontSize: 16,
                 height: 24,
+                fontWeight:'bold'
               },
               android: {
                 fontSize: 16,
                 height: 30,
-                color: 'red',
+                // color: 'red',
               },
             }),
           }}
@@ -218,7 +210,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.39,
     shadowRadius: 13.97,
     borderWidth: 2,
-    // borderColor: css.colors.primary,
+    // borderColor: '#d41c1c',
     ...Platform.select({
       android: {
         elevation: 11,

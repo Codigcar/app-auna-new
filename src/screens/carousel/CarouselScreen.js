@@ -360,8 +360,8 @@ const CarouselHome = ({navigation, route}) => {
                   borderRadius: 20,
                 }}
                 dotStyle={{
-                  width: 14,
-                  height: 14,
+                  width: 10,
+                  height: 10,
                   borderRadius: 10,
                   // backgroundColor:'red',
                   margin: 2,

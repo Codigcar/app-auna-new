@@ -143,11 +143,17 @@ const App = ({route}) => {
           <View style={{padding: 7}}>
             <View style={styles.cardSection}>
               <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Text style={{fontWeight:'bold', color:css.colors.primary_opaque}} >Tipo:</Text>
+                <Text style={{fontWeight:'bold', color:css.colors.primary_opaque}} >Estado:</Text>
                 <Text style={{fontWeight:'bold', color: 'black',  marginLeft: 5,textTransform: 'capitalize'}}>
-                  {item.tipoSolicitud}
+                {item.EstadoSolicitudDescripcion}
                 </Text>
               </View>
+            </View>
+            <View style={styles.cardSection}>
+              <Text>Tipo:</Text>
+              <Text style={styles.cardSectionText}>
+              {item.tipoSolicitud}
+              </Text>
             </View>
             <View style={styles.cardSection}>
               <Text>Asegurado:</Text>
@@ -158,12 +164,6 @@ const App = ({route}) => {
             <View style={styles.cardSection}>
               <Text>Parentesco:</Text>
               <Text style={styles.cardSectionText}>{item.parentesco}</Text>
-            </View>
-            <View style={styles.cardSection}>
-              <Text>Estado:</Text>
-              <Text style={styles.cardSectionText}>
-                {item.EstadoSolicitudDescripcion}
-              </Text>
             </View>
             <View style={styles.cardSection}>
               <Text>Fecha de registro:</Text>

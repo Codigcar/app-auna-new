@@ -40,7 +40,7 @@ export const css = {
     borderColor: '#d41c1c',
     borderRadius: 10,
     marginHorizontal:30,
-    marginTop:20
+    marginTop:20,
   },
   inputContainer: {
     borderRadius: 5,
