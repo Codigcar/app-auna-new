@@ -21,7 +21,7 @@ export default function PopupTicket({navigation, route}) {
     <Modal
       testID={'modal'}
       isVisible={isVisible}
-      backdropColor="rgba(0,0,0, .7)"
+      backdropColor="rgba(0,0,0, .9)"
       backdropOpacity={0.8}
       // animationIn="zoomInDown"
       // animationOut="zoomOutUp"

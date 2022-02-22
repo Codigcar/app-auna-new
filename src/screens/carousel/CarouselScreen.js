@@ -112,7 +112,6 @@ const CarouselHome = ({navigation, route}) => {
       );
       setIsLoading(false);
       if (isMounted.current) {
-        console.error('[banners]: ', response);
         if (response.CodigoMensaje === 100) {
           setBanners(response.Result);
         } else {
