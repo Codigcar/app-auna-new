@@ -1,4 +1,3 @@
-import { CommonActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import qs from 'qs';
 import React, { useEffect, useLayoutEffect, useState } from 'react';

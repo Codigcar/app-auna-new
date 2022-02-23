@@ -3,8 +3,6 @@ import React, {useState} from 'react';
 import {FlatList, Image, Platform} from 'react-native';
 import {Avatar, Icon, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
-import {SvgXml} from 'react-native-svg';
-import giftbox from '../../assets/svg/giftbox';
 import constants from '../../utils/constants';
 import {css} from '../../utils/css';
 

@@ -12,13 +12,11 @@ import {
   View,
   Image,
   SafeAreaView,
-  TouchableOpacity,
   Dimensions,
   Alert,
   Linking,
-  ImageBackground,
 } from 'react-native';
-import {Button, Icon, Divider} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 
@@ -27,7 +25,6 @@ import {ButtonInitial} from '../../components';
 import {css} from '../../utils/css';
 import {fetchWithToken} from '../../utils/fetchCustom';
 import PopupTicket from '../reward/PopupTicket';
-import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
 import {
   animatedStyles,

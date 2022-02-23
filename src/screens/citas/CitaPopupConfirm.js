@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Platform,
   StyleSheet,
@@ -13,7 +13,6 @@ import {Button, colors, Icon} from 'react-native-elements';
 
 import {css} from '../../utils/css';
 import Modal from 'react-native-modal';
-import {Divider} from 'react-native-paper';
 import Constant from '../../utils/constants';
 import {fetchWithToken} from '../../utils/fetchCustom';
 

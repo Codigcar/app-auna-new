@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import qs from 'qs' ;
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Alert, Dimensions, FlatList, Image, Linking, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar, Divider, Icon } from 'react-native-elements';
+import { Alert, Dimensions, FlatList, Linking, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Divider, Icon } from 'react-native-elements';
 import { ButtonInitial } from '../../components';
 import DataScreen from '../../screens/DataScreen';
 import Constant from '../../utils/constants';

@@ -1,6 +1,5 @@
-import {CommonActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {Fragment, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -21,7 +20,6 @@ import PolicyDetailScreen2 from './PolicyDetailScreen2';
 import PolicyDetailScreen3 from './PolicyDetailScreen3';
 import PolicyDetailScreen4 from './PolicyDetailScreen4';
 import PolicyRiskGroupScreen from './PolicyRiskGroupScreen';
-import PopupTicket from '../reward/PopupTicket';
 
 
 export default function PolicyHomeScreen({navigation, route}) {

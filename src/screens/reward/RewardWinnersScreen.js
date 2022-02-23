@@ -14,7 +14,6 @@ import {ButtonInitial} from '../../components';
 import {css} from '../../utils/css';
 import {fetchWithToken} from '../../utils/fetchCustom';
 import Constant from '../../utils/constants';
-import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import DataNotFound from '../../components/DataNotFound';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
 

@@ -16,7 +16,12 @@ import {
 import TabScreen from './src/screens/TabScreen';
 import Constant from './src/utils/constants';
 import { initialState, reducer, stateConditionString } from './src/utils/helpers';
+import { LogBox } from 'react-native';
 console.disableYellowBox = true;
+
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+]);
 
 const Stack = createStackNavigator();
 

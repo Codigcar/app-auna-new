@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Alert, Dimensions, Image, Linking, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar, Divider, Icon } from 'react-native-elements';
+import { Divider, Icon } from 'react-native-elements';
 import { ButtonInitial } from '../../components';
 import Constant from '../../utils/constants';
 import { css } from '../../utils/css';

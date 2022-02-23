@@ -85,7 +85,7 @@ const App = ({route}) => {
         params,
         route.params.userRoot.Token,
       );
-      console.log('[fetchDataListSolicitudes]: ', response);
+      // console.log('[fetchDataListSolicitudes]: ', response);
       if (response.CodigoMensaje == 100) {
         setFilteredDataSource(response.Result);
         setMasterDataSource(response.Result);

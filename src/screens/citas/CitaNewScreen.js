@@ -55,7 +55,6 @@ function HomeScreen({navigation, route}) {
   console.log('[CitaNewScreen]');
 
   const initiaState = [{label:'cargando...', value:''}]
-  const [SignUpErrors, setSignUpErrors] = useState({});
   const [userUpdated, setUserUpdate] = useState(true);
   const [passUpdated, setPassUpdate] = useState(true);
   // console.log('[route]:: ', route.params);
@@ -70,17 +69,10 @@ function HomeScreen({navigation, route}) {
 
   // datepicker
 
-  //calendar
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [birthday, setBirthday] = useState(new Date());
-  const [birthdayFormatDDMMYYYY, setBirthdayFormatDDMMYYYY] = useState(
-    convertDateDDMMYYYY(new Date()),
-  );
 
   //horario
   const [horarios, setHorarios] = useState(initiaState);
   const [horario, setHorario] = useState(null);
-  const [saveListFechas, setSaveListFechas] = useState([]);
   const [isLoadingHora, setIsLoadingHora] = useState(false);
 
   //habilitar useEffect
@@ -140,9 +132,7 @@ function HomeScreen({navigation, route}) {
         };
       });
       setSpecialties(list);
-      // setSpecialty(list[0]['value']);
       setIsVisibleEspecialidad(true);
-      // console.log('isVisibleEspecialidad: ', isVisibleEspecialidad);
     } catch (error) {
       console.error('[CitaNewScreen - fetchDataEspecialidadListar]: ', error)
     }
@@ -175,7 +165,6 @@ function HomeScreen({navigation, route}) {
               };
             });
             setPatients(list);
-            // setPatient(list[0]['value']);
           }
         } else {
           const list = response.Result.map(e => {
@@ -185,7 +174,6 @@ function HomeScreen({navigation, route}) {
             };
           });
           setPatients(list);
-          // setPatient(list[0]['value']);
         }
       } else {
         Alert.alert('Error', response.RespuestaMensaje);
@@ -274,7 +262,6 @@ function HomeScreen({navigation, route}) {
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-      {/* <ScrollView style={{flex: 1, backgroundColor: 'green'}}> */}
         {isVisiblePopup && (
           <BottomSheetScreen
             isVisiblePopup={isVisiblePopup}

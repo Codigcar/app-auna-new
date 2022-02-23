@@ -5,7 +5,6 @@ import React, { useLayoutEffect, useState } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
 import 'react-native-gesture-handler';
-//import { ButtonInitial } from '../components';
 import Constant from '../utils/constants';
 import { css } from '../utils/css';
 

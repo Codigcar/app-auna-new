@@ -68,7 +68,7 @@ function HomeScreen({ navigation, route }) {
 
     useEffect(() => {
 
-        console.log('ContactScreen items: ' + JSON.stringify(items));
+        // console.log('ContactScreen items: ' + JSON.stringify(items));
 
         if (items == null /*&& items.length === 0*/) {
 
@@ -85,7 +85,6 @@ function HomeScreen({ navigation, route }) {
                 .then((response) => {
 
                     //console.log('ContactScreen response: ' + JSON.stringify(response));
-                    console.log('ContactScreen response.Result: ' + JSON.stringify(response.Result));
 
                     if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
                         Alert.alert('Error', response.RespuestaMensaje);

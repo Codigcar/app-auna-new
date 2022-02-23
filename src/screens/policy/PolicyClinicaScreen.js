@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar, Divider } from 'react-native-elements';
-import RNPickerSelect from 'react-native-picker-select';
+import { Avatar } from 'react-native-elements';
 import ElementDropDown from '../../components/ElementDropDown';
 import Constant from '../../utils/constants';
 import { css } from '../../utils/css';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator'
+import { AuthLoadingScreen } from '..';
 
 
 export default function PolicyClinicaScreen({ navigation, route }) {
@@ -254,7 +254,11 @@ export default function PolicyClinicaScreen({ navigation, route }) {
 
   /////////////////////////////////////////////////////////////
  
-
+  if (categorias.length === 0) {
+    return(
+      <AuthLoadingScreen />
+    )
+  }
   
 
   const renderHeader = () => {

@@ -79,6 +79,7 @@ function HomeScreen({navigation, route}) {
 
   return (
     <Tab.Navigator
+    lazy={true}
       initialRouteName="Inicio"
       tabBarOptions={{
         activeTintColor: css.colors.primary,

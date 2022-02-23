@@ -5,6 +5,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import Constant from '../../utils/constants';
 import { css } from '../../utils/css';
 import FileViewer from 'react-native-file-viewer';
+import { AuthLoadingScreen } from '..';
 
 
 
@@ -112,6 +113,13 @@ export default function PolicyDocumentScreen({ navigation, route }) {
       Alert.alert('Error', 'Error al descargar archivo');
     }
   };
+
+  if (items.length === 0) {
+    return(
+      <AuthLoadingScreen />
+    )
+  }
+
 
   return (
     <SafeAreaView style={css.screen}>

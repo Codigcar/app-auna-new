@@ -12,17 +12,14 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Button, Divider, Icon, Avatar} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 import {SvgXml} from 'react-native-svg';
 import Svg, {Path} from 'react-native-svg';
 
 import {ButtonInitial} from '../../components';
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
-import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import RewardWinnersScreen from './RewardWinnersScreen';
-import {height, width} from 'react-native-dimension';
-import SorteoHomeScreen from './SorteoHomeScreen';
 import giftbox from '../../assets/svg/giftbox';
 import {fetchWithToken} from '../../utils/fetchCustom';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';

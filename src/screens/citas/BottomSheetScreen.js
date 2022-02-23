@@ -1,6 +1,5 @@
 import React, {
   useCallback,
-  useRef,
   useMemo,
   useState,
   useEffect,
@@ -10,19 +9,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  Modal,
-  Animated,
 } from 'react-native';
-import {Avatar, Divider, Icon, Button} from 'react-native-elements';
+import { Icon, Button} from 'react-native-elements';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import {
   BottomSheetView,
-  BottomSheetModal,
-  BottomSheetModalProvider,
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -41,14 +33,6 @@ const BottomSheetScreen = ({
   setRefreshFetching
 }) => {
   const bottomSheetModalRef = React.useRef(null);
-//
-//   const [height, setHeight] = useState('0%');
-//   const onLayout = useCallback(
-//     (event) => {
-//             setHeight(event.nativeEvent.layout.height);
-//     },
-//     []
-// );
 
   // variables
   const [sizeBottomSheetScreen, setSizeBottomSheetScreen] = useState([

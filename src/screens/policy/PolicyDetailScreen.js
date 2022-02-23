@@ -2,9 +2,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   Alert,
-  Dimensions,
   FlatList,
-  PermissionsAndroid,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -20,7 +18,6 @@ import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import PolicyDocumentScreen from './PolicyDocumentScreen';
 import PolicyClinicaScreen from './PolicyClinicaScreen';
 import DependientesScreen from './DependientesScreen';
-import DataScreen from '../../screens/DataScreen';
 import SolicitudesScreen from './SolicitudesScreen';
 
 //SI "CLINICAS"
@@ -48,6 +45,7 @@ export default function PolicyDetailScreen({navigation, route}) {
 
   return (
     <Tab.Navigator
+      lazy={true}
       initialRouteName="Home"
       initialParams={{
         userRoot: route.params.userRoot,

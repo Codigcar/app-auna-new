@@ -1,7 +1,7 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Alert, Dimensions, FlatList, PermissionsAndroid, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Button, Divider, Image } from 'react-native-elements';
+import { Alert,FlatList, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Divider, Image } from 'react-native-elements';
 import { ButtonInitial } from '../../components';
 import Constant from '../../utils/constants';
 import { css } from '../../utils/css';
