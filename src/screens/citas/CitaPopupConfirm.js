@@ -27,6 +27,8 @@ const CitaPopupConfirm = ({
   type,
   realodingMisCitas,
   setRealodingMisCitas,
+  refreshFetching,
+  setRefreshFetching
 }) => {
   //
   // console.log('[citaBody], ', citaBody);
@@ -56,6 +58,8 @@ const CitaPopupConfirm = ({
         type={type}
         realodingMisCitas={realodingMisCitas}
         setRealodingMisCitas={setRealodingMisCitas}
+        refreshFetching={refreshFetching}
+        setRefreshFetching={setRefreshFetching}
       />
     </Modal>
   );
@@ -63,12 +67,13 @@ const CitaPopupConfirm = ({
 const DefaultModalContent = ({
   setIsVisiblePopupConfirm,
   citaBody,
-  navigation,
   route,
   setIsVisiblePopup,
   type,
   realodingMisCitas,
   setRealodingMisCitas,
+  refreshFetching,
+  setRefreshFetching
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchSuccessful, setFetchSuccessful] = useState(false);
@@ -96,7 +101,7 @@ const DefaultModalContent = ({
         I_idPersonaAsegurada: citaBody.patient_value,
         horaInicio: citaBody.horario[0],
         horaFin: citaBody.horario[1],
-        fechaCita: citaBody.horario[2].substring(0, 10),
+        fechaCita: citaBody.horario[2]
       });
       // console.log('[Log Input]: ', JSON.stringify(params));
       const response = await fetchWithToken(
@@ -173,6 +178,7 @@ const DefaultModalContent = ({
       if (response.CodigoMensaje === 100) {
         setIsLoading(false);
         setFetchSuccessful(true);
+        setRefreshFetching(!refreshFetching);
       } else {
         setIsLoading(false);
         setFetchSuccessful(false);

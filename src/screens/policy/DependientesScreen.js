@@ -11,9 +11,10 @@ import {
   View,
 } from 'react-native';
 import {Button, SearchBar, Icon} from 'react-native-elements';
-import {ButtonInitial} from '../../components';
+import {ButtonInitial, DataNotFound} from '../../components';
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
+import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 
 export default function DependientesScreen({navigation, route}) {
   console.log('[Stack-AseguradosScreen - 2] ');
@@ -57,14 +58,10 @@ export default function DependientesScreen({navigation, route}) {
 const App = ({route}) => {
   console.log('[AseguradosScreen - 2] ');
   const [search, setSearch] = useState('');
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [masterDataSource, setMasterDataSource] = useState([]);
+  const [filteredDataSource, setFilteredDataSource] = useState('');
+  const [masterDataSource, setMasterDataSource] = useState('');
 
   useEffect(() => {
-    // console.log(
-    //   '2 ConsoleLog - IDPOLIZA: ' +
-    //     JSON.stringify(route.params.policy.idPoliza),
-    // );
     fetch(Constant.URI.PATH + Constant.URI.GET_ASEGURADOS, {
       method: 'POST',
       headers: {
@@ -157,84 +154,106 @@ const App = ({route}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFF'}}>
-      <View style={{flex: 1}}>
-        <View style={{display: 'flex', flexDirection: 'row'}}>
-          <View style={styles.estiloBusquedaCobertor_iPhone}>
-            <SearchBar
-              containerStyle={{
-                backgroundColor: '#FFF',
-                borderTopColor: '#FFF',
-                borderBottomColor: '#FFF',
-                paddingHorizontal: 0,
-                ...Platform.select({
-                  ios: {
-                    paddingVertical: 0,
+      {typeof masterDataSource === 'string' ? (
+        <AuthLoadingScreen />
+      ) : (
+        <>
+          {masterDataSource.length === 0 ? (
+            <DataNotFound message="No se encontraron registros" />
+          ) : (
+            <>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                <View style={styles.estiloBusquedaCobertor_iPhone}>
+                  <SearchBar
+                    containerStyle={{
+                      backgroundColor: '#FFF',
+                      borderTopColor: '#FFF',
+                      borderBottomColor: '#FFF',
+                      paddingHorizontal: 0,
+                      ...Platform.select({
+                        ios: {
+                          paddingVertical: 0,
+                          borderRadius: 10,
+                        },
+                      }),
+                    }}
+                    inputContainerStyle={styles.estiloBarraBusqueda}
+                    onChangeText={text => searchFilterFunction(text)}
+                    onClear={() => searchFilterFunction('')}
+                    placeholder="Asegurado"
+                    value={search}></SearchBar>
+                </View>
+              </View>
+              {typeof filteredDataSource === 'string' ? (
+                <AuthLoadingScreen />
+              ) : (
+                <>
+                  {filteredDataSource.length === 0 ? (
+                    <DataNotFound message={'No se encontraron registros'} />
+                  ) : (
+                    <FlatList
+                      data={filteredDataSource}
+                      keyExtractor={(item, index) => index.toString()}
+                      renderItem={ItemView}
+                    />
+                  )}
+                </>
+              )}
+              <View
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  borderTopStartRadius: 10,
+                  borderTopEndRadius: 10,
+                }}>
+                <Button
+                  onPress={() =>
+                    openURL('https://zonasegura.laprotectora.com.pe/')
+                  }
+                  title="Agrega a un familiar"
+                  icon={
+                    <Icon
+                      name="add-circle-outline"
+                      type="ionicon"
+                      size={24}
+                      color={'white'}
+                      style={{marginLeft: 5}}
+                    />
+                  }
+                  iconRight
+                  buttonStyle={{
+                    backgroundColor: '#ff0000',
+                    borderColor: 'rgba(0,0,0,0.5)',
                     borderRadius: 10,
-                  },
-                }),
-              }}
-              inputContainerStyle={styles.estiloBarraBusqueda}
-              onChangeText={text => searchFilterFunction(text)}
-              onClear={() => searchFilterFunction('')}
-              placeholder="Asegurado"
-              value={search}></SearchBar>
-          </View>
-        </View>
-        <FlatList
-          data={filteredDataSource}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={ItemView}></FlatList>
-        <View
-          style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.04)',
-            borderTopStartRadius: 10,
-            borderTopEndRadius: 10,
-            
-          }}>
-          <Button
-            onPress={() => openURL('https://zonasegura.laprotectora.com.pe/')}
-            title="Agrega a un familiar"
-            icon={
-              <Icon
-                name="add-circle-outline"
-                type="ionicon"
-                size={24}
-                color={'white'}
-                style={{marginLeft: 5}}
-              />
-            }
-            iconRight
-            buttonStyle={{
-              backgroundColor: '#ff0000',
-              borderColor: 'rgba(0,0,0,0.5)',
-              borderRadius: 10,
-              marginBottom: 0,
-              marginHorizontal: 20,
-              marginTop: 15,
-              marginBottom: 15,
-              shadowOpacity: 0.39,
-              shadowRadius: 13.97,
-              height: 45,
-              marginRight: 16,
-              ...Platform.select({
-                android: {
-                  elevation: 6,
-                },
-                default: {
-                  shadowColor: 'rgba(0,0,0, .2)',
-                  shadowOffset: {height: 0, width: 0},
-                  shadowOpacity: 1,
-                  shadowRadius: 1,
-                },
-              }),
-            }}
-            titleStyle={{
-              color: '#FFF',
-              fontSize: 16,
-              ...Platform.select({ios: {fontWeight: 'bold'}}),
-            }}></Button>
-        </View>
-      </View>
+                    marginBottom: 0,
+                    marginHorizontal: 20,
+                    marginTop: 15,
+                    marginBottom: 15,
+                    shadowOpacity: 0.39,
+                    shadowRadius: 13.97,
+                    height: 45,
+                    marginRight: 16,
+                    ...Platform.select({
+                      android: {
+                        elevation: 6,
+                      },
+                      default: {
+                        shadowColor: 'rgba(0,0,0, .2)',
+                        shadowOffset: {height: 0, width: 0},
+                        shadowOpacity: 1,
+                        shadowRadius: 1,
+                      },
+                    }),
+                  }}
+                  titleStyle={{
+                    color: '#FFF',
+                    fontSize: 16,
+                    ...Platform.select({ios: {fontWeight: 'bold'}}),
+                  }}></Button>
+              </View>
+            </>
+          )}
+        </>
+      )}
     </SafeAreaView>
   );
 };
@@ -288,7 +307,6 @@ const styles = StyleSheet.create({
       },
       android: {
         elevation: 0,
-        //display: 'none',
         borderColor: '#0FF',
         borderTopWidth: 0,
         marginLeft: 10,
@@ -310,22 +328,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 10,
     marginLeft: 5,
-    // marginRight: 15,
     borderColor: 'rgba(0,0,0,0.5)',
     shadowOpacity: 0.39,
     shadowRadius: 13.97,
     elevation: 11,
-    // ...Platform.select({
-    //   android: {
-    //     elevation: 11,
-    //   },
-    //   default: {
-    //     shadowColor: 'rgba(0,0,0, .2)',
-    //     shadowOffset: { height: 0, width: 0 },
-    //     shadowOpacity: 1,
-    //     shadowRadius: 1,
-    //   },
-    // }),
   },
   card: {
     backgroundColor: '#FFF',
@@ -364,12 +370,6 @@ const styles = StyleSheet.create({
     borderColor: '#D3D3D3',
     borderRadius: Dimensions.get('window').width / 2,
   },
-  // cardIconDetails2: {
-  //   borderWidth: 3,
-  //   borderColor: "#d41c1c",
-  //   padding: 0,
-  //   borderRadius: Dimensions.get('window').width / 2
-  // },
   divider: {
     backgroundColor: css.colors.opaque,
     padding: 0.2,

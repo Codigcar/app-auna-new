@@ -24,6 +24,8 @@ import RewardWinnersScreen from './RewardWinnersScreen';
 import {height, width} from 'react-native-dimension';
 import SorteoHomeScreen from './SorteoHomeScreen';
 import giftbox from '../../assets/svg/giftbox';
+import {fetchWithToken} from '../../utils/fetchCustom';
+import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
 
 export default function RewardHomeScreen({navigation, route}) {
   console.log('[Stack-SorteoScreen]');
@@ -140,242 +142,273 @@ export default function RewardHomeScreen({navigation, route}) {
 }
 
 function HomeScreen({navigation, route}) {
+  const [sorteo, setSorteo] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchSorteoDescripcion();
+  }, []);
+
+  const fetchSorteoDescripcion = async () => {
+    try {
+      setIsLoading(true);
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno:
+          route.params.userRoot.idUsuarioExterno,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.GET_INFO_SORTEO,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      console.log('[fetchSorteoDescripcion]: ', response);
+      if (response.CodigoMensaje === 100) {
+        setSorteo(response.Result[0]);
+        setIsLoading(false);
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+        console.error(
+          '[RewardHome - fetchSorteoDescripcion]: ',
+          response.RespuestaMensaje,
+        );
+      }
+    } catch (error) {
+      console.error(
+        '[RewardHome - fetchSorteoDescripcion]: ',
+        response.RespuestaMensaje,
+      );
+    }
+  };
+
   return (
     <SafeAreaView style={css.screen}>
       <View style={{position: 'relative', flex: 1}}>
-        <View style={{marginTop: 20}}>
-          <SvgXml xml={giftbox} height={120} width={'100%'} />
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 18,
-              fontWeight: '300',
-              marginTop: 30,
-            }}>
-            ¡Tú puedes ser el{' '}
-            <Text
-              style={{
-                color: css.colors.primary_opaque,
-                fontSize: 20,
-                fontWeight: 'bold',
-              }}>
-              {' '}
-              GANADOR
-            </Text>{' '}
-            del mes!
-          </Text>
-        </View>
-
-        <View>
-          <View
-            style={{
-              backgroundColor: 'white',
-              display: 'flex',
-              flexDirection: 'row',
-              marginTop: 40,
-              marginHorizontal: 20,
-              // borderStyle: 'dotted',
-              borderRadius: 10,
-              // borderWidth: 3,
-              // borderColor: '#DCDDE0',
-              paddingVertical: 15,
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-
-              elevation: 5,
-            }}>
-            <View
-              style={{
-                flex: 1.5,
-                backgroundColor: 'transparent',
-                paddingTop: 10,
-                paddingLeft: 10,
-              }}>
+        {isLoading ? (
+          <LoadingActivityIndicator />
+        ) : (
+          <>
+            <View style={{marginTop: 20}}>
+              <SvgXml xml={giftbox} height={120} width={'100%'} />
               <Text
                 style={{
-                  textAlign: 'justify',
-                  marginHorizontal: 10,
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                  marginBottom: 5,
+                  textAlign: 'center',
+                  fontSize: 18,
+                  fontWeight: '300',
+                  marginTop: 30,
                 }}>
-                {/* NOMBRE SORTEO */}
-                N° TICKET 321
+                ¡Tú puedes ser el{' '}
+                <Text
+                  style={{
+                    color: css.colors.primary_opaque,
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                  }}>
+                  {' '}
+                  GANADOR
+                </Text>{' '}
+                del mes!
               </Text>
-              <Text
-                style={{
-                  textAlign: 'left',
-                  marginHorizontal: 10,
-                  marginRight: 20,
-                  color: css.colors.gray_opaque,
-                }}>
-                Con este ticket estas participando en nuestros increibles
-                sorteos mensuales de:
-              </Text>
+            </View>
+
+            <View>
               <View
                 style={{
-                  backgroundColor: 'transparent',
+                  backgroundColor: 'white',
                   display: 'flex',
                   flexDirection: 'row',
-                  justifyContent: 'center',
+                  marginTop: 40,
+                  marginHorizontal: 20,
+                  borderRadius: 10,
+                  paddingVertical: 15,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+
+                  elevation: 5,
                 }}>
                 <View
                   style={{
-                    // borderWidth: 3,
-                    // borderColor: '#DCDDE0',
-                    width: 200,
-                    borderStyle: 'dotted',
-                    borderRadius: 10,
-                    padding: 10,
+                    flex: 1.5,
+                    backgroundColor: 'transparent',
+                    paddingTop: 10,
+                    paddingLeft: 10,
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'justify',
+                      marginHorizontal: 10,
+                      fontWeight: 'bold',
+                      fontSize: 16,
+                      marginBottom: 5,
+                    }}>
+                    TICKET N° {sorteo.CodigoTicket}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: 'left',
+                      marginHorizontal: 10,
+                      marginRight: 20,
+                      color: css.colors.gray_opaque,
+                    }}>
+                    {sorteo.descripcionSorteo}
+                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: 'transparent',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    }}>
+                    <View
+                      style={{
+                        width: 200,
+                        borderStyle: 'dotted',
+                        borderRadius: 10,
+                        padding: 10,
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}></View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: 'transparent',
                     display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}></View>
+                    flexDirection: 'column',
+                    justifyContent: 'space-around',
+                  }}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name="gift"
+                      type="ionicon"
+                      size={30}
+                      color={css.colors.primary_opaque}
+                      style={{marginRight: 5}}
+                    />
+                    <Text>{sorteo.premio}</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name="calendar"
+                      type="ionicon"
+                      size={30}
+                      color={css.colors.primary_opaque}
+                      style={{marginRight: 5, marginVertical: 20}}
+                    />
+                    <Text>
+                      {sorteo.fechaInicio} - {sorteo.fechaFin}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name="ticket"
+                      type="fontisto"
+                      size={30}
+                      color={css.colors.primary_opaque}
+                      style={{marginRight: 5}}
+                    />
+                    <Text>N° {sorteo.CodigoTicket}</Text>
+                  </View>
+                </View>
               </View>
             </View>
             <View
               style={{
-                flex: 1,
-                backgroundColor: 'transparent',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-around',
+                marginTop: 40,
               }}>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="gift"
-                  type="ionicon"
-                  size={30}
-                  color={css.colors.primary_opaque}
-                  style={{marginRight: 5}}
-                />
-                <Text>Licuadora</Text>
-              </View>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="calendar"
-                  type="ionicon"
-                  size={30}
-                  color={css.colors.primary_opaque}
-                  style={{marginRight: 5, marginVertical: 20}}
-                />
-                <Text>29/02/2022</Text>
-              </View>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="ticket"
-                  type="fontisto"
-                  size={30}
-                  color={css.colors.primary_opaque}
-                  style={{marginRight: 5}}
-                />
-                <Text>N° 321</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View
-          style={{
-            marginTop: 40,
-          }}>
-          <View
-            style={{
-              backgroundColor: '#FEF4E8',
-              marginHorizontal: 20,
-              borderRadius: 7,
-              padding: 5,
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-              borderWidth: 3,
-              borderColor: '#FEF4E8',
-            }}>
-            <View
-              style={{backgroundColor: 'white', padding: 5, borderRadius: 7}}>
               <View
                 style={{
                   backgroundColor: '#FEF4E8',
+                  marginHorizontal: 20,
                   borderRadius: 7,
-                  padding: 10,
-                  display: 'flex',
-                  flexDirection: 'row',
+                  padding: 5,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+                  elevation: 5,
+                  borderWidth: 3,
+                  borderColor: '#FEF4E8',
                 }}>
                 <View
                   style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    paddingRight: 10,
+                    backgroundColor: 'white',
+                    padding: 5,
+                    borderRadius: 7,
                   }}>
-                  <Icon
-                    name="warning"
-                    type="ionicon"
-                    size={30}
-                    color={'#FFCA00'}
-                  />
-                </View>
-                <View style={{marginRight: 30}}>
-                  <Text style={{color: css.colors.primary_opaque}}>
-                    Importante:
-                    <Text style={{color: 'black'}}>
-                      {' '}
-                      Si eres el ganador del mes, se te enviará un correo
-                      electrónico con las indicaciones necesarias para recoger
-                      tu premio.
-                    </Text>{' '}
-                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: '#FEF4E8',
+                      borderRadius: 7,
+                      padding: 10,
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}>
+                    <View
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingRight: 10,
+                      }}>
+                      <Icon
+                        name="warning"
+                        type="ionicon"
+                        size={30}
+                        color={'#FFCA00'}
+                      />
+                    </View>
+                    <View style={{marginRight: 30}}>
+                      <Text style={{color: css.colors.primary_opaque}}>
+                        Importante:
+                        <Text style={{color: 'black'}}>
+                          {' '}
+                          {sorteo.descripcionSorteo2}
+                        </Text>{' '}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-        </View>
-
-        {/* <View style={{position: 'absolute', bottom: 0, height:200, backgroundColor:'orange'}}> */}
+          </>
+        )}
         <Svg
           height="100"
           width="100%"
           viewBox="0 0 1440 320"
           style={{position: 'absolute', bottom: 0}}>
           <Path
-            // fill="#d41c1c"
-            // fill-opacity="1"
-            // d="M0,224L48,197.3C96,171,192,117,288,80C384,43,480,21,576,53.3C672,85,768,171,864,176C960,181,1056,107,1152,85.3C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-
-          //  fill="#d41c1c" fill-opacity="1" d="M0,64L48,58.7C96,53,192,43,288,74.7C384,107,480,181,576,181.3C672,181,768,107,864,101.3C960,96,1056,160,1152,160C1248,160,1344,96,1392,64L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-
-
-          // fill="#d41c1c" fill-opacity="1" d="M0,64L120,80C240,96,480,128,720,133.3C960,139,1200,117,1320,106.7L1440,96L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"
-
-          // fill="#d41c1c" fill-opacity="1" d="M0,64L120,101.3C240,139,480,213,720,208C960,203,1200,117,1320,74.7L1440,32L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"
-
-
-          fill="#d41c1c" fill-opacity="1" d="M0,96L80,112C160,128,320,160,480,149.3C640,139,800,85,960,74.7C1120,64,1280,96,1360,112L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+            fill="#d41c1c"
+            fill-opacity="1"
+            d="M0,96L80,112C160,128,320,160,480,149.3C640,139,800,85,960,74.7C1120,64,1280,96,1360,112L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
           />
         </Svg>
       </View>

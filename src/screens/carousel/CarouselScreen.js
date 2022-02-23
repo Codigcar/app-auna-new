@@ -84,13 +84,12 @@ const CarouselHome = ({navigation, route}) => {
   const [banners, setBanners] = useState([]);
   const [isViewPopupTicket, setIsViewPopupTicket] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [bodyTicket, setBodyTicket] = useState([]);
   const [isLoadingGoPronostik, setIsLoadingGoPronostik] = useState(false);
 
   useEffect(() => {
-    /* return () => {
+    return () => {
       isMounted.current = false;
-    }; */
+    };
   }, []);
 
   useEffect(() => {
@@ -225,7 +224,7 @@ const CarouselHome = ({navigation, route}) => {
             <Image
               source={{uri: banner.imagen3}}
               style={{
-                width: 280,
+                width: 260,
                 height: 100,
                 resizeMode: 'contain',
               }}
@@ -292,9 +291,8 @@ const CarouselHome = ({navigation, route}) => {
                   marginBottom: 20,
                   marginHorizontal: 30,
                   marginTop: 20,
-                  borderLeftWidth: 7,
+                  borderLeftWidth:5,
                   borderLeftColor: css.colors.primary_opaque,
-                  // height: 70,
                 }}>
                 <Text
                   style={{fontWeight: 'bold', fontSize: 17, marginLeft: 10}}>

@@ -37,6 +37,8 @@ const BottomSheetScreen = ({
   type,
   realodingMisCitas,
   setRealodingMisCitas,
+  refreshFetching,
+  setRefreshFetching
 }) => {
   const bottomSheetModalRef = React.useRef(null);
 //
@@ -294,6 +296,8 @@ const BottomSheetScreen = ({
           type={type}
           realodingMisCitas={realodingMisCitas}
           setRealodingMisCitas={setRealodingMisCitas}
+          refreshFetching={refreshFetching}
+          setRefreshFetching={setRefreshFetching}
         />
       ) : (
         <View

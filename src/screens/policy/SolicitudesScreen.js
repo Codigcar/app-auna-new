@@ -66,10 +66,11 @@ const App = ({route}) => {
   const [masterDataSource, setMasterDataSource] = useState('');
   const [solicitudBody, setSolicitudBody] = useState({});
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
+  const [refreshFetching, setRefreshFetching] = useState(false);
 
   useEffect(() => {
     fetchDataListSolicitudes();
-  }, []);
+  }, [refreshFetching]);
 
   const fetchDataListSolicitudes = async () => {
     try {
@@ -122,11 +123,11 @@ const App = ({route}) => {
 
   const handleVisiblePopupCancel = itemCita => {
     setSolicitudBody({
-      asegurado_label: itemCita.Asegurado,
-      tipo_label: itemCita.tipo,
-      fecha: itemCita.fechaRegistro,
-      horario: itemCita.fechaRegistro,
-      idSolicitud: itemCita.idSolicitud,
+      asegurado_label: '',
+      tipo_label: '',
+      fecha: '',
+      horario: '',
+      idSolicitud: itemCita.id_solicitud,
     });
     // setIsVisiblePopupCancel(true);
     setIsVisiblePopup(true);
@@ -224,6 +225,8 @@ const App = ({route}) => {
           route={route}
           citaBody={solicitudBody}
           type={'cancelSolicitudInclusion'}
+          refreshFetching={refreshFetching}
+          setRefreshFetching={setRefreshFetching}
         />
       )}
       <View style={{flex: 1, backgroundColor: 'transparent'}}>

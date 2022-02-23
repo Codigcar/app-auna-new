@@ -66,110 +66,6 @@ const App = ({route}) => {
   const [dateNextSorteo, setDateNextSorteo] = useState('');
 
   useEffect(() => {
-    // setFilteredDataSource([
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ADELINDA  ALVINES YOVERA',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ROBERTO FUENTES META',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/02/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ESTEFANNY DIAZ MANSON',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ESTEFANNY DIAZ MANSON',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ESTEFANNY DIAZ MANSON',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    // ]);
-    // setMasterDataSource([
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ADELINDA  ALVINES YOVERA',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'MARIO BROS BROS',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ESTEFANNY DIAZ MANSON',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ESTEFANNY DIAZ MANSON',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    //   {
-    //     CodigoTicket: '1',
-    //     NombreCompleto: 'ESTEFANNY DIAZ MANSON',
-    //     codigoSorteo: '1',
-    //     fechaInicio: '01/01/2022',
-    //     fechaFin: '31/01/2022',
-    //     Mes_Anio: 'Enero - 2022',
-    //     NombreSorteo: 'SORTEO1',
-    //     ProximoSorteo: '31/01/2022',
-    //   },
-    // ]);
   }, []);
 
   useEffect(() => {
@@ -178,40 +74,49 @@ const App = ({route}) => {
   }, []);
 
   const fetchDataProximoSorteo = async () => {
-    const params = new URLSearchParams({
-      I_Sistema_IdSistema: route.params.userRoot.idSistema,
-      I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-    });
-    const response = await fetchWithToken(
-      Constant.URI.GET_FECHA_PROXIMO_SORTEO,
-      'POST',
-      params,
-      route.params.userRoot.Token,
-    );
-    if (response.CodigoMensaje === 100) {
-      setDateNextSorteo(response.Result[0].fechaUltimoSorteo);
-    } else {
-      Alert.alert('Error', response.RespuestaMensaje);
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.GET_FECHA_PROXIMO_SORTEO,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      if (response.CodigoMensaje === 100) {
+        setDateNextSorteo(response.Result[0].fechaUltimoSorteo);
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+        console.error('[RewardWinners - fetchDataProximoSorteo]: ',response.RespuestaMensaje);
+      }
+    } catch (error) {
+      console.error('[RewardWinners - fetchDataProximoSorteo]: ',error);
     }
   };
 
   const fetchDataListarGanadores = async () => {
-    const params = new URLSearchParams({
-      I_Sistema_IdSistema: route.params.userRoot.idSistema,
-      I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
-    });
-    const response = await fetchWithToken(
-      Constant.URI.GET_LISTAR_GANADORES_SORTEO,
-      'POST',
-      params,
-      route.params.userRoot.Token,
-    );
-    // console.log('[Response]:: ', response);
-    if (response.CodigoMensaje === 100) {
-      setFilteredDataSource(response.Result);
-      setMasterDataSource(response.Result);
-    } else {
-      Alert.alert('Error', response.RespuestaMensaje);
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno: route.params.userRoot.idUsuarioExterno,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.GET_LISTAR_GANADORES_SORTEO,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      if (response.CodigoMensaje === 100) {
+        setFilteredDataSource(response.Result);
+        setMasterDataSource(response.Result);
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+        console.error('[RewardWinners - fetchDataListarGanadores]: ',response.RespuestaMensaje);
+      }
+    } catch (error) {
+      console.error('[RewardWinners - fetchDataListarGanadores]: ',error);
     }
   };
 

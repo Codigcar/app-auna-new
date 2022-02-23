@@ -88,6 +88,9 @@ export default {
         GET_LISTAR_GANADORES_SORTEO:            'SorteoUsuario_Listar',
         // POST REGISTRAR USUARIO A SORTEO
         POST_REGISTRAR_USUARIO_SORTEO:          'SorteoUsuario_Registrar',
+        // GET DESCRIPCION DEL SORTEO
+        GET_INFO_SORTEO:                        'SorteoDecsripcionPremio_Listar',
+
 
         //GET ESPECIALIDAD CITA
         GET_ESPECIALIDADES_LISTAR_CITA:         'Especialidad_Listar',

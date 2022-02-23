@@ -16,18 +16,15 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Avatar, Divider, Icon, Button} from 'react-native-elements';
+import {Divider, Icon, Button} from 'react-native-elements';
 
 import {ButtonInitial} from '../../components';
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 import {fetchWithToken} from '../../utils/fetchCustom';
-import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 import BottomSheetScreen from './BottomSheetScreen';
 import CitaNewScreen from './CitaNewScreen';
 import DataNotFound from '../../components/CitaNotFound';
-import CitaPopupCancel from './CitaPopupCancel';
-import {Constants} from '../../utils/util';
 import { useFocusEffect } from '@react-navigation/native';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
 
