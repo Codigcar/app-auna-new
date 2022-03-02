@@ -82,6 +82,7 @@ const CarouselHome = ({navigation, route}) => {
   const [isViewPopupTicket, setIsViewPopupTicket] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingGoPronostik, setIsLoadingGoPronostik] = useState(false);
+  const [numTicket, setNumTicket] = useState('');
 
   useEffect(() => {
     return () => {
@@ -91,7 +92,7 @@ const CarouselHome = ({navigation, route}) => {
 
   useEffect(() => {
     fetchBannerListar();
-    fetchRegisterTicketSorteo();
+    route.params.userRoot.idSistema == 2 && fetchRegisterTicketSorteo();
   }, []);
 
   const fetchBannerListar = async () => {
@@ -165,8 +166,15 @@ const CarouselHome = ({navigation, route}) => {
         params,
         route.params.userRoot.Token,
       );
-      if (response.CodigoMensaje === 100) {
-        setIsViewPopupTicket(true);
+      console.log('[fetchRegisterTicketSorteo]: ', response);
+      if (response.CodigoMensaje == 100) {
+        if(response.Result[0].CodigoMensaje == 100){
+          setNumTicket(response.Result[0].ticket);
+          setIsViewPopupTicket(true);
+        }else { // eliminar en prod
+          setNumTicket(321);
+          setIsViewPopupTicket(true);
+        }
       } else {
         Alert.alert('Error', response.RespuestaMensaje);
       }
@@ -319,7 +327,7 @@ const CarouselHome = ({navigation, route}) => {
                       minWidth: '70%',
                       borderRadius: 7,
                     }}
-                    title="Iniciar orientación"
+                    title={banner.TextoBoton}
                     titleStyle={{
                       fontSize: 14,
                       color: 'white',
@@ -336,16 +344,6 @@ const CarouselHome = ({navigation, route}) => {
               </View>
               <Pagination
                 dotsLength={banners.length}
-                // renderDots={activeIndex =>
-                //   banners.map((screen, i) => (
-                //     <View style={{flex: 1, alignItems: 'center'}} key={i}>
-                //       <Text
-                //         style={{color: activeIndex === i ? 'blue' : '#000'}}>
-                //         {i}
-                //       </Text>
-                //     </View>
-                //   ))
-                // }
                 activeDotIndex={activeIndex}
                 dotContainerStyle={{
                   backgroundColor: 'transparent',
@@ -380,7 +378,7 @@ const CarouselHome = ({navigation, route}) => {
         <LoadingActivityIndicator />
       ) : (
         <>
-          {isViewPopupTicket && <PopupTicket />}
+          {isViewPopupTicket && <PopupTicket numTicket={numTicket} />}
           <SafeAreaView>
             <View style={styles.headerContainer}>
               <Carousel

@@ -5,30 +5,24 @@ import {
   CollapseHeader,
 } from 'accordion-collapse-react-native';
 import {validateAll} from 'indicative/validator';
-import React, {useLayoutEffect, useState, useRef} from 'react';
+import React, { useState, useRef} from 'react';
 import {
   Alert,
   StyleSheet,
   Text,
   View,
   KeyboardAvoidingView,
-  Pressable,
   ActivityIndicator,
   Platform,
   ScrollView,
 } from 'react-native';
 import {Button, Icon, Divider} from 'react-native-elements';
 import 'react-native-gesture-handler';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 import {useEffect} from 'react';
 import {fetchWithToken} from '../../utils/fetchCustom';
-import {Styles} from '../../assets/css/Styles';
-import {DropDownPicker, InputMask} from '../../components';
-import {convertDateDDMMYYYY} from '../../utils/util';
-import CitaPopupConfirm from './CitaPopupConfirm';
 import BottomSheetScreen from './BottomSheetScreen';
 import ElementDropDown from '../../components/ElementDropDown';
 
@@ -365,13 +359,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   collapseHeader: {
-    /* flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: '#D3D3D3',
-    padding: 10,
-    backgroundColor: '#FFF', */
   },
   collapseBodyTextLabel: {
     fontSize: 16,

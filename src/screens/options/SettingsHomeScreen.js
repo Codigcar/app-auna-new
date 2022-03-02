@@ -146,10 +146,10 @@ function HomeScreen({navigation, route}) {
 
   const renderItem = item => {
     if (
-      (item.title === 'Citas' &&
-        route.params.userRoot.nombreClientePotencial !== 'AUNA') ||
-      (item.title === 'Citas' &&
-        route.params.userRoot.nombreClientePotencial !== 'AUNA')
+      (item.title === 'Mis Citas' &&
+        route.params.userRoot.idSistema !== 2) ||
+      (item.title === 'Sorteos' &&
+        route.params.userRoot.idSistema !== 2)
     ) {
       return <></>;
     }

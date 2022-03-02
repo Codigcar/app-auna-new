@@ -57,7 +57,7 @@ export default function RewardHomeScreen({navigation, route}) {
         activeTintColor: css.colors.primary,
         inactiveTintColor: css.colors.opaque,
         labelStyle: {fontSize: 12},
-        indicatorStyle: {backgroundColor: css.colors.primary_opaque},
+        indicatorStyle: {backgroundColor: '#BE3032'},
       }}
       style={{
         borderTopColor: 'transparent',
@@ -198,7 +198,7 @@ function HomeScreen({navigation, route}) {
                 ¡Tú puedes ser el{' '}
                 <Text
                   style={{
-                    color: css.colors.primary_opaque,
+                    color: '#BE3032',
                     fontSize: 20,
                     fontWeight: 'bold',
                   }}>
@@ -293,7 +293,7 @@ function HomeScreen({navigation, route}) {
                       name="gift"
                       type="ionicon"
                       size={30}
-                      color={css.colors.primary_opaque}
+                      color={'#BE3032'}
                       style={{marginRight: 5}}
                     />
                     <Text>{sorteo.premio}</Text>
@@ -308,11 +308,11 @@ function HomeScreen({navigation, route}) {
                       name="calendar"
                       type="ionicon"
                       size={30}
-                      color={css.colors.primary_opaque}
+                      color={'#BE3032'}
                       style={{marginRight: 5, marginVertical: 20}}
                     />
                     <Text>
-                      {sorteo.fechaInicio} - {sorteo.fechaFin}
+                      {sorteo.fechaFin}
                     </Text>
                   </View>
                   <View
@@ -325,7 +325,7 @@ function HomeScreen({navigation, route}) {
                       name="ticket"
                       type="fontisto"
                       size={30}
-                      color={css.colors.primary_opaque}
+                      color={'#BE3032'}
                       style={{marginRight: 5}}
                     />
                     <Text>N° {sorteo.CodigoTicket}</Text>
@@ -383,7 +383,7 @@ function HomeScreen({navigation, route}) {
                       />
                     </View>
                     <View style={{marginRight: 30}}>
-                      <Text style={{color: css.colors.primary_opaque}}>
+                      <Text style={{color: '#BE3032'}}>
                         Importante:
                         <Text style={{color: 'black'}}>
                           {' '}
@@ -397,18 +397,26 @@ function HomeScreen({navigation, route}) {
             </View>
           </>
         )}
-        <Svg
-          height="100"
-          width="100%"
-          viewBox="0 0 1440 320"
-          style={{position: 'absolute', bottom: 0}}>
-          <Path
-            fill="#d41c1c"
-            fill-opacity="1"
-            d="M0,96L80,112C160,128,320,160,480,149.3C640,139,800,85,960,74.7C1120,64,1280,96,1360,112L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-          />
-        </Svg>
       </View>
+      <Image
+          style={{
+            width: '100%',
+            ...Platform.select({
+              android:{
+                height: 80,
+              },
+              ios:{
+                height:90
+              }
+            }),
+            resizeMode: 'cover',
+            position:'absolute',
+            bottom:0,
+            left:0,
+            right:0,
+          }}
+          source={require('../../assets/franja.png')}
+        />
     </SafeAreaView>
   );
 }

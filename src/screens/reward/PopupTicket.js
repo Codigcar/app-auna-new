@@ -13,7 +13,7 @@ import {css} from '../../utils/css';
 import giftbox from '../../assets/svg/giftbox';
 import Modal from 'react-native-modal';
 
-export default function PopupTicket({navigation, route}) {
+export default function PopupTicket({navigation, route, numTicket}) {
   //
   const [isVisible, setIsVisible] = useState(true);
 
@@ -29,12 +29,12 @@ export default function PopupTicket({navigation, route}) {
       animationOutTiming={600}
       backdropTransitionInTiming={600}
       backdropTransitionOutTiming={600}>
-      <DefaultModalContent setIsVisible={setIsVisible} />
+      <DefaultModalContent setIsVisible={setIsVisible} numTicket={numTicket} />
     </Modal>
   );
 }
 
-const DefaultModalContent = ({setIsVisible}) => (
+const DefaultModalContent = ({setIsVisible, numTicket}) => (
   <View
     style={{
       flex: 1,
@@ -56,8 +56,11 @@ const DefaultModalContent = ({setIsVisible}) => (
       <View style={{height: 80, backgroundColor: 'transparent'}} />
       <View style={{backgroundColor: 'transparent'}}>
         <View>
+          <Text style={(styles.textCenter, {textAlign: 'center', fontSize:20,marginHorizontal:10, color: css.colors.primary_opaque, fontWeight:'bold', marginBottom:10})}>
+            ¡FELICITACIONES!
+          </Text>
           <Text style={(styles.textCenter, {textAlign: 'center', fontSize:15,marginHorizontal:10})}>
-            Se te ha asignado un número aleatorio para participar en nuestros
+            Se te ha asignado un Ticket para participar en nuestros increíbles
             sorteos
           </Text>
         </View>
@@ -105,7 +108,7 @@ const DefaultModalContent = ({setIsVisible}) => (
                     },
                   }),
                 }}>
-                321
+                {numTicket}
               </Text>
             </View>
             <View>

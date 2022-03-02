@@ -76,6 +76,8 @@ const DefaultModalContent = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchSuccessful, setFetchSuccessful] = useState(false);
+  const [msgTitle, setMsgTitle] = useState('');
+  const [msgDescription, setMsgDescription] = useState('');
 
   useEffect(() => {
     if (type === 'cancelCita') {
@@ -108,10 +110,13 @@ const DefaultModalContent = ({
         'POST',
         params,
         route.params.userRoot.Token,
-      );
+        );
+        // console.log('[Log Response]: ', JSON.stringify(response));
       if (response.Result[0].CodigoMensaje === 100) {
         setIsLoading(false);
         setFetchSuccessful(true);
+        setMsgTitle(response.Result[0].Titulo);
+        setMsgDescription(response.Result[0].Descripcion);
       } else {
         setIsLoading(false);
         setFetchSuccessful(false);
@@ -128,6 +133,7 @@ const DefaultModalContent = ({
   const cancelCitaAction = async () => {
     try {
       setIsLoading(true);
+      console.log('[Log Input]: ', JSON.stringify(params));
       const params = new URLSearchParams({
         I_Sistema_IdSistema: route.params.userRoot.idSistema,
         I_UsuarioExterno_IdUsuarioExterno:
@@ -140,10 +146,13 @@ const DefaultModalContent = ({
         params,
         route.params.userRoot.Token,
       );
-      if (response.CodigoMensaje >= 100 && response.CodigoMensaje <= 199) {
+      console.log('[Log Input]: ', JSON.stringify(response));
+      if (response.Result[0].CodigoMensaje >= 100 && response.Result[0].CodigoMensaje <= 199) {
         setIsLoading(false);
         setFetchSuccessful(true);
         setRealodingMisCitas(!realodingMisCitas);
+        setMsgTitle(response.Result[0].Titulo);
+        setMsgDescription(response.Result[0].Descripcion);
       } else {
         setIsLoading(false);
         setFetchSuccessful(false);
@@ -178,6 +187,8 @@ const DefaultModalContent = ({
         setIsLoading(false);
         setFetchSuccessful(true);
         setRefreshFetching(!refreshFetching);
+        setMsgTitle(response.Result[0].Titulo);
+        setMsgDescription(response.Result[0].Descripcion);
       } else {
         setIsLoading(false);
         setFetchSuccessful(false);
@@ -251,7 +262,7 @@ const DefaultModalContent = ({
                 },
               }),
             }}>
-            ¡Tu cita médica se registró con éxito!
+            {msgTitle}
           </Text>
           <Text
             style={{
@@ -262,9 +273,7 @@ const DefaultModalContent = ({
               marginTop: 20,
               color: css.colors.gray_opaque,
             }}>
-            Minutos antes de tu fecha y hora elegida te llegará el link del meet
-            por correo electrónico. Puedes visualizar tu nueva cita registrada
-            en la sección 'Mis Citas Médicas'.
+            {msgDescription}
           </Text>
         </View>
       </View>
@@ -320,7 +329,7 @@ const DefaultModalContent = ({
                 },
               }),
             }}>
-            ¡Tu cita médica se canceló con éxito!
+            {msgTitle}
           </Text>
           <Text
             style={{
@@ -331,8 +340,7 @@ const DefaultModalContent = ({
               marginTop: 20,
               color: css.colors.gray_opaque,
             }}>
-            La cita cancelada no podrá ser visualizada en la lista de tus Citas
-            Médicas.
+            {msgDescription}
           </Text>
         </View>
       </View>
@@ -388,7 +396,8 @@ const DefaultModalContent = ({
                 },
               }),
             }}>
-            ¡Tu solicitud se canceló con éxito!
+            {/* ¡Tu solicitud se canceló con éxito! */}
+            {msgTitle}
           </Text>
           <Text
             style={{
@@ -399,8 +408,9 @@ const DefaultModalContent = ({
               marginTop: 20,
               color: css.colors.gray_opaque,
             }}>
-            Tu solicitud ha sido cancelada correctamente sin opción a retorno,
-            ya no podrás visualizarlo en tu lista de tus solicitudes.
+           {/*  Tu solicitud ha sido cancelada correctamente sin opción a retorno,
+            ya no podrás visualizarlo en tu lista de tus solicitudes. */}
+            {msgDescription}
           </Text>
         </View>
       </View>

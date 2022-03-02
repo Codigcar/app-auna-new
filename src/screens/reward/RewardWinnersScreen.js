@@ -220,7 +220,7 @@ const App = ({route}) => {
             style={{
               textAlign: 'center',
               color: '#fff',
-              backgroundColor: css.colors.primary_opaque,
+              backgroundColor: '#BE3032',
               fontSize: 20,
               marginVertical: 10,
               paddingVertical: 5,
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   textColorPrimary: {
-    color: css.colors.primary_opaque,
+    color: '#BE3032',
   },
   textColorGray: {
     color: 'rgba(166, 166, 172, 1)',
