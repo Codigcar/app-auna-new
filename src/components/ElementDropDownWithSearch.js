@@ -4,7 +4,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import {Icon} from 'react-native-elements';
 import {css} from '../utils/css';
 
-const ElementDropDown = ({
+const ElementDropDownWithSearch = ({
   data,
   placeholder,
   label,
@@ -53,8 +53,8 @@ const ElementDropDown = ({
         iconStyle={styles.iconStyle}
         data={data}
         // disable={data[0].label === "cargando..." ? true: false}
-        search
-        searchPlaceholder="Search..."
+        search={data.length === 0 ? false: true}
+        searchPlaceholder="Buscar..."
         disable={disableField}
         dropdownPosition={'bottom'}
         autoScroll={true}
@@ -63,7 +63,7 @@ const ElementDropDown = ({
 
         // maxHeight={label === "Fecha" ? 200 : 150}
 
-        maxHeight={data.length>3 ? 173 : (56 * data.length) }
+        maxHeight={data.length>4 ? 224 : (112 * data.length) }
         // maxHeight={171}
 
         // maxHeight=''
@@ -107,7 +107,7 @@ const ElementDropDown = ({
   );
 };
 
-export default ElementDropDown;
+export default ElementDropDownWithSearch;
 
 const styles = StyleSheet.create({
   container: {

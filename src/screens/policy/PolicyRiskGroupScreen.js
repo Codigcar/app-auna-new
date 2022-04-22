@@ -1,8 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Dimensions, FlatList, Linking, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Divider, Image } from 'react-native-elements';
+import { Alert, Dimensions, FlatList, Linking, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Divider, Image, Icon as IconRNE } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ButtonInitial } from '../../components';
 import Constant from '../../utils/constants';
 import { css } from '../../utils/css';
@@ -92,6 +91,7 @@ export default function PolicyRiskGroupScreen({ navigation, route }) {
   
   //LLAMADA A TELEFONO
   const llamarTelefono = cellphone => {
+    console.log('llamarTelefono');
     let url = '';
     let postalCode = '01';
     
@@ -177,15 +177,14 @@ export default function PolicyRiskGroupScreen({ navigation, route }) {
                 <Divider style={{ backgroundColor: css.colors.opaque }} />
 
                 <View style={{ alignContent:"space-between", flexDirection: "row" }}>
-                  
                   <View style={{ margin: 5, padding: 2, flexDirection: "row",  backgroundColor: "#FFF", width:"67%" }}>
-                    <MaterialCommunityIcons name="face" size={16} color={css.colors.opaque} />
+                    <IconRNE rounded name='face' type='material-community' color= {css.colors.opaque} size={14} iconStyle={styles.cardIconDetails}  />
                     <Text style={{ marginLeft: 5, color: '#C0C0C0' }}> {item.nombresFuncionarioInterno}</Text>
                   </View>
                  
                   <TouchableOpacity onPress={() => llamarTelefono(item.telefonoMovilFuncionarioInterno)} style={{ width:"30%"}} >
                     <View style={{alignSelf:"flex-end", flexDirection: "row", margin: 5, padding: 2}}>
-                        <MaterialCommunityIcons name="phone" size={16} color={css.colors.opaque} />
+                        <IconRNE rounded name='phone' type='material-community' color= {css.colors.opaque} size={12} iconStyle={styles.cardIconDetails}  />
                         <Text style={{ marginLeft: 3, color: '#C0C0C0' }}> {item.telefonoMovilFuncionarioInterno}</Text>
                     </View>
                   </TouchableOpacity>
@@ -279,6 +278,13 @@ const styles = StyleSheet.create({
   },
   stateExpire: {
     backgroundColor: '#FABB5E',
-
-  }
+  },
+  cardIconDetails: {
+    borderWidth: 1,
+    borderColor: css.colors.opaque,
+    padding: 3,
+    borderRadius: Platform.select({android: Dimensions.get('window').width / 2, default:10}),
+    textAlignVertical:"center",
+    textAlign:"center", 
+  },
 });

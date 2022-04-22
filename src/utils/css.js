@@ -15,6 +15,7 @@ export const css = {
     opaque: 'rgba(0,0,0,0.5)',
     primary_opaque: '#d41c1c',
     gray_opaque: 'rgba(166, 166, 172, 1)',
+    gray_opaque_agua: 'rgba(166, 166, 172, .3)',
     white: '#fff',
     shadowColorCard: 'rgba(0, 0, 0, 0.14)',
   },

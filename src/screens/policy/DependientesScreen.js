@@ -109,29 +109,35 @@ const App = ({route}) => {
 
   const ItemView = ({item}) => {
     return (
-      <View style={[styles.card, css.designElevationCardiOS]}>
-        <View style={{flexDirection: 'row'}}>
-          <View style={{paddingLeft: 10}}>
-            <View style={styles.cardSection}>
-              <Text style={{fontWeight: 'bold'}}>Asegurado:</Text>
-              <Text style={{fontWeight: 'bold', marginLeft: 8, color: 'black'}}>
-                {item.apellidoPaternoAsegurado} {item.apellidoMaternoAsegurado}{' '}
-                {item.nombreAsegurado}
-              </Text>
-            </View>
-            <View style={styles.cardSection}>
-              <Text>Parentesco:</Text>
-              <Text style={styles.cardSectionText}>
-                {item.nombreTipoDependiente}
-              </Text>
-            </View>
-            <View style={styles.cardSection}>
-              <Text>Edad:</Text>
-              <Text style={styles.cardSectionText}>{item.edadAsegurado}</Text>
-            </View>
-            <View style={styles.cardSection}>
-              <Text>Fecha de inclusión:</Text>
-              <Text style={styles.cardSectionText}>{item.fechaInclusion}</Text>
+      <View>
+        { item.nombreTipoDependiente !== "Titular" && <Text style={{marginHorizontal:15, padding: 0, fontSize:18, color: css.colors.gray_opaque}}>Dependientes:</Text>}
+        <View style={[styles.card, css.designElevationCardiOS]}>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{paddingLeft: 10}}>
+              <View style={styles.cardSection}>
+                <Text style={{fontWeight: 'bold'}}>Asegurado:</Text>
+                <Text
+                  style={{fontWeight: 'bold', marginLeft: 8, color: 'black'}}>
+                  {item.apellidoPaternoAsegurado}{' '}
+                  {item.apellidoMaternoAsegurado} {item.nombreAsegurado}
+                </Text>
+              </View>
+              <View style={styles.cardSection}>
+                <Text>Parentesco:</Text>
+                <Text style={styles.cardSectionText}>
+                  {item.nombreTipoDependiente}
+                </Text>
+              </View>
+              <View style={styles.cardSection}>
+                <Text>Edad:</Text>
+                <Text style={styles.cardSectionText}>{item.edadAsegurado}</Text>
+              </View>
+              <View style={styles.cardSection}>
+                <Text>Fecha de inclusión:</Text>
+                <Text style={styles.cardSectionText}>
+                  {item.fechaInclusion}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
