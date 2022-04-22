@@ -4,18 +4,23 @@ import {
   FlatList,
   Linking,
   Platform,
+  RefreshControl,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import {Avatar, Icon} from 'react-native-elements';
 import ElementDropDownWithSearch from '../../components/ElementDropDownWithSearch';
+import ElementDropDown from '../../components/ElementDropDown';
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
 import {AuthLoadingScreen} from '..';
+import { SvgUri } from 'react-native-svg';
+import Swipe from '../../assets/swipe-down-svg.svg';
 
 export default function PolicyClinicaScreen({navigation, route}) {
   console.log('[PolicyClinicaScreen - 4]');
@@ -487,7 +492,7 @@ export default function PolicyClinicaScreen({navigation, route}) {
             width: '100%',
             marginBottom: Platform.select({android: 10, ios: 10}),
           }}>
-          <ElementDropDownWithSearch
+          <ElementDropDown
             data={categorias}
             value={categoria}
             setValue={onChangeCategorias}
@@ -574,7 +579,7 @@ export default function PolicyClinicaScreen({navigation, route}) {
           <View style={{backgroundColor: 'white', width: 150, paddingTop: 25}}>
             <Text
               style={{color: css.colors.gray_opaque_agua, textAlign: 'center'}}>
-              Si desea borrar los filtros haga swipe up
+              ¡Si desea reestablecer los filtros haga swipe up!
             </Text>
           </View>
           <View style={{backgroundColor: 'white'}}>
@@ -594,8 +599,14 @@ export default function PolicyClinicaScreen({navigation, route}) {
     <SafeAreaView style={{flex: 1}}>
       <FlatList
         data={clinics}
-        refreshing={isLoadingPullRefresh}
-        onRefresh={pullRefresh}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoadingPullRefresh}
+            onRefresh={pullRefresh}
+            tintColor={css.colors.primary}
+            colors={[css.colors.primary]}
+          />
+        }
         keyExtractor={(item, index) =>
           String.valueOf(item.idClinicaDetalle) + `${index}`
         }
@@ -685,7 +696,7 @@ export default function PolicyClinicaScreen({navigation, route}) {
                 />
               </View>
             </View>
-            {showMessageSwipeUp && index == clinics.length - 1 && (
+            {!isLoading && showMessageSwipeUp && index == clinics.length - 1 && (
               <View
                 style={{
                   backgroundColor: 'white',
@@ -694,28 +705,42 @@ export default function PolicyClinicaScreen({navigation, route}) {
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginBottom: 30,
+                  marginTop: 25,
                 }}>
                 <View
                   style={{
                     backgroundColor: 'white',
                     width: 150,
-                    paddingTop: 25,
                   }}>
                   <Text
                     style={{
                       color: css.colors.gray_opaque_agua,
                       textAlign: 'center',
                     }}>
-                    Si desea borrar los filtros haga swipe up
+                    ¡Si desea reestablecer los filtros haga un swipe up!
                   </Text>
                 </View>
-                <View style={{backgroundColor: 'white'}}>
-                  <Icon
+                <View style={{backgroundColor: 'white', marginLeft: 5}}>
+                  {/* <Icon
                     name="gesture-swipe-down"
                     type="material-community"
                     size={40}
                     color={css.colors.gray_opaque_agua}
-                  />
+                  /> */}
+                  {/*  <Image
+                    style={{
+                      width:30,
+                      height:30,
+                      color:css.colors.gray_opaque_agua
+                    }}
+                    source={require('../../assets/swipe-down.png')}
+                  /> */}
+                 {/*  <SvgUri
+                    width= "30"
+                    height="30"
+                    source={require('../../assets/swipe_down_black_24dp.svg')}
+                  /> */}
+                  <Swipe width={120} height={40} />
                 </View>
               </View>
             )}

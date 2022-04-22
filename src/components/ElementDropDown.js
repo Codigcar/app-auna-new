@@ -53,8 +53,8 @@ const ElementDropDown = ({
         iconStyle={styles.iconStyle}
         data={data}
         // disable={data[0].label === "cargando..." ? true: false}
-        search
-        searchPlaceholder="Search..."
+        // search
+        // searchPlaceholder="Search..."
         disable={disableField}
         dropdownPosition={'bottom'}
         autoScroll={true}
