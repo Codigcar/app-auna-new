@@ -19,8 +19,7 @@ import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
 import LoadingActivityIndicator from '../../components/LoadingActivityIndicator';
 import {AuthLoadingScreen} from '..';
-import { SvgUri } from 'react-native-svg';
-import Swipe from '../../assets/swipe-down-svg.svg';
+import {SvgUri} from 'react-native-svg';
 
 export default function PolicyClinicaScreen({navigation, route}) {
   console.log('[PolicyClinicaScreen - 4]');
@@ -567,30 +566,47 @@ export default function PolicyClinicaScreen({navigation, route}) {
         <Text style={{fontSize: 14, color: css.colors.opaque}}>
           No se encontraron clínicas cercanas
         </Text>
-        <View
-          style={{
-            backgroundColor: 'white',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 20,
-          }}>
-          <View style={{backgroundColor: 'white', width: 150, paddingTop: 25}}>
-            <Text
-              style={{color: css.colors.gray_opaque_agua, textAlign: 'center'}}>
-              ¡Si desea reestablecer los filtros haga swipe up!
-            </Text>
+        {!isLoading && (
+          <View
+            style={{
+              backgroundColor: 'white',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 30,
+              marginTop: 20,
+              borderWidth: 1,
+              borderColor: css.colors.gray_opaque_agua,
+              borderStyle: 'dashed',
+              borderRadius: 10,
+              width: '90%',
+              marginHorizontal: 10,
+              paddingVertical: 10,
+            }}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                width: 155,
+              }}>
+              <Text
+                style={{
+                  color: css.colors.gray_opaque_agua,
+                  textAlign: 'center',
+                }}>
+                ¡Si desea reestablecer los filtros haga un swipe up!
+              </Text>
+            </View>
+            <View style={{backgroundColor: 'white', marginLeft: 5}}>
+              <Icon
+                name="gesture-swipe-down"
+                type="material-community"
+                size={40}
+                color={css.colors.gray_opaque_agua}
+              />
+            </View>
           </View>
-          <View style={{backgroundColor: 'white'}}>
-            <Icon
-              name="gesture-swipe-down"
-              type="material-community"
-              size={40}
-              color={css.colors.gray_opaque_agua}
-            />
-          </View>
-        </View>
+        )}
       </View>
     );
   };
@@ -614,7 +630,7 @@ export default function PolicyClinicaScreen({navigation, route}) {
         ListHeaderComponent={renderHeader}
         ListEmptyComponent={renderEmpty}
         renderItem={({item, index}) => (
-          <View>
+          <View style={{marginTop: 8}}>
             <View style={[styles.card_container, css.designElevationCardiOS]}>
               <View
                 style={{
@@ -705,12 +721,18 @@ export default function PolicyClinicaScreen({navigation, route}) {
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginBottom: 30,
-                  marginTop: 25,
+                  marginTop: 20,
+                  borderWidth: 1,
+                  borderColor: css.colors.gray_opaque_agua,
+                  borderStyle: 'dashed',
+                  marginHorizontal: 30,
+                  borderRadius: 10,
+                  paddingVertical: 10,
                 }}>
                 <View
                   style={{
                     backgroundColor: 'white',
-                    width: 150,
+                    width: 155,
                   }}>
                   <Text
                     style={{
@@ -721,26 +743,12 @@ export default function PolicyClinicaScreen({navigation, route}) {
                   </Text>
                 </View>
                 <View style={{backgroundColor: 'white', marginLeft: 5}}>
-                  {/* <Icon
+                  <Icon
                     name="gesture-swipe-down"
                     type="material-community"
                     size={40}
                     color={css.colors.gray_opaque_agua}
-                  /> */}
-                  {/*  <Image
-                    style={{
-                      width:30,
-                      height:30,
-                      color:css.colors.gray_opaque_agua
-                    }}
-                    source={require('../../assets/swipe-down.png')}
-                  /> */}
-                 {/*  <SvgUri
-                    width= "30"
-                    height="30"
-                    source={require('../../assets/swipe_down_black_24dp.svg')}
-                  /> */}
-                  <Swipe width={120} height={40} />
+                  />
                 </View>
               </View>
             )}

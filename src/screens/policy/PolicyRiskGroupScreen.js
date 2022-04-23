@@ -152,31 +152,28 @@ export default function PolicyRiskGroupScreen({ navigation, route }) {
                   <Text style={styles.itemPoliza}>ver detalle  <Icon name="ios-arrow-forward" size={18} /></Text>   
                 </View>
                 <Divider style={{ backgroundColor: css.colors.opaque }} />
-                <View style={styles.viewSlot}>
-                  <View style={{ alignItems:"center", flexDirection: "row", width: 200, ...Platform.select({ ios:{marginRight:3}, android:{marginRight:-8} }) }}>
-                    <Text style={{ color: '#FF0000', fontSize:13, fontWeight: "bold" }}>{item.nombreCortoAseguradora}</Text>
-                    <Text style={[ {
-                      marginLeft: 10,
-                      paddingLeft: 5, 
-                      paddingRight: 5, 
-                      borderRadius: 3 
-                    }, item.idEstado === 1 ? styles.stateActive : styles.stateExpire ]}> {item.nombreEstadoPoliza} </Text>
+                <View style={{marginVertical:5}} >
+                  <View style={styles.viewSlot}>
+                    <View style={{ alignItems:"center", flexDirection: "row", width: 200, ...Platform.select({ ios:{marginRight:3}, android:{marginRight:-8} }) }}>
+                      <Text style={{ color: '#FF0000', fontSize:13, fontWeight: "bold" }}>{item.nombreCortoAseguradora}</Text>
+                      <Text style={[ {
+                        marginLeft: 10,
+                        paddingLeft: 5, 
+                        paddingRight: 5, 
+                        borderRadius: 3 
+                      }, item.idEstado === 1 ? styles.stateActive : styles.stateExpire ]}> {item.nombreEstadoPoliza} </Text>
+                    </View>
+                    <Text adjustsFontSizeToFit={true} minimumFontScale={0.6} numberOfLines={5} style={{ color: css.colors.opaque, flex:1,  marginLeft:30, marginRight:-7 , maxHeight:30, textAlignVertical:"center", textAlign:"center" }}>{item.nombreRiesgo}</Text>
                   </View>
-                  <Text adjustsFontSizeToFit={true} minimumFontScale={0.6} numberOfLines={5} style={{ color: css.colors.opaque, flex:1,  marginLeft:30, marginRight:-7 , maxHeight:30, textAlignVertical:"center", textAlign:"center" }}>{item.nombreRiesgo}</Text>
-                </View>
-                <View style={styles.viewSlot} display= {(item.mostrarPlanAsegurado == 1) ? "flex" : "none"}>
-                  <Text style={styles.itemPoliza}>
-                    Plan: {item.nombrePlanAsegurado} 
-                  </Text>
-                </View>
-                <View style={styles.viewSlot} >
-                  <Text style={styles.itemPoliza}>
-                    Razón Social: {item.razonSocial} 
-                  </Text>
+                  <View style={styles.viewSlot} display= {(item.mostrarPlanAsegurado == 1) ? "flex" : "none"}>
+                    <Text style={styles.itemPoliza}>
+                      Plan: {item.nombrePlanAsegurado} 
+                    </Text>
+                  </View>
                 </View>
                 <Divider style={{ backgroundColor: css.colors.opaque }} />
 
-                <View style={{ alignContent:"space-between", flexDirection: "row" }}>
+                <View style={{ alignContent:"space-between", flexDirection: "row", marginTop:5 }}>
                   <View style={{ margin: 5, padding: 2, flexDirection: "row",  backgroundColor: "#FFF", width:"67%" }}>
                     <IconRNE rounded name='face' type='material-community' color= {css.colors.opaque} size={14} iconStyle={styles.cardIconDetails}  />
                     <Text style={{ marginLeft: 5, color: '#C0C0C0' }}> {item.nombresFuncionarioInterno}</Text>
