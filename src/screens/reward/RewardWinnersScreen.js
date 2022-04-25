@@ -63,6 +63,7 @@ const App = ({route}) => {
   const [filteredDataSource, setFilteredDataSource] = useState('');
   const [masterDataSource, setMasterDataSource] = useState('');
   const [dateNextSorteo, setDateNextSorteo] = useState('');
+  const [sorteo, setSorteo] = useState('');
 
   useEffect(() => {
   }, []);
@@ -70,6 +71,7 @@ const App = ({route}) => {
   useEffect(() => {
     fetchDataProximoSorteo();
     fetchDataListarGanadores();
+    fetchSorteoDescripcion();
   }, []);
 
   const fetchDataProximoSorteo = async () => {
@@ -108,6 +110,7 @@ const App = ({route}) => {
         route.params.userRoot.Token,
       );
       if (response.CodigoMensaje === 100) {
+        console.log('response: ',response.Result);
         setFilteredDataSource(response.Result);
         setMasterDataSource(response.Result);
       } else {
@@ -118,6 +121,38 @@ const App = ({route}) => {
       console.error('[RewardWinners - fetchDataListarGanadores]: ',error);
     }
   };
+
+  const fetchSorteoDescripcion = async () => {
+    try {
+      const params = new URLSearchParams({
+        I_Sistema_IdSistema: route.params.userRoot.idSistema,
+        I_UsuarioExterno_IdUsuarioExterno:
+          route.params.userRoot.idUsuarioExterno,
+      });
+      const response = await fetchWithToken(
+        Constant.URI.GET_INFO_SORTEO,
+        'POST',
+        params,
+        route.params.userRoot.Token,
+      );
+      console.log('[fetchSorteoDescripcion]: ', response);
+      if (response.CodigoMensaje === 100) {
+        setSorteo(response.Result[0]);
+      } else {
+        Alert.alert('Error', response.RespuestaMensaje);
+        console.error(
+          '[RewardHome - fetchSorteoDescripcion]: ',
+          response.RespuestaMensaje,
+        );
+      }
+    } catch (error) {
+      console.error(
+        '[RewardHome - fetchSorteoDescripcion]: ',
+        response.RespuestaMensaje,
+      );
+    }
+  };
+
 
   const searchFilterFunction = text => {
     if (text) {
@@ -186,8 +221,8 @@ const App = ({route}) => {
               </View>
             </View>
             <View style={styles.cardSection}>
-              <Text style={styles.textColorPrimary}>Sorteo:</Text>
-              <Text style={styles.cardSectionText}>{item.NombreSorteo}</Text>
+              <Text style={styles.textColorPrimary}>Premio:</Text>
+              <Text style={styles.cardSectionText}>{sorteo.premio}</Text>
             </View>
             <View style={styles.cardSection}>
               <Text style={styles.textColorPrimary}>Ganador:</Text>

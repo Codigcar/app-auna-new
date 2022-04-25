@@ -115,7 +115,7 @@ const App = ({route}) => {
           <View style={{flexDirection: 'row'}}>
             <View style={{paddingLeft: 10}}>
               <View style={styles.cardSection}>
-                <Text style={{fontWeight: 'bold'}}>Asegurado:</Text>
+                <Text style={{fontWeight: 'bold', color: css.colors.primary_opaque}}>Asegurado:</Text>
                 <Text
                   style={{fontWeight: 'bold', marginLeft: 8, color: 'black'}}>
                   {item.apellidoPaternoAsegurado}{' '}
@@ -207,7 +207,7 @@ const App = ({route}) => {
               )}
               <View
                 style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  // backgroundColor: 'rgba(0, 0, 0, 0.04)',
                   borderTopStartRadius: 10,
                   borderTopEndRadius: 10,
                 }}>
@@ -227,7 +227,7 @@ const App = ({route}) => {
                   }
                   iconRight
                   buttonStyle={{
-                    backgroundColor: '#ff0000',
+                    backgroundColor: css.colors.primary_opaque,
                     borderColor: 'rgba(0,0,0,0.5)',
                     borderRadius: 10,
                     marginBottom: 0,

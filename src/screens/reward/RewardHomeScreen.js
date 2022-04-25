@@ -2,19 +2,15 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   Alert,
-  Dimensions,
-  FlatList,
   Image,
   Platform,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SvgXml} from 'react-native-svg';
-import Svg, {Path} from 'react-native-svg';
 
 import {ButtonInitial} from '../../components';
 import Constant from '../../utils/constants';

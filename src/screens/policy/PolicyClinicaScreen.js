@@ -594,7 +594,7 @@ export default function PolicyClinicaScreen({navigation, route}) {
                   color: css.colors.gray_opaque_agua,
                   textAlign: 'center',
                 }}>
-                ¡Si desea reestablecer los filtros haga un swipe up!
+                ¡Si desea reestablecer los filtros realice un swipe up!
               </Text>
             </View>
             <View style={{backgroundColor: 'white', marginLeft: 5}}>
@@ -632,22 +632,12 @@ export default function PolicyClinicaScreen({navigation, route}) {
         renderItem={({item, index}) => (
           <View style={{marginTop: 8}}>
             <View style={[styles.card_container, css.designElevationCardiOS]}>
-              <View
-                style={{
-                  height: 80,
-                  width: '75%',
-                  backgroundColor: 'white',
-                  justifyContent: 'space-between',
-                }}>
-                <Text
-                  style={[
-                    styles.card_text,
-                    {fontSize: 15, fontWeight: 'bold'},
-                  ]}>
+              <View style={{width: '75%',backgroundColor: 'white',justifyContent: 'space-between'}}>
+                <Text style={[styles.card_text,{fontSize: 15, fontWeight: 'bold', backgroundColor:'white'},]}>
                   {' '}
                   {item.nombreCortoClinicaDetalle}
                 </Text>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', paddingVertical:7, backgroundColor:'white'}}>
                   <Avatar
                     size={20}
                     rounded
@@ -669,7 +659,7 @@ export default function PolicyClinicaScreen({navigation, route}) {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', backgroundColor:'white'}}>
                   <Avatar
                     size={20}
                     rounded
@@ -680,13 +670,12 @@ export default function PolicyClinicaScreen({navigation, route}) {
                       color: '#000',
                     }}
                   />
+                
                   <TouchableOpacity
                     onPress={() => callPhone(item.telefonoFijoClinicaDetalle)}
                     activeOpacity={0.7}
-                    style={{marginLeft: 5}}>
-                    <Text style={styles.card_text}>
-                      {item.telefonoFijoClinicaDetalle}
-                    </Text>
+                    style={{marginLeft: 5, marginBottom:-10}}>
+                    <Text style={styles.card_text}>{item.telefonoFijoClinicaDetalle}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => callPhone(item.telefonoFijoClinicaDetalle)}
@@ -739,7 +728,7 @@ export default function PolicyClinicaScreen({navigation, route}) {
                       color: css.colors.gray_opaque_agua,
                       textAlign: 'center',
                     }}>
-                    ¡Si desea reestablecer los filtros haga un swipe up!
+                    ¡Si desea reestablecer los filtros realice un swipe up!
                   </Text>
                 </View>
                 <View style={{backgroundColor: 'white', marginLeft: 5}}>
