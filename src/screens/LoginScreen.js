@@ -62,6 +62,14 @@ const LoginScreen = ({ navigation }) => {
     validateAll(data, rules, messages)
       .then(() => {
 
+        console.error(JSON.stringify({
+          "I_Sistema_IdSistema": 100,
+          "I_Usuario_Usuario": dni,
+          "I_Usuario_Clave": password,
+          "I_UsuarioExternoLog_DireccionMac": Constant.GLOBAL.MAC_ADDRESS,
+          "I_UsuarioExternoLog_DireccionIP": Constant.GLOBAL.IP_ADDRESS
+        }));
+
         fetch(Constant.URI.PATH + Constant.URI.LOGIN, {
           method: 'POST',
           headers: {

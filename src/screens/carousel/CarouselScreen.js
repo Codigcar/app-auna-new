@@ -119,6 +119,7 @@ const CarouselHome = ({navigation, route}) => {
           Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
         }
       }
+      console.error('[result]: ',response.Result);
     } catch (error) {
       console.error('[CarouselScreen - fetchBannerListar error]: ', error);
       Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
@@ -342,7 +343,10 @@ const CarouselHome = ({navigation, route}) => {
                   />
                 </View>
               </View>
-              <Pagination
+
+              {
+                banners.length != 1 ?
+                <Pagination
                 dotsLength={banners.length}
                 activeDotIndex={activeIndex}
                 dotContainerStyle={{
@@ -365,6 +369,9 @@ const CarouselHome = ({navigation, route}) => {
                 inactiveDotScale={1}
                 containerStyle={{paddingTop: 15, paddingBottom: 10}}
               />
+              :
+              <View style={{paddingBottom:30}} ></View>
+              }
             </View>
           </View>
         </View>

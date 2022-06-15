@@ -145,6 +145,7 @@ function HomeScreen({navigation, route}) {
   });
 
   const renderItem = item => {
+    // Validar que sean de AUNA
     if (
       (item.title === 'Mis Citas' &&
         route.params.userRoot.idSistema !== 2) ||

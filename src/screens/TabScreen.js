@@ -85,22 +85,27 @@ function HomeScreen({navigation, route}) {
         activeTintColor: css.colors.primary,
       }}>
 
-      <Tab.Screen
-        name="Inicio"
-        component={CarouselScreen}
-        initialParams={{userRoot: route.params.userRoot}}
-        options={{
-          tabBarLabel: 'Inicio',
-          tabBarIcon: () => (
-            <Icon
-              name="home"
-              type="feather"
-              size={sizeBottomIcon}
-              color={css.colors.opaque}
-            />
-          ),
-        }}
-      />
+      {/* Solo para usuarios AUNA */}
+      {
+        route.params.userRoot.idSistema == 2 && 
+        <Tab.Screen
+          name="Inicio"
+          component={CarouselScreen}
+          initialParams={{userRoot: route.params.userRoot}}
+          options={{
+            tabBarLabel: 'Inicio',
+            tabBarIcon: () => (
+              <Icon
+                name="home"
+                type="feather"
+                size={sizeBottomIcon}
+                color={css.colors.opaque}
+              />
+            ),
+          }}
+        />
+      }
+
       <Tab.Screen
         name="PolicyHomeScreen"
         component={PolicyHomeScreen}
