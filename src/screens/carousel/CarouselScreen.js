@@ -119,7 +119,6 @@ const CarouselHome = ({navigation, route}) => {
           Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
         }
       }
-      console.error('[result]: ',response.Result);
     } catch (error) {
       console.error('[CarouselScreen - fetchBannerListar error]: ', error);
       Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
