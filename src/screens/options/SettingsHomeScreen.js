@@ -37,7 +37,7 @@ const DATA = [
     icon_type: 'material-community',
   },
   {
-    title: 'Funcionarios Auna',
+    title: 'Funcionarios',
     name: 'FuncionariosScreen',
     screen: FuncionariosScreen,
     icon: 'account-outline',

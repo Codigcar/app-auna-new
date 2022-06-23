@@ -207,11 +207,12 @@ const App = ({route}) => {
               )}
               <View
                 style={{
-                  // backgroundColor: 'rgba(0, 0, 0, 0.04)',
                   borderTopStartRadius: 10,
                   borderTopEndRadius: 10,
                 }}>
-                <Button
+                {
+                  route.params.userRoot.idSistema == 2 &&
+                  <Button
                   onPress={() =>
                     openURL('https://zonasegura.laprotectora.com.pe/')
                   }
@@ -254,7 +255,7 @@ const App = ({route}) => {
                     color: '#FFF',
                     fontSize: 16,
                     ...Platform.select({ios: {fontWeight: 'bold'}}),
-                  }}></Button>
+                  }}></Button>}
               </View>
             </>
           )}

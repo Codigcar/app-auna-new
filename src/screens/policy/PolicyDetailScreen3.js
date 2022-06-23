@@ -118,7 +118,7 @@ export default function PolicyDetailScreen({ navigation, route }) {
           ),
         }}
       /> */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="SolicitudesScreen"
         component={SolicitudesScreen}
         initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy }}
@@ -138,7 +138,7 @@ export default function PolicyDetailScreen({ navigation, route }) {
             </Image>
           ),
         }}
-      /> 
+      />  */}
     </Tab.Navigator>
   );
 }

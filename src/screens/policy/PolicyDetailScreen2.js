@@ -63,27 +63,6 @@ export default function PolicyDetailScreen({ navigation, route }) {
         }}
       /> 
 
-        {/* <Tab.Screen
-        name="DependientesScreen"
-        component={DependientesScreen}
-        initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy }}
-        options={{
-          tabBarLabel: ({ color }) => (
-            <Text 
-            numberOfLines={1}
-            adjustsFontSizeToFit 
-            style={{ color:css.colors.opaque, fontSize:12.5, maxWidth: 87, textAlignVertical:"center", textAlign:"center"}} >
-            ASEGURADOS
-            </Text>
-          ),
-          tabBarIcon: ({ color }) => (
-            <Image
-              style={{ width: 26, height: 26, marginTop:-3 }}
-              source={Constant.GLOBAL.IMAGES.DEPENDIENTES_AVATAR}>
-            </Image>
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="PolicyDocumentScreen"
         component={PolicyDocumentScreen}
@@ -119,7 +98,7 @@ export default function PolicyDetailScreen({ navigation, route }) {
           ),
         }}
       />
-     <Tab.Screen
+    {/*  <Tab.Screen
         name="SolicitudesScreen"
         component={SolicitudesScreen}
         initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy }}
@@ -139,7 +118,7 @@ export default function PolicyDetailScreen({ navigation, route }) {
             </Image>
           ),
         }}
-      /> 
+      />  */}
     </Tab.Navigator>
   );
 }
