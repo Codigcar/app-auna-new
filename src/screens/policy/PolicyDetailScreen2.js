@@ -15,6 +15,8 @@ import SolicitudesScreen from './SolicitudesScreen';
 
 export default function PolicyDetailScreen({ navigation, route }) {
   console.log('[PolicyDetailScreen 2]');
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -31,6 +33,51 @@ export default function PolicyDetailScreen({ navigation, route }) {
       )
     });
   }, [navigation]);
+  
+  useEffect(() => {
+    fetchCategoriesClinic()
+  }, [])
+
+    // fetch Clinica Categories
+    const fetchCategoriesClinic = () => {
+      setIsLoading(true);
+      let uri =
+      Constant.URI.PATH +
+      Constant.URI.GET_CATEGORIAS +
+      '?I_Sistema_IdSistema=' +
+      route.params.userRoot.idSistema +
+      '&I_Riesgo_IdRiesgo=' +
+      route.params.policy.idRiesgo +
+      '&I_PlanAsegurado_idPlanAsegurado=' +
+      (route.params.policy.idPlanAsegurado == null
+        ? 0
+        : route.params.policy.idPlanAsegurado) +
+      '&I_UsuarioExterno_IdUsuarioExterno=' +
+      route.params.userRoot.idUsuarioExterno;
+  
+      fetch(uri, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: route.params.userRoot.Token,
+        },
+      })
+        .then(response => response.json())
+        .then(response => {
+          if (response.CodigoMensaje < 100 || response.CodigoMensaje > 199) {
+            Alert.alert('', response.RespuestaMensaje);
+            setIsLoading(false);
+          } else {
+            setCategories(response.Result);
+            setIsLoading(false);
+          }
+        })
+        .catch(error => console.error(error));
+    }
+  
+    if(isLoading){
+      return <LoadingActivityIndicator />
+    }
 
   return (
     <Tab.Navigator
@@ -84,41 +131,36 @@ export default function PolicyDetailScreen({ navigation, route }) {
           ),
         }}
       />
-      <Tab.Screen
+      {categories.length !== 0 &&
+        <Tab.Screen
         name="PolicyClinicaScreen"
         component={PolicyClinicaScreen}
-        initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy, riskGroup: route.params.riskGroup }}
-        options={{
-          tabBarLabel: 'Clínicas',
-          tabBarIcon: ({ color }) => (
-            <Image
-              style={{ width: 26, height: 26 }}
-              source={Constant.GLOBAL.IMAGES.POLICY_CLINICA}>
-            </Image>
-          ),
+        initialParams={{
+          userRoot: route.params.userRoot,
+          policy: route.params.policy,
+          riskGroup: route.params.riskGroup,
         }}
-      />
-    {/*  <Tab.Screen
-        name="SolicitudesScreen"
-        component={SolicitudesScreen}
-        initialParams={{ userRoot: route.params.userRoot, policy: route.params.policy }}
         options={{
-          tabBarLabel: ({ color }) => (
-            <Text 
-            numberOfLines={1}
-            adjustsFontSizeToFit 
-            style={{ color:css.colors.opaque, fontSize:10, maxWidth: 87, textAlignVertical:"center", textAlign:"center"}} >
-            SOLICITUDES
+          tabBarLabel: ({color}) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={{
+                color: css.colors.opaque,
+                fontSize: 10,
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}>
+              CLÍNICAS
             </Text>
           ),
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({color}) => (
             <Image
-              style={{ width: 26, height: 26, marginTop:-3 }}
-              source={Constant.GLOBAL.IMAGES.CONTACT_CONTACT}>
-            </Image>
+              style={{width: 26, height: 26}}
+              source={Constant.GLOBAL.IMAGES.POLICY_CLINICA}></Image>
           ),
         }}
-      />  */}
+      />}
     </Tab.Navigator>
   );
 }

@@ -23,6 +23,7 @@ import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 
 const DATA = [
   {
+    id:1,
     title: 'Datos personales',
     name: 'SettingsDataScreen',
     screen: DataScreen,
@@ -30,6 +31,7 @@ const DATA = [
     icon_type: 'material-community',
   },
   {
+    id:2,
     title: 'Ejecutivos',
     name: 'AgentHomeScreen',
     screen: AgentHomeScreen,
@@ -37,6 +39,7 @@ const DATA = [
     icon_type: 'material-community',
   },
   {
+    id:3,
     title: 'Funcionarios',
     name: 'FuncionariosScreen',
     screen: FuncionariosScreen,
@@ -44,6 +47,7 @@ const DATA = [
     icon_type: 'material-community',
   },
   {
+    id:4,
     title: 'Mis Citas',
     name: 'CitaScreen',
     screen: CitaScreen,
@@ -51,6 +55,7 @@ const DATA = [
     icon_type: 'material-community',
   },
   {
+    id:5,
     title: 'Sorteos',
     name: 'RewardHomeScreen',
     screen: RewardHomeScreen,
@@ -58,6 +63,7 @@ const DATA = [
     icon_type: 'material-community',
   },
   {
+    id:6,
     title: 'Cerrar sesión',
     name: 'Signout',
     icon: 'logout',
@@ -161,7 +167,7 @@ function HomeScreen({navigation, route}) {
         style={{borderBottomColor: css.colors.opaque, borderBottomWidth: 1}}>
         <Icon name={item.icon} type={item.icon_type} size={24} color={css.colors.opaque} />
         <ListItem.Content>
-          <ListItem.Title>{item.title}</ListItem.Title>
+          <ListItem.Title>{ (route.params.userRoot.idSistema == 2 && item.title== "Ejecutivos") ? 'Ejecutivos Auna' : item.title }</ListItem.Title>
         </ListItem.Content>
         <ListItem.Chevron size={24} />
       </ListItem>

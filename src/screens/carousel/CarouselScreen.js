@@ -111,6 +111,10 @@ const CarouselHome = ({navigation, route}) => {
       if (isMounted.current) {
         if (response.CodigoMensaje === 100) {
           setBanners(response.Result);
+          console.log(
+            '[CarouselScreen - fetchBannerListar]: ',
+            response.Result,
+          );
         } else {
           console.error(
             '[CarouselScreen - fetchBannerListar error]: ',
@@ -168,10 +172,11 @@ const CarouselHome = ({navigation, route}) => {
       );
       console.log('[fetchRegisterTicketSorteo]: ', response);
       if (response.CodigoMensaje == 100) {
-        if(response.Result[0].CodigoMensaje == 100){
+        if (response.Result[0].CodigoMensaje == 100) {
           setNumTicket(response.Result[0].ticket);
           setIsViewPopupTicket(true);
-        }else { // eliminar en prod
+        } else {
+          // eliminar en prod
           setNumTicket(321);
           setIsViewPopupTicket(true);
         }
@@ -212,7 +217,7 @@ const CarouselHome = ({navigation, route}) => {
             style={{
               width: '100%',
               height: '100%',
-              position: 'absolute'
+              position: 'absolute',
             }}
           />
         )}
@@ -296,7 +301,7 @@ const CarouselHome = ({navigation, route}) => {
                   marginBottom: 20,
                   marginHorizontal: 30,
                   marginTop: 20,
-                  borderLeftWidth:5,
+                  borderLeftWidth: 5,
                   borderLeftColor: css.colors.primary_opaque,
                 }}>
                 <Text
@@ -343,34 +348,33 @@ const CarouselHome = ({navigation, route}) => {
                 </View>
               </View>
 
-              {
-                banners.length != 1 ?
+              {banners.length != 1 ? (
                 <Pagination
-                dotsLength={banners.length}
-                activeDotIndex={activeIndex}
-                dotContainerStyle={{
-                  backgroundColor: 'transparent',
-                  borderWidth: 1,
-                  borderColor: '#ddd',
-                  borderRadius: 20,
-                }}
-                dotStyle={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 10,
-                  // backgroundColor:'red',
-                  margin: 2,
-                  // borderWidth:10,
-                  // borderColor:'#ddd',
-                }}
-                // inactiveDotStyle={{borderWidth:0,borderRadius: 10}}
-                inactiveDotOpacity={0.1}
-                inactiveDotScale={1}
-                containerStyle={{paddingTop: 15, paddingBottom: 10}}
-              />
-              :
-              <View style={{paddingBottom:30}} ></View>
-              }
+                  dotsLength={banners.length}
+                  activeDotIndex={activeIndex}
+                  dotContainerStyle={{
+                    backgroundColor: 'transparent',
+                    borderWidth: 1,
+                    borderColor: '#ddd',
+                    borderRadius: 20,
+                  }}
+                  dotStyle={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: 10,
+                    // backgroundColor:'red',
+                    margin: 2,
+                    // borderWidth:10,
+                    // borderColor:'#ddd',
+                  }}
+                  // inactiveDotStyle={{borderWidth:0,borderRadius: 10}}
+                  inactiveDotOpacity={0.1}
+                  inactiveDotScale={1}
+                  containerStyle={{paddingTop: 15, paddingBottom: 10}}
+                />
+              ) : (
+                <View style={{paddingBottom: 30}}></View>
+              )}
             </View>
           </View>
         </View>
