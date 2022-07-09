@@ -4,6 +4,7 @@
  *
  * @format
  */
+const { getDefaultConfig } = require('metro-config');
 
 module.exports = {
   transformer: {
@@ -15,3 +16,4 @@ module.exports = {
     }),
   },
 };
+

@@ -1,112 +1,186 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-import type {Node} from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import React, { Fragment, useEffect, useMemo, useReducer } from 'react';
+import { SafeAreaView, Image, StatusBar, Platform } from 'react-native';
+import 'react-native-gesture-handler';
+import { AuthContext } from './src/components/authContext';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  AuthLoadingScreen,
+  ForgotPasswordScreen,
+  LoginScreen,
+  RegisterScreen,
+  VerifySMSScreen,
+  UpdatePersonalInfoScreen
+} from './src/screens';
+import TabScreen from './src/screens/TabScreen';
+import Constant from './src/utils/constants';
+import { initialState, reducer, stateConditionString } from './src/utils/helpers';
+import { LogBox } from 'react-native';
+console.disableYellowBox = true;
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+]);
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+const Stack = createStackNavigator();
+
+const createLoginStack = (sessionToken) => {
+  if (sessionToken != null) {
+    return (
+      <Stack.Screen
+        name="TabScreen"
+        component={TabScreen}
+        initialParams={{ userRoot: JSON.parse(sessionToken) }}
+      />
+    );
+  } else {
+    return (
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+    );
+  }
 };
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+export default App = ({ navigation }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  useEffect(() => {
+    const bootstrapAsync = async () => {
+      let sessionToken;
+
+      try {
+        sessionToken = await AsyncStorage.getItem('sessionToken');
+      } catch (e) {
+      }
+      dispatch({ type: 'RESTORE_TOKEN', userRoot: sessionToken });
+    };
+    bootstrapAsync();
+  }, []);
+
+  const authContextValue = useMemo(
+    () => ({
+      signIn: async (data) => {
+        if (data !== undefined) {
+          dispatch({ type: 'SIGN_IN', userRoot: data });
+        } else {
+          dispatch({ type: 'TO_SIGNIN_PAGE' });
+        }
+      },
+      signOut: async (data) => {
+        await AsyncStorage.clear();
+        dispatch({ type: 'SIGN_OUT' });
+      },
+      signUp: async (data) => {
+        if (data !== undefined) {
+          dispatch({ type: 'TO_VERIFY_SMS_PAGE', userRoot: data });
+        } else {
+          dispatch({ type: 'TO_SIGNUP_PAGE' });
+        }
+      },
+      forgotPassword: async (data) => {
+        if (data && data.dni !== undefined) {
+          dispatch({ type: 'TO_VERIFY_SMS_PAGE', userRoot: data });
+        } else {
+          dispatch({ type: 'TO_FORGOT_PASS_PAGE' });
+        }
+      },
+      updatePersonalInfo: async (data) => {
+        if (data && data.phone !== undefined && data.email !== undefined) {
+          dispatch({ type: 'SIGN_IN', userRoot: data })
+        } else {
+          dispatch({ type: 'TO_UPDATE_PERSONAL_INFO_PAGE', userRoot: data });
+        }
+      }
+    }),
+    [],
+  );
+
+  const chooseScreen = (state) => {
+    let navigateTo = stateConditionString(state);
+    let arr = [];
+
+    switch (navigateTo) {
+      case 'LOAD_LOADING':
+        arr.push(<Stack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen}
+          options={{ headerShown: false }} />);
+        break;
+      case 'LOAD_SIGNUP':
+        arr.push(
+          <Stack.Screen
+            name="RegisterScreen"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />,
+        );
+        break;
+      case 'LOAD_SIGNIN':
+        arr.push(createLoginStack(state.userRoot));
+        break;
+      case 'LOAD_APP':
+        arr.push(
+          <Stack.Screen
+            name="TabScreen"
+            component={TabScreen}
+            initialParams={{ userRoot: state.userRoot }}
+          />);
+        break;
+      case 'LOAD_FORGOT_PASSWORD':
+        arr.push(
+          <Stack.Screen
+            name="ForgotPasswordScreen"
+            component={ForgotPasswordScreen}
+            options={{ headerShown: false }}
+          />,
+        );
+        break;
+      case 'LOAD_VERIFY_SMS':
+        arr.push(
+          <Stack.Screen
+            name="VerifySMSScreen"
+            initialParams={{ userRoot: state.userRoot }}
+            component={VerifySMSScreen}
+            options={{ headerShown: false }}
+          />,
+        );
+        break;
+      case 'LOAD_UPDATE_PERSONAL_INFO':
+        arr.push(
+          <Stack.Screen
+            name="UpdatePersonalInfoScreen"
+            initialParams={{ userRoot: state.userRoot }}
+            component={UpdatePersonalInfoScreen}
+            options={{
+              headerTitle: null,
+              headerLeft: () => (
+                <Image
+                  style={{ width: 120, height: 30, marginLeft: 10 }}
+                  source={Constant.GLOBAL.IMAGES.TITLE_LOGO}>
+                </Image>
+              )
+            }}
+          />,
+        );
+        break;
+      default:
+        arr.push(createLoginStack(state.userRoot));
+        break;
+    }
+    return arr[0];
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <Fragment>
+    {/* <SafeAreaView style={{ flex: 0, backgroundColor:'white' }} /> */}
+    <SafeAreaView style={{ flex: 1, backgroundColor:'white' }}>
+    {
+       <StatusBar barStyle="dark-content" backgroundColor={'white'}/>
+    }
+      <AuthContext.Provider value={authContextValue}>
+        <NavigationContainer>
+          <Stack.Navigator>{chooseScreen(state)}</Stack.Navigator>
+        </NavigationContainer>
+      </AuthContext.Provider>
     </SafeAreaView>
+    </Fragment>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
