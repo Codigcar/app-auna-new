@@ -31,6 +31,8 @@ import {
   scrollInterpolator,
 } from '../../utils/animationsCarousel';
 import {segundaEtapaConfig} from '../../utils/env.config';
+import FastImage from 'react-native-fast-image'
+
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
@@ -86,7 +88,7 @@ const CarouselHome = ({navigation, route}) => {
       TextoBoton: 'Iniciar orientación',
       descripcion: '',
       imagen:
-        'https://app.laprotectora.com.pe/IVOClientes/imagenes/introduction_b_1.png',
+        'http://desarrollo.laprotectora.com.pe:8090/cotizador/images/imagenes/doctor1.gif',
       imagen2:
         'http://desarrollo.laprotectora.com.pe:8090/cotizador/images/imagenes/img_new_home.png',
       imagen3:
@@ -243,8 +245,8 @@ const CarouselHome = ({navigation, route}) => {
           height: '100%',
         }}>
         {banner.tipo === 'Pronostik' && (
-          <Image
-            source={{uri: banner.imagen2}}
+          <FastImage
+            source={{uri: banner.imagen2, priority: FastImage.priority.normal}}
             style={{
               width: '100%',
               height: '100%',
@@ -262,31 +264,24 @@ const CarouselHome = ({navigation, route}) => {
               justifyContent: 'center',
               position: 'absolute',
             }}>
-            <Image
-              source={{uri: banner.imagen3}}
+            <FastImage
+              source={{uri: banner.imagen3, priority: FastImage.priority.normal}}
               style={{
                 width: 260,
                 height: 100,
-                resizeMode: 'contain',
               }}
+              resizeMode={FastImage.resizeMode.contain}
             />
           </View>
         )}
-        
-        <Image
-          source={{uri: banner.imagen}}
-          style={
-            banner.tipo === 'Pronostik'
-              ? {
-                  width: '100%',
-                  height: '100%',
-                  resizeMode: 'contain',
-                }
-              : {width: '100%', height: '100%'}
-          }
+        <FastImage
+          style={{ width: '100%', height: '100%' }}
+          source={{
+              uri: banner.imagen,
+              priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
         />
-
-        
         <View
           style={{
             position: 'absolute',
