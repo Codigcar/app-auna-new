@@ -6,12 +6,12 @@ workflows:
         environment:
             groups:
             # Add the group environment variables in Codemagic UI (either in Application/Team variables) - https://docs.codemagic.io/variables/environment-variable-groups/
-                - keystore_credentials:
-                    $CM_KEYSTORE_PATH
-                    $CM_KEYSTORE
-                    $CM_KEYSTORE_PASSWORD
-                    $CM_KEY_ALIAS_PASSWORD
-                    $CM_KEY_ALIAS_USERNAME 
+                - keystore_credentials
+                    CM_KEYSTORE_PATH: $CM_KEYSTORE_PATH
+                    CM_KEYSTORE: $CM_KEYSTORE
+                    CM_KEYSTORE_PASSWORD: $CM_KEYSTORE_PASSWORD
+                    CM_KEY_ALIAS_PASSWORD: $CM_KEY_ALIAS_PASSWORD
+                    CM_KEY_ALIAS_USERNAME : $CM_KEY_ALIAS_USERNAME 
                 - google_play # <-- (Includes GCLOUD_SERVICE_ACCOUNT_CREDENTIALS <-- Put your google-services.json)
                 - other
             vars:
