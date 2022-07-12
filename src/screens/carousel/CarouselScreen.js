@@ -81,37 +81,7 @@ const CarouselHome = ({navigation, route}) => {
   console.log('[CarouselHomeScreen]');
   const [activeIndex, setActiveIndex] = useState(0);
   const isMounted = useRef(true);
-  const [banners, setBanners] = useState([
-    {
-      CodigoMensaje: 100,
-      RespuestaMensaje: 'CANAL ENCONTRADA',
-      TextoBoton: 'Iniciar orientación',
-      descripcion: '',
-      imagen:
-        'http://desarrollo.laprotectora.com.pe:8090/cotizador/images/imagenes/doctor1.gif',
-      imagen2:
-        'http://desarrollo.laprotectora.com.pe:8090/cotizador/images/imagenes/img_new_home.png',
-      imagen3:
-        'http://desarrollo.laprotectora.com.pe:8090/cotizador/images/imagenes/logo-x2%20LOGO%20PRONOSTI-K.png',
-      link: null,
-      texto:
-        'El primer orientador médico basado en inteligencia artifical en el Perú',
-      tipo: 'Pronostik',
-    },
-    {
-      CodigoMensaje: 100,
-      RespuestaMensaje: 'CANAL ENCONTRADA',
-      TextoBoton: 'Cotizar ahora',
-      descripcion: 'Detalles, endosos, primas y muchos más ',
-      imagen:
-        'https://app.laprotectora.com.pe/IVOClientes/imagenes/introduction_b_1.png',
-      imagen2: '',
-      imagen3: '',
-      link: 'https://www.t-aseguro.com/cotizadorweb/Home/Auna',
-      texto: 'Asegúralos sin perder los momentos en familia ',
-      tipo: 'TAseguro',
-    },
-  ]);
+  const [banners, setBanners] = useState([]);
   const [isViewPopupTicket, setIsViewPopupTicket] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingGoPronostik, setIsLoadingGoPronostik] = useState(false);
@@ -141,21 +111,21 @@ const CarouselHome = ({navigation, route}) => {
         route.params.userRoot.Token,
       );
       setIsLoading(false);
-      // if (isMounted.current) {
-      //   if (response.CodigoMensaje === 100) {
-      //     setBanners(response.Result);
-      //     console.log(
-      //       '[CarouselScreen - fetchBannerListar]: ',
-      //       response.Result,
-      //     );
-      //   } else {
-      //     console.error(
-      //       '[CarouselScreen - fetchBannerListar error]: ',
-      //       response,
-      //     );
-      //     Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
-      //   }
-      // }
+      if (isMounted.current) {
+        if (response.CodigoMensaje === 100) {
+          setBanners(response.Result);
+          console.log(
+            '[CarouselScreen - fetchBannerListar]: ',
+            response.Result,
+          );
+        } else {
+          console.error(
+            '[CarouselScreen - fetchBannerListar error]: ',
+            response,
+          );
+          Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
+        }
+      }
     } catch (error) {
       console.error('[CarouselScreen - fetchBannerListar error]: ', error);
       Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
