@@ -6,13 +6,12 @@ workflows:
     environment:
       groups:
         - keystore_credentials
-          CM_KEYSTORE_PATH:"$CM_KEYSTORE_PATH"
-          #CM_KEYSTORE=$CM_KEYSTORE
-          #CM_KEYSTORE_PASSWORD=$CM_KEYSTORE_PASSWORD
-          #CM_KEY_ALIAS_PASSWORD=$CM_KEY_ALIAS_PASSWORD
-          #CM_KEY_ALIAS_USERNAME=$CM_KEY_ALIAS_USERNAME
+          $CM_KEYSTORE
+          $CM_KEYSTORE_PASSWORD
+          $CM_KEY_ALIAS_PASSWORD
+          $CM_KEY_ALIAS_USERNAME
       vars:
-        PACKAGE_NAME: com.laprotectora.laprotectorace # <-- Put your package name here e.g. com.domain.myapp
+        PACKAGE_NAME: "com.laprotectora.laprotectorace"
       node: v12.20.0
     triggering:
       events:
