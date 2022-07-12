@@ -19,6 +19,7 @@ import PolicyDocumentScreen from './PolicyDocumentScreen';
 import PolicyClinicaScreen from './PolicyClinicaScreen';
 import DependientesScreen from './DependientesScreen';
 import SolicitudesScreen from './SolicitudesScreen';
+import { segundaEtapaConfig } from '../../utils/env.config';
 
 //SI "CLINICAS"
 //SI "DEPENDIENTES"
@@ -26,7 +27,6 @@ import SolicitudesScreen from './SolicitudesScreen';
 export default function PolicyDetailScreen({navigation, route}) {
   console.log('[Stack-PolicyDetailScreen-1]');
 
-  // console.log('[PolicyDetailScreen]::**************************** ', route.params);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Pólizas',
@@ -60,7 +60,7 @@ export default function PolicyDetailScreen({navigation, route}) {
         labelStyle: {fontSize: 12},
         indicatorStyle: {backgroundColor: '#FF0000'},
         tabStyle:{
-          width:90
+          width: segundaEtapaConfig.canShow ? 90:100
         }
       }}
       style={{
@@ -186,35 +186,39 @@ export default function PolicyDetailScreen({navigation, route}) {
         }}
       />
 
-      <Tab.Screen
-        name="SolicitudesScreen"
-        component={SolicitudesScreen}
-        initialParams={{
-          userRoot: route.params.userRoot,
-          policy: route.params.policy,
-        }}
-        options={{
-          tabBarLabel: ({color}) => (
-            <Text
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              style={{
-                color: css.colors.opaque,
-                fontSize: 10,
-                // maxWidth: 87,
-                textAlignVertical: 'center',
-                textAlign: 'center',
-              }}>
-              SOLICITUDES
-            </Text>
-          ),
-          tabBarIcon: ({color}) => (
-            <Image
-              style={{width: 26, height: 26, marginTop: 0}}
-              source={Constant.GLOBAL.IMAGES.SOLICITUDES}></Image>
-          ),
-        }}
-      />
+      {
+        segundaEtapaConfig.canShow && (
+          <Tab.Screen
+            name="SolicitudesScreen"
+            component={SolicitudesScreen}
+            initialParams={{
+              userRoot: route.params.userRoot,
+              policy: route.params.policy,
+            }}
+            options={{
+              tabBarLabel: ({color}) => (
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  style={{
+                    color: css.colors.opaque,
+                    fontSize: 10,
+                    // maxWidth: 87,
+                    textAlignVertical: 'center',
+                    textAlign: 'center',
+                  }}>
+                  SOLICITUDES
+                </Text>
+              ),
+              tabBarIcon: ({color}) => (
+                <Image
+                  style={{width: 26, height: 26, marginTop: 0}}
+                  source={Constant.GLOBAL.IMAGES.SOLICITUDES}></Image>
+              ),
+            }}
+          />
+        )
+      }
     </Tab.Navigator>
   );
 }

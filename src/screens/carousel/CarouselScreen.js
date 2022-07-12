@@ -30,6 +30,7 @@ import {
   animatedStyles,
   scrollInterpolator,
 } from '../../utils/animationsCarousel';
+import {segundaEtapaConfig} from '../../utils/env.config';
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
@@ -78,7 +79,37 @@ const CarouselHome = ({navigation, route}) => {
   console.log('[CarouselHomeScreen]');
   const [activeIndex, setActiveIndex] = useState(0);
   const isMounted = useRef(true);
-  const [banners, setBanners] = useState([]);
+  const [banners, setBanners] = useState([
+    {
+      CodigoMensaje: 100,
+      RespuestaMensaje: 'CANAL ENCONTRADA',
+      TextoBoton: 'Iniciar orientación',
+      descripcion: '',
+      imagen:
+        'https://app.laprotectora.com.pe/IVOClientes/imagenes/introduction_b_1.png',
+      imagen2:
+        'http://desarrollo.laprotectora.com.pe:8090/cotizador/images/imagenes/img_new_home.png',
+      imagen3:
+        'http://desarrollo.laprotectora.com.pe:8090/cotizador/images/imagenes/logo-x2%20LOGO%20PRONOSTI-K.png',
+      link: null,
+      texto:
+        'El primer orientador médico basado en inteligencia artifical en el Perú',
+      tipo: 'Pronostik',
+    },
+    {
+      CodigoMensaje: 100,
+      RespuestaMensaje: 'CANAL ENCONTRADA',
+      TextoBoton: 'Cotizar ahora',
+      descripcion: 'Detalles, endosos, primas y muchos más ',
+      imagen:
+        'https://app.laprotectora.com.pe/IVOClientes/imagenes/introduction_b_1.png',
+      imagen2: '',
+      imagen3: '',
+      link: 'https://www.t-aseguro.com/cotizadorweb/Home/Auna',
+      texto: 'Asegúralos sin perder los momentos en familia ',
+      tipo: 'TAseguro',
+    },
+  ]);
   const [isViewPopupTicket, setIsViewPopupTicket] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingGoPronostik, setIsLoadingGoPronostik] = useState(false);
@@ -108,21 +139,21 @@ const CarouselHome = ({navigation, route}) => {
         route.params.userRoot.Token,
       );
       setIsLoading(false);
-      if (isMounted.current) {
-        if (response.CodigoMensaje === 100) {
-          setBanners(response.Result);
-          console.log(
-            '[CarouselScreen - fetchBannerListar]: ',
-            response.Result,
-          );
-        } else {
-          console.error(
-            '[CarouselScreen - fetchBannerListar error]: ',
-            response,
-          );
-          Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
-        }
-      }
+      // if (isMounted.current) {
+      //   if (response.CodigoMensaje === 100) {
+      //     setBanners(response.Result);
+      //     console.log(
+      //       '[CarouselScreen - fetchBannerListar]: ',
+      //       response.Result,
+      //     );
+      //   } else {
+      //     console.error(
+      //       '[CarouselScreen - fetchBannerListar error]: ',
+      //       response,
+      //     );
+      //     Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
+      //   }
+      // }
     } catch (error) {
       console.error('[CarouselScreen - fetchBannerListar error]: ', error);
       Alert.alert('Error', 'Intentelo nuevamente en unos minutos');
@@ -241,6 +272,7 @@ const CarouselHome = ({navigation, route}) => {
             />
           </View>
         )}
+        
         <Image
           source={{uri: banner.imagen}}
           style={
@@ -253,6 +285,8 @@ const CarouselHome = ({navigation, route}) => {
               : {width: '100%', height: '100%'}
           }
         />
+
+        
         <View
           style={{
             position: 'absolute',
@@ -388,7 +422,9 @@ const CarouselHome = ({navigation, route}) => {
         <LoadingActivityIndicator />
       ) : (
         <>
-          {isViewPopupTicket && <PopupTicket numTicket={numTicket} />}
+          {isViewPopupTicket && segundaEtapaConfig.canShow && (
+            <PopupTicket numTicket={numTicket} />
+          )}
           <SafeAreaView>
             <View style={styles.headerContainer}>
               <Carousel
@@ -401,7 +437,6 @@ const CarouselHome = ({navigation, route}) => {
                 onSnapToItem={index => {
                   setActiveIndex(index);
                 }}
-                // useScrollView={true}
               />
             </View>
           </SafeAreaView>
