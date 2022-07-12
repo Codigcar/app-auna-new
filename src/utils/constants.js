@@ -48,7 +48,8 @@ export default {
     URI: {
 
         PATH: 'https://aws2.laprotectora.com.pe:443/ws_app_minsa_desarrollo/Operations/',
-        PATH80: 'http://aws2.laprotectora.com.pe:80/ws_app_minsa_desarrollo/Operations/',
+        // PATH80: 'http://aws2.laprotectora.com.pe:80/ws_app_minsa_desarrollo/Operations/',
+        PATH80: 'https://aws2.laprotectora.com.pe/ws_app_minsa2/Operations/',
         //PATH: 'https://aws2.laprotectora.com.pe:443/ws_app_minsa/Operations/',
 
         LOGIN:                                  'UsuarioExternoLogear',

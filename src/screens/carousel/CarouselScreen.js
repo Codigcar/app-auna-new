@@ -245,12 +245,17 @@ const CarouselHome = ({navigation, route}) => {
           </View>
         )}
         <FastImage
-          style={{ width: '100%', height: '100%' }}
-          source={{
-              uri: banner.imagen,
-              priority: FastImage.priority.normal,
-          }}
-          resizeMode={FastImage.resizeMode.contain}
+          source={{uri: banner.imagen, priority: FastImage.priority.normal}}
+          style={
+            banner.tipo === 'Pronostik'
+              ? {
+                  width: '100%',
+                  height: '100%',
+                  resizeMode: 'contain',
+                }
+              : {width: '100%', height: '100%'}
+          }
+          resizeMode={`${banner.tipo === 'Pronostik' ? FastImage.resizeMode.contain: ''}`}
         />
         <View
           style={{
