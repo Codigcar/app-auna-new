@@ -43,7 +43,6 @@ export default {
         KEYBOARD_TYPE_NUMERIC: "numeric",
         IP_ADDRESS: "0.0.0.0",
         MAC_ADDRESS: "000:000:00.00000.0000",
-        MAC_ADDRESS2: "000:000:00.00000.0000",
         CONSTANTE_idGrupoRiesgo: 2,       //El valor 2 corresponde a "GRUPO RIESGO DE POLIZAS HUMANAS", en caso recibir un valor diferente  debería ocultarse la Tab ASEGURADOS    (En la pantalla "DetallePóliza") 
     }, 
     URI: {
@@ -52,12 +51,12 @@ export default {
         // PATH80: 'http://aws2.laprotectora.com.pe:80/ws_app_minsa_desarrollo/Operations/',
 
         // [dev apuntando a prod]
-        PATH: 'https://aws2.laprotectora.com.pe/ws_app_minsa2/Operations/',
-        PATH80: 'https://aws2.laprotectora.com.pe/ws_app_minsa2/Operations/',
+        // PATH: 'https://aws2.laprotectora.com.pe/ws_app_minsa2/Operations/',
+        // PATH80: 'https://aws2.laprotectora.com.pe/ws_app_minsa2/Operations/',
 
         // [prod]
-        // PATH: 'https://aws2.laprotectora.com.pe/ws_app_minsa/Operations/',
-        // PATH80: 'https://aws2.laprotectora.com.pe/ws_app_minsa/Operations/',
+        PATH: 'https://aws2.laprotectora.com.pe/ws_app_minsa/Operations/',
+        PATH80: 'https://aws2.laprotectora.com.pe/ws_app_minsa/Operations/',
 
         LOGIN:                                  'UsuarioExternoLogear',
         GET_USER_POR_DNI_Y_FECHA_NACIMIENTO:    'AseguradoPolizaPotencialPorDniObtener',
