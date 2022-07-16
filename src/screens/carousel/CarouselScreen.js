@@ -219,9 +219,10 @@ const CarouselHome = ({navigation, route}) => {
             source={{uri: banner.imagen2, priority: FastImage.priority.normal}}
             style={{
               width: '100%',
-              height: '100%',
+              height: '101%',
               position: 'absolute',
             }}
+            resizeMode={FastImage.resizeMode.cover}
           />
         )}
         {banner.tipo === 'Pronostik' && (
@@ -251,11 +252,10 @@ const CarouselHome = ({navigation, route}) => {
               ? {
                   width: '100%',
                   height: '100%',
-                  resizeMode: 'contain',
                 }
               : {width: '100%', height: '100%'}
           }
-          resizeMode={`${banner.tipo === 'Pronostik' ? FastImage.resizeMode.contain: ''}`}
+          resizeMode={`${banner.tipo === 'Pronostik' ? FastImage.resizeMode.contain: FastImage.resizeMode.cover}`}
         />
         <View
           style={{

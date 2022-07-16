@@ -16,7 +16,8 @@ async function clearAsyncStore() {
 async function getDeviceInfo() {
   let promises = []; 
   promises.push(DeviceInfo.getIpAddress().then(ip => { return ip })); 
-  promises.push(DeviceInfo.getMacAddress().then(mac => { return mac })); 
+  // promises.push(DeviceInfo.getMacAddress().then(mac => { return mac })); 
+  promises.push(DeviceInfo.getAndroidId().then(androidId => { return androidId })); 
 
   try {
     let [ipAddress, macAddress] = await Promise.all(promises);
@@ -61,27 +62,22 @@ const LoginScreen = ({ navigation }) => {
 
     validateAll(data, rules, messages)
       .then(() => {
-
-        console.error(JSON.stringify({
+        const body = JSON.stringify({
           "I_Sistema_IdSistema": 100,
           "I_Usuario_Usuario": dni,
           "I_Usuario_Clave": password,
           "I_UsuarioExternoLog_DireccionMac": Constant.GLOBAL.MAC_ADDRESS,
           "I_UsuarioExternoLog_DireccionIP": Constant.GLOBAL.IP_ADDRESS
-        }));
+        })
+
+        console.error(JSON.parse( body));
 
         fetch(Constant.URI.PATH + Constant.URI.LOGIN, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            "I_Sistema_IdSistema": 100,
-            "I_Usuario_Usuario": dni,
-            "I_Usuario_Clave": password,
-            "I_UsuarioExternoLog_DireccionMac": Constant.GLOBAL.MAC_ADDRESS,
-            "I_UsuarioExternoLog_DireccionIP": Constant.GLOBAL.IP_ADDRESS
-          })
+          body: body
         })
           .then((response) => response.json())
           .then((response) => {
