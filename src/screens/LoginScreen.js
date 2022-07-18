@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { validateAll } from 'indicative/validator';
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Card, Icon, Input } from 'react-native-elements';
 import { Background } from '../components';
 import { AuthContext } from '../components/authContext';
@@ -16,8 +16,10 @@ async function clearAsyncStore() {
 async function getDeviceInfo() {
   let promises = []; 
   promises.push(DeviceInfo.getIpAddress().then(ip => { return ip })); 
-  // promises.push(DeviceInfo.getMacAddress().then(mac => { return mac })); 
-  promises.push(DeviceInfo.getAndroidId().then(androidId => { return androidId })); 
+  Platform.OS === "android" ? 
+    promises.push(DeviceInfo.getAndroidId().then(androidId => { return androidId })) : 
+    promises.push(DeviceInfo.getMacAddress().then(mac => { return mac })); 
+  
 
   try {
     let [ipAddress, macAddress] = await Promise.all(promises);
