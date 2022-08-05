@@ -30,6 +30,9 @@ import {
   animatedStyles,
   scrollInterpolator,
 } from '../../utils/animationsCarousel';
+import {segundaEtapaConfig} from '../../utils/env.config';
+import FastImage from 'react-native-fast-image'
+
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
@@ -212,13 +215,14 @@ const CarouselHome = ({navigation, route}) => {
           height: '100%',
         }}>
         {banner.tipo === 'Pronostik' && (
-          <Image
-            source={{uri: banner.imagen2}}
+          <FastImage
+            source={{uri: banner.imagen2, priority: FastImage.priority.normal}}
             style={{
               width: '100%',
-              height: '100%',
+              height: '101%',
               position: 'absolute',
             }}
+            resizeMode={FastImage.resizeMode.cover}
           />
         )}
         {banner.tipo === 'Pronostik' && (
@@ -231,27 +235,27 @@ const CarouselHome = ({navigation, route}) => {
               justifyContent: 'center',
               position: 'absolute',
             }}>
-            <Image
-              source={{uri: banner.imagen3}}
+            <FastImage
+              source={{uri: banner.imagen3, priority: FastImage.priority.normal}}
               style={{
                 width: 260,
                 height: 100,
-                resizeMode: 'contain',
               }}
+              resizeMode={FastImage.resizeMode.contain}
             />
           </View>
         )}
-        <Image
-          source={{uri: banner.imagen}}
+        <FastImage
+          source={{uri: banner.imagen, priority: FastImage.priority.normal}}
           style={
             banner.tipo === 'Pronostik'
               ? {
                   width: '100%',
                   height: '100%',
-                  resizeMode: 'contain',
                 }
               : {width: '100%', height: '100%'}
           }
+          resizeMode={`${banner.tipo === 'Pronostik' ? FastImage.resizeMode.contain: FastImage.resizeMode.cover}`}
         />
         <View
           style={{
@@ -388,7 +392,9 @@ const CarouselHome = ({navigation, route}) => {
         <LoadingActivityIndicator />
       ) : (
         <>
-          {isViewPopupTicket && <PopupTicket numTicket={numTicket} />}
+          {isViewPopupTicket && segundaEtapaConfig.canShow && (
+            <PopupTicket numTicket={numTicket} />
+          )}
           <SafeAreaView>
             <View style={styles.headerContainer}>
               <Carousel
@@ -401,7 +407,6 @@ const CarouselHome = ({navigation, route}) => {
                 onSnapToItem={index => {
                   setActiveIndex(index);
                 }}
-                // useScrollView={true}
               />
             </View>
           </SafeAreaView>

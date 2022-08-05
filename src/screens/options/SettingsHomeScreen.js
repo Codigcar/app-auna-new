@@ -20,6 +20,7 @@ import FuncionariosScreen from '../../screens/agent/FuncionariosScreen';
 import CitaScreen from '../../screens/citas/CitaScreen';
 import RewardHomeScreen from '../../screens/reward/RewardHomeScreen';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
+import { segundaEtapaConfig } from '../../utils/env.config';
 
 const DATA = [
   {
@@ -153,13 +154,13 @@ function HomeScreen({navigation, route}) {
   const renderItem = item => {
     // Validar que sean de AUNA
     if (
-      (item.title === 'Mis Citas' &&
-        route.params.userRoot.idSistema !== 2) ||
-      (item.title === 'Sorteos' &&
-        route.params.userRoot.idSistema !== 2)
+      (item.title === 'Mis Citas' && (route.params.userRoot.idSistema !== 2 || segundaEtapaConfig.canShow == false)) || 
+      (item.title === 'Sorteos' && (route.params.userRoot.idSistema !== 2 || segundaEtapaConfig.canShow == false))
+      
     ) {
       return <></>;
     }
+
     return (
       <ListItem
         onPress={() => navigation.navigate(item.name)}

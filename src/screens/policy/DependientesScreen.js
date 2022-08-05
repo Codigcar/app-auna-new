@@ -14,6 +14,7 @@ import {Button, SearchBar, Icon} from 'react-native-elements';
 import {ButtonInitial, DataNotFound} from '../../components';
 import Constant from '../../utils/constants';
 import {css} from '../../utils/css';
+import { segundaEtapaConfig } from '../../utils/env.config';
 import AuthLoadingScreen from '../auth/AuthLoadingScreen';
 
 export default function DependientesScreen({navigation, route}) {
@@ -205,58 +206,63 @@ const App = ({route}) => {
                   )}
                 </>
               )}
-              <View
-                style={{
-                  borderTopStartRadius: 10,
-                  borderTopEndRadius: 10,
-                }}>
-                {
-                  route.params.userRoot.idSistema == 2 &&
-                  <Button
-                  onPress={() =>
-                    openURL('https://zonasegura.laprotectora.com.pe/')
-                  }
-                  title="Agrega a un familiar"
-                  icon={
-                    <Icon
-                      name="add-circle-outline"
-                      type="ionicon"
-                      size={24}
-                      color={'white'}
-                      style={{marginLeft: 5}}
-                    />
-                  }
-                  iconRight
-                  buttonStyle={{
-                    backgroundColor: css.colors.primary_opaque,
-                    borderColor: 'rgba(0,0,0,0.5)',
-                    borderRadius: 10,
-                    marginBottom: 0,
-                    marginHorizontal: 20,
-                    marginTop: 15,
-                    marginBottom: 15,
-                    shadowOpacity: 0.39,
-                    shadowRadius: 13.97,
-                    height: 45,
-                    marginRight: 16,
-                    ...Platform.select({
-                      android: {
-                        elevation: 6,
-                      },
-                      default: {
-                        shadowColor: 'rgba(0,0,0, .2)',
-                        shadowOffset: {height: 0, width: 0},
-                        shadowOpacity: 1,
-                        shadowRadius: 1,
-                      },
-                    }),
-                  }}
-                  titleStyle={{
-                    color: '#FFF',
-                    fontSize: 16,
-                    ...Platform.select({ios: {fontWeight: 'bold'}}),
-                  }}></Button>}
-              </View>
+              {
+                segundaEtapaConfig.isHidden && 
+                (
+                  <View
+                  style={{
+                    borderTopStartRadius: 10,
+                    borderTopEndRadius: 10,
+                  }}>
+                  {
+                    route.params.userRoot.idSistema == 2 &&
+                    <Button
+                    onPress={() =>
+                      openURL('https://zonasegura.laprotectora.com.pe/')
+                    }
+                    title="Agrega a un familiar"
+                    icon={
+                      <Icon
+                        name="add-circle-outline"
+                        type="ionicon"
+                        size={24}
+                        color={'white'}
+                        style={{marginLeft: 5}}
+                      />
+                    }
+                    iconRight
+                    buttonStyle={{
+                      backgroundColor: css.colors.primary_opaque,
+                      borderColor: 'rgba(0,0,0,0.5)',
+                      borderRadius: 10,
+                      marginBottom: 0,
+                      marginHorizontal: 20,
+                      marginTop: 15,
+                      marginBottom: 15,
+                      shadowOpacity: 0.39,
+                      shadowRadius: 13.97,
+                      height: 45,
+                      marginRight: 16,
+                      ...Platform.select({
+                        android: {
+                          elevation: 6,
+                        },
+                        default: {
+                          shadowColor: 'rgba(0,0,0, .2)',
+                          shadowOffset: {height: 0, width: 0},
+                          shadowOpacity: 1,
+                          shadowRadius: 1,
+                        },
+                      }),
+                    }}
+                    titleStyle={{
+                      color: '#FFF',
+                      fontSize: 16,
+                      ...Platform.select({ios: {fontWeight: 'bold'}}),
+                    }}></Button>}
+                  </View>
+                )
+              }
             </>
           )}
         </>
